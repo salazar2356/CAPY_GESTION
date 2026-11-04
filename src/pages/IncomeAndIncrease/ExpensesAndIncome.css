@@ -1,0 +1,210 @@
+#expensesAndIncomePage {
+  background-size: cover;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#backgroundExpensesAndIncomes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(/src/assets/desktop/svg/DashboardScreen.svg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+#expensesAndIncomePageTitle {
+  color: #F9F9F9;
+  font-family: "Plus Jakarta Sans";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  text-align: left;
+  width: 84.5vw;
+
+  height: 17vh;
+  display: flex;
+  align-items: center;
+}
+
+.nav-div {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+}
+
+.container {
+  width: 84.5vw;
+  margin-bottom: 3%;
+}
+
+.main-div {
+  background-color: #181818;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  height: 50vh;
+}
+
+.expense-graphic-top {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  height: 80%;
+}
+
+.expense-graphic {
+  width: 60%;
+  border-radius: 10px;
+  background-color: #f2622e;
+}
+
+.expense-graphic-color1 {
+  background-color: #2d18bf;
+}
+
+.piechart-graphic {
+  width: 40%;
+  height: 100%;
+  border-radius: 10px;
+  background-image: url("../../assets/desktop/svg/FondoAhorro.svg");
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+
+.pie-card-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-div,
+.left-div {
+  background-color: #181818;
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+}
+
+.chart-expense-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.left-div {
+  width: 60%;
+}
+
+.right-div {
+  width: 40%;
+}
+
+.no-expenses p {
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+.no-expenses button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.no-expenses button:hover {
+  background-color: #45a049;
+}
+
+.PlannerIcon {
+  margin-top: 80px;
+}
+
+.select-expenses-graphic {
+  display: block;
+  width: 139px;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: black;
+  background-color: white;
+}
+
+@media only screen and (max-width: 500px) {
+
+  #expensesAndIncomePage {
+    padding: 10px;
+  }
+
+  #expensesAndIncomePage h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+
+  .nav-div {
+    top: 80px;
+    left: 10px;
+  }
+
+  .container {
+    padding-top: 10px;
+  }
+
+  .main-div {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .expense-graphic-top {
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .expense-graphic,
+  .piechart-graphic {
+    width: 100%;
+  }
+
+  .chart-expense-bottom {
+    flex-direction: column;
+  }
+
+  .left-div,
+  .right-div {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .no-expenses p {
+    font-size: 0.9rem;
+  }
+
+  .no-expenses button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  .select-expenses-graphic {
+    width: 100%;
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  .PlannerIcon {
+    margin-top: 50px;
+  }
+}

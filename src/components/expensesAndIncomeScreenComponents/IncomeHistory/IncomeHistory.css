@@ -1,0 +1,93 @@
+.generalHistoryIncomes {
+  max-width: 600px;
+  max-height: 450px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #181818;
+  border-radius: 8px;
+  margin-top: 0;
+
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.generalHistoryIncomes h1 {
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-family: "Space Grotesk";
+}
+
+.topHistoryIncomes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.select-history-incomes {
+  display: block;
+  width: 139px;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #f2622e;
+}
+
+.generalHistoryIncomes select option {
+  color: black;
+  background-color: white;
+}
+
+.cards-incomes-info {
+  padding: 10px;
+  background-color: #181818;
+  border-bottom: 1px solid white;
+}
+
+.incomes-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.card-container-incomes-details {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.incomes-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-card-incomes {
+  display: block;
+  border-radius: 8px;
+  width: 70px;
+  height: 70px;
+}
+
+.incomes-details p {
+  color: white;
+
+  font-family: "Plus Jakarta Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.history-incomes-amount {
+  color: #F9F9F9;
+
+  font-family: "Plus Jakarta Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}

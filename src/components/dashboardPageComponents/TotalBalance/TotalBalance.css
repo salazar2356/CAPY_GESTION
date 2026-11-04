@@ -1,0 +1,62 @@
+.balance {
+    background-image: url(../../../assets/desktop/svg/fondoBalance.svg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    color: white;
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    font-family: 'Space Grotesk';
+}
+
+.balance h3:first-of-type {
+    text-align: left;
+    margin-left: 16px;
+    justify-content: flex-end;
+    height: 13vh;
+    font-style: normal;
+    font-weight: 700;
+
+    font-family: "Space Grotesk";
+    font-size: 28px;
+    margin-top: 16px;
+}
+
+.balance h1 {
+    text-align: left;
+    margin-left: 20px;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+
+    /* O el tamaño que prefieras */
+    font-family: "Space Grotesk";
+    font-size: 36px;
+}
+
+.balance h3:last-of-type {
+    text-align: left;
+    margin-left: 16px;
+    font-style: normal;
+    font-size: 100%;
+    font-weight: 500;
+
+    font-family: "Plus Jakarta Sans";
+    font-size: 14px;
+}
+
+.MoveButton {
+    top: 16px;
+    right: 40px;
+    width: 16px;
+    height: 16px;
+}
+
+.Dollar {
+    top: 40px;
+    right: 40px;
+    width: 40px;
+}

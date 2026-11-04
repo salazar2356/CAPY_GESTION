@@ -1,0 +1,45 @@
+.missions {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    color: white;
+    background-color: #181818;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.MoveButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.info-container {
+    margin-left: 16px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.info-container h3 {
+    font-family: 'Space Grotesk';
+    color: #FFF;
+
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    margin: 16px 0 35px 0;
+}
+
+#missionItemContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

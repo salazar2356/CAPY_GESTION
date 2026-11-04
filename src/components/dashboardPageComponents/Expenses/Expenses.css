@@ -1,0 +1,37 @@
+.expenses {
+    background-image: url(../../../assets/desktop/svg/Gastosfons.svg);
+    height: 100%;
+    width: 100%;
+    color: white;
+    border-radius: 16px;
+    position: relative; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.expenses h2:first-of-type {
+    color: #21147A;
+    margin-left: 16px;
+    font-family: "Space Grotesk";
+    font-size: 100%;
+    font-style: normal;
+    font-weight: 1000;
+    line-height: 3;
+    height: 8.5vh;
+    justify-content: flex-end;
+}
+
+.expenses h1 {
+    color: #21147A;
+    margin-left: 16px;
+    font-family: "Space Grotesk";
+    font-size: 180%;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    justify-content: flex-end;
+
+    width: 100%;
+    text-align: left;
+}

@@ -1,0 +1,73 @@
+@media only screen and (min-width: 1200px) and (max-width: 1600px) {
+    #dashboardPage {
+        width: 95vw;
+        min-height: 100vh;
+        overflow: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 0 0 4%;
+    }
+
+    #dashboardPage #marginPage {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+
+    #dashboardPage #TitleTextContainer {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 2% 0;
+    }
+
+    #ContentContainerDashboard {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 0 0 3%;
+    }
+
+    #dashboardPage #TitleTextContainer h1 {
+        color: #F9F9F9;
+        font-family: "Plus Jakarta Sans";
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+        width: 94%;
+
+        height: 17vh;
+        display: flex;
+        align-items: center;
+    }
+
+    #dashboardPage #TitleTextContainer p {
+        font-size: 22px;
+        color: #F9F9F9;
+        font-family: "Plus Jakarta Sans";
+        font-weight: bold;
+
+        margin: -1% 0 0 0;
+    }
+
+    #dashboardPage .TextHint {
+        color: #CCFC56;
+        font-family: 'Space Grotesk';
+    }
+
+    #backgroundDashboard {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url('../../assets/desktop/svg/landingBackground.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -1;
+    }
+}

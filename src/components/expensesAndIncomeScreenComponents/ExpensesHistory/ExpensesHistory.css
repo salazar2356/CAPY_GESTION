@@ -1,0 +1,108 @@
+.generalHistoryExpenses {
+  max-width: 600px;
+  max-height: 450px;
+  margin: 0 auto;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #181818;
+  border-radius: 8px;
+  margin-top: 0;
+
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.generalHistoryExpenses h1 {
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-family: "Space Grotesk";
+}
+
+.topHistoryExpenses {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.select-history-expenses {
+  display: block;
+  width: 139px;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #f2622e;
+}
+
+.generalHistoryExpenses select option {
+  color: black;
+  background-color: white;
+}
+
+#expensesHistoryListContainer {
+  height: 100%;
+}
+
+
+.cards-expenses-info {
+  padding: 10px;
+  background-color: #181818;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.413);
+}
+
+.expense-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.card-container-expense-details {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.expense-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-card-expenses {
+  display: block;
+  border-radius: 8px;
+  width: 70px;
+  height: 70px;
+}
+
+.cards-expenses-info h2 {
+  color: white;
+
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  font-size: 18px;
+}
+
+.expense-details p {
+  color: white;
+
+  font-family: "Plus Jakarta Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.history-expense-amount {
+  color: var(--Primary-Base-White, #FFF);
+
+  font-family: "Plus Jakarta Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}

@@ -1,0 +1,145 @@
+.CustomerOpinionContainer {
+  width: 100%;
+  height: 100%;
+  background-color: #181818;
+  padding: 26px;
+  border-radius: 16px;
+}
+
+.quotes {
+  width: 56px;
+}
+
+.quotesOpacity-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.quotesOpacity-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.quotesOpacity {
+  width: 30px;
+  position: relative;
+}
+
+.CustomerOpinionContainer h3 {
+  color: var(--Primary-Base-White, #fff);
+  font-family: "Plus Jakarta Sans";
+  font-size: 26.701px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  padding-left: 25px;
+  margin-top: 25px;
+}
+
+.userData {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.userData p {
+  color: #cecece;
+  font-family: "Plus Jakarta Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.userProfile {
+  display: flex;
+  gap: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.Image p {
+  color: #ffffff;
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  position: relative;
+  top: 5px;
+  color: #ffffff;
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  position: relative;
+  top: 5px;
+}
+
+.Starts {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  display: flex;
+  height: 100%;
+  align-items: center;
+
+  position: relative;
+  top: -5px;
+  position: relative;
+  top: -5px;
+}
+
+.Starts img {
+  width: 20px;
+  width: 20px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .CustomerOpinionContainer {
+    height: 100%;
+    background-color: #181818;
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .quotes {
+    width: 40px;
+  }
+
+  .quotesOpacity {
+    width: 20px;
+  }
+
+  .CustomerOpinionContainer h3 {
+    font-size: 22px;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .CustomerOpinionContainer {
+    padding: 15px;
+  }
+
+  .quotes {
+    width: 35px;
+  }
+
+  .quotesOpacity {
+    width: 16px;
+  }
+
+  .CustomerOpinionContainer h3 {
+    font-size: 18px;
+  }
+
+  .userData p {
+    font-size: 12px;
+  }
+}

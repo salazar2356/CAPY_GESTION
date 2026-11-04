@@ -1,0 +1,94 @@
+#LoginRegisterButtonsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: center;
+  height: 8%;
+  margin-top: 50px;
+}
+
+#createAccountButton {
+  height: 45px;
+  font-family: "Plus Jakarta Sans";
+  border: none;
+  color: #121212;
+  background-color: #ccfc56;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 500;
+  font-size: 18px;
+  padding: 0 20px 0 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 18px;
+  padding: 0 20px 0 20px;
+  border-radius: 12px;
+
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#createAccountButton:hover {
+  color: #2d18bf;
+  background-color: #f9f9f9;
+}
+
+#logInButton {
+  height: 45px;
+  font-family: "Plus Jakarta Sans";
+  border: none;
+  color: #2d18bf;
+  background-color: #f9f9f9;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 500;
+  font-size: 18px;
+  padding: 0 20px 0 20px;
+  border-radius: 12px;
+  padding: 0 20px 0 20px;
+  font-weight: 500;
+  font-size: 18px;
+  padding: 0 20px 0 20px;
+  border-radius: 12px;
+  padding: 0 20px 0 20px;
+
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#logInButton:hover {
+  color: #f9f9f9;
+  background-color: #2d18bf;
+}
+
+@media only screen and (max-width: 640px) {
+  #LoginRegisterButtonsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  #logInButton,
+  #createAccountButton {
+    height: 40px;
+    font-size: 15px;
+    padding: 0 15px;
+    width: 100%; /* Añadimos esto para que ocupen todo el ancho */
+    max-width: 300px; /* Limita el ancho máximo para que no se vean demasiado grandes */
+  }
+}
