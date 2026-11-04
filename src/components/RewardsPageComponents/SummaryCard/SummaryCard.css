@@ -1,0 +1,58 @@
+.resumen-card {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  height: 80px;
+}
+
+.icono {
+  font-size: 2em;
+  margin-right: 10px;
+}
+
+.titulo {
+  font-weight: bold;
+  margin: 0;
+}
+
+.contenido {
+  color: #F9F9F9;
+  font-family: "Plus Jakarta Sans";
+  font-size: 27.205px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.resumen-card:last-child {
+  margin-bottom: 0;
+}
+
+.resumen-card .darkText {
+  color: #141414;
+}
+
+@media only screen and (max-width: 500px) {
+  .resumen-card {
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .icono {
+    font-size: 1.8em;
+    margin-bottom: 8px;
+    margin-right: 2%;
+  }
+
+  .contenido {
+    margin-left: 2%;
+    font-size: 90%;
+  }
+
+  .titulo {
+    font-size: 120%;
+  }
+
+}

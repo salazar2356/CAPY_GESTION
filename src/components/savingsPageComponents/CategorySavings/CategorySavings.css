@@ -1,0 +1,57 @@
+#categorySavings {
+    width: 50%;
+    height: 100%;
+    background-color: #181818;
+    border-radius: 15px;
+}
+
+#categorySavingsContent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#categorySavingsCircularProgressbarWrapper {
+    width: 50%;
+    display: flex;
+    align-items: center;
+}
+
+#categorySavingsCircularProgressHints {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+@media only screen and (max-width: 500px) {
+
+    #categorySavings {
+        width: 100%;
+        height: 100%;
+        background-color: #181818;
+        border-radius: 15px;
+    }
+    
+    .generalSavingsCircularProgressbar {
+        width: 60%;
+    }
+    #categorySavingsContent {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    
+    #categorySavingsCircularProgressbarWrapper {
+        width: 60%;
+        display: flex;
+        align-items: center;
+    }
+    
+  
+
+
+
+
+}
+    

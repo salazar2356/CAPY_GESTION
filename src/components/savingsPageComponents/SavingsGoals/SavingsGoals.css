@@ -1,0 +1,70 @@
+#savingsGoalsContainer {
+    width: 100%;
+    height: 60%;
+    background-color: #181818;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+#savingsGoalsHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    margin-top: 1%;
+}
+
+#savingsGoalsHeader h3 {
+    margin: 0;
+}
+
+#savingsGoalsHeader button {
+    width: 25%;
+    height: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2.5%;
+
+    color: #181818;
+    text-align: center;
+    font-family: "Plus Jakarta Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    background-color: #CCFC56;
+    border-radius: 0.5vw;
+}
+
+#savingsGoalsListContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 1% 0 0 0;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+#savingsGoalsListContainer::-webkit-scrollbar {
+    display: none;
+}
+
+@media only screen and (max-width: 500px) {
+    
+  #savingsGoalsListContainer{
+    width: 100%;
+  }
+
+  #savingsGoalsContainer {
+    height: 530px;
+   }
+    
+  }

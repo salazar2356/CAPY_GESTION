@@ -1,0 +1,40 @@
+.reward-grid {
+    margin: 0 4% 0 4%;
+}
+
+
+#Canjear h2 {
+    color: #F9F9F9;
+    font-family: "Space Grotesk";
+    font-size: 34px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    height: 10vh;
+
+    display: flex;
+    align-items: center;
+}
+
+#rewardCard {
+    display: flex;
+    justify-content: start;
+    gap: 5%;
+    flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 500px) {
+    #Canjear h2 {
+        font-size: 24px;
+        line-height: 40px;
+        margin-left: 5%;
+    }
+
+    #rewardCard {
+        gap: 2%;
+        margin-left: 0;
+        padding: 10px;
+        display: flex;
+    }
+}

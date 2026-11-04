@@ -1,0 +1,45 @@
+#SaverLevelProgressBarContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#SaverProgressLabels {
+    display: flex;
+    justify-content: space-between;
+
+    width: 60%;
+    height: 20%;
+
+    margin-bottom: 3%;
+}
+
+.bg-primary {
+    background: linear-gradient(270deg, #581ED4, #2D18BF);
+    border-radius: 40px;
+}
+
+@media only screen and (max-width: 500px) {
+
+    #SaverLevelProgressBarContainer {
+        width: 100%;
+        height: 25vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #SaverProgressLabels {
+        width: 90%;
+        height: auto;
+        gap: 10px;
+    }
+
+    .bg-primary {
+        border-radius: 20px;
+    }
+}

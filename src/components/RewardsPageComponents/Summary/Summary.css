@@ -1,0 +1,16 @@
+.Summary {
+    background-color: #181818;
+    padding: 20px;
+    border-radius: 16px;
+    color: white;
+}
+
+.Summary #summary h2 {
+    color: #FFF;
+    font-family: "Space Grotesk";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 16px 0 20px 0;
+}

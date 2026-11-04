@@ -1,0 +1,14 @@
+#gridContainer {
+    width: 100%;
+    font-family: "Space Grotesk";
+    display: flex;
+}
+
+/* En InteractiveGrid.css */
+.grid-item-content {
+    width: 98%;
+    height: 92%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,20 @@
+.expense-container {
+    max-height: 230px;
+    width: 100%;
+}
+
+.custom-tick-text-incomes .recharts-cartesian-axis-tick text {
+    fill: white !important;
+    /* Usa !important para sobreescribir el estilo */
+}
+
+.chart-container-size-incomes {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

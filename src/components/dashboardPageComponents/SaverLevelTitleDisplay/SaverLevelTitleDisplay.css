@@ -1,0 +1,10 @@
+#SaverLevelTitleDisplayContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#SaverLevelTitleDisplayContainer h3 {
+    margin: 0;
+}

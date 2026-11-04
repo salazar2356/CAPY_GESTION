@@ -1,0 +1,86 @@
+.reward-card {
+    border-radius: 16px;
+    padding: 20px;
+    width: 30%;
+    height: 240px;
+    position: relative;
+    color: white;
+    overflow: hidden;
+    margin-bottom: 4%;
+    cursor: pointer;
+}
+
+.reward-card-image {
+    top: 0;
+    left: 0;
+    width: 55%;
+    font-family: "Space Grotesk";
+    line-height: 70px;
+}
+
+.reward-card-content {
+    position: relative;
+    z-index: 1;
+    font-family: "Space Grotesk";
+    margin-top: 25%;
+}
+
+.reward-card p {
+    color: #F9F9F9;
+    font-family: "Plus Jakarta Sans";
+    font-size: 23.283px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+#white{
+    width: 30%;
+}
+
+.reward-card-content .text-with-image img {
+    margin-right: 3%;
+}
+
+.reward-card h3 {
+    color: #F9F9F9;
+    font-family: "Space Grotesk";
+    font-size: 29.519px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.reward-card-content .price-and-points {
+    display: flex;
+    align-items: center; 
+}
+
+.reward-card-content .text-with-image {
+    display: flex;
+    align-items: center;
+    margin-left: 40%; 
+}
+
+.reward-card .darkText {
+    color: #141414;
+}
+
+@media only screen and (max-width: 500px) {
+    .reward-card {
+        width: 90%; 
+        margin: 2% 0; 
+        height: 160px;
+    }
+
+    .reward-card-content {
+        margin-top: 5%; 
+    }
+
+    .reward-card h3{
+        font-size: 140%;
+    }
+    .reward-card p {
+        font-size: 100%; 
+    }
+}

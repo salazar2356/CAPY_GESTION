@@ -1,0 +1,19 @@
+.capyContainer {
+    background-image: url(../../../assets/svg/CapyCard.svg);
+    width: 100%;
+    height: 100%;
+    position: relative; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+}
+  
+.moveButton {
+    position: absolute;
+    top: 20px;    
+    right: 16px; 
+    width: 17.79px; 
+    height: 13;
+    cursor: pointer;
+}

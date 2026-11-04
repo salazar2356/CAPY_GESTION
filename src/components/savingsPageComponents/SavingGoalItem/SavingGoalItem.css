@@ -1,0 +1,292 @@
+.savingGoalItemContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    margin: 0 0 4% 0;
+}
+
+.savingGoalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80%;
+    width: 100%;
+    margin: 0 3% 0 3%
+}
+
+.savingGoalHeader button {
+    width: 10%;
+    height: 7%;
+    background-color: #F9F9F9;
+    padding: 14px;
+    border-radius: 0.3vw;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #181818;
+    font-family: "Plus Jakarta Sans";
+    font-size: 11.907px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.savingGoalTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 1% 0;
+}
+
+.savingGoalTitle img {
+    border-radius: 10px;
+    padding: 2px;
+    margin-right: 14px;
+    aspect-ratio: 1/1;
+}
+
+.savingGoalTitleText {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.savingGoalTitleText h4 {
+    color: #F9F9F9;
+
+    font-family: "Space Grotesk";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.savingGoalTitleText p {
+    color: #F9F9F9;
+
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.savingGoalGraphContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.savingGoalGraphLabels {
+    color: var(--Primary-Base-White, #FFF);
+    text-shadow: 0px 1.188px 1.188px rgba(0, 0, 0, 0.25);
+
+    font-family: "Plus Jakarta Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+
+    margin: 1% 0 1.5% 0;
+}
+
+.bg-primary {
+    background: linear-gradient(270deg, #afa3c9, #4233a9);
+    border-radius: 40px;
+}
+
+#savingGoalItemEditModalContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 2, 3, 0.85);
+    z-index: 1;
+}
+
+#savingGoalItemEditModalContent {
+    width: 80vw;
+    height: 80vh;
+    background-image: url(../../../assets/desktop/jpg/fondoAddSavingsModal.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 1vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#savingGoalEditCloseModalButton {
+    position: relative;
+    left: 47%;
+    top: 3%;
+    border: 1px solid rgba(217, 217, 217, 0.36);
+    background: rgba(217, 217, 217, 0.36);
+    border-radius: 1vw;
+    width: 2.5%;
+    aspect-ratio: 1/1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#savingGoalItemEditModalContentForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    height: 100%;
+}
+
+#savingGoalItemEditModalContentForm h3 {
+    color: var(--Primary-Base-White, #FFF);
+
+    font-family: "Space Grotesk";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+#EditModalButtonsContainer {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+}
+
+.editGoalInputTextContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 11%;
+    margin-bottom: 10%;
+}
+
+.editGoalInputTextContainer label {
+    color: var(--Primary-Base-White, #FFF);
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 2% 0 1% 0;
+}
+
+.editGoalInputTextContainer input {
+    padding: 2.5%;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    border: none;
+    font-size: 1vw;
+    border: 1px solid rgba(217, 217, 217, 0.36);
+    background: rgba(217, 217, 217, 0.36);
+    color: rgba(212, 212, 212, 0.986);
+    font-family: "Space Grotesk";
+    font-size: 16px;
+    font-style: normal;
+    width: 100%;
+    height: 100%;
+}
+
+#EditModalButtonsContainer button {
+    width: 50%;
+    height: 100%;
+    border-radius: 1vw;
+}
+
+#addMonthlySavingButton {
+    background-color: #2D18BF;
+    color: #FFF;
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+#deleteSavingButton {
+    background-color: #F2622E;
+    color: #FFF;
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+@media only screen and (max-width: 500px) {
+
+    
+    .savingGoalItem {
+        width: 100%;
+        /* Ocupa todo el ancho disponible */
+        margin: 0 auto;
+        /* Centra el contenedor */
+    }
+
+    .savingGoalHeader {
+        align-items: flex-start; /* Alinea los elementos al inicio */
+        width: 100%; /* Asegura que ocupe todo el ancho */
+    }
+
+    .savingGoalTitle img {
+        width: 50px;
+        /* Ajusta el tamaño de la imagen en pantallas pequeñas */
+        height: 50px;
+        /* Ajusta el tamaño de la imagen */
+        margin-right: 10px;
+        /* Menor margen entre la imagen y el texto */
+    }
+
+    .savingGoalTitleText h4 {
+        font-size: 18px;
+        /* Reduce el tamaño de la fuente */
+    }
+
+    .savingGoalTitleText p {
+        font-size: 14px;
+        /* Reduce el tamaño del texto */
+    }
+
+    .savingGoalGraphContainer {
+        width: 100%;
+        /* Asegura que el gráfico ocupe el 100% del ancho */
+    }
+
+    .savingGoalGraphLabels {
+        flex-direction: column;
+        /* Cambia la disposición a columna en pantallas pequeñas */
+        text-align: center;
+        /* Centra los textos */
+    }
+
+    .savingGoalGraphLabels p {
+        font-size: 12px;
+        /* Reduce el tamaño de los textos */
+        margin: 5px 0;
+        /* Añade un margen para separar las líneas */
+    }
+}

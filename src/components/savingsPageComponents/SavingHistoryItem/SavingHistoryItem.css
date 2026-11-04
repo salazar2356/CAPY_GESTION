@@ -1,0 +1,65 @@
+.savingsHistoryItem {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5%;
+}
+
+.savingsHistoryItemTitle {
+    display: flex;
+    align-items: center;
+}
+
+.savingsHistoryItemTitle img {
+    border-radius: 8px;
+    aspect-ratio: 1/1;
+    height: 100%;
+}
+
+.savingsHistoryItemTitleText {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 0 10px;
+}
+
+.savingsHistoryItemTitleTextNameDate {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.savingsHistoryItemTitleText h4 {
+    color: #F9F9F9;
+
+    /* Titulo mobile */
+    font-family: "Space Grotesk";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.savingsHistoryItemTitleText P {
+    color: #F9F9F9;
+
+    /* Mobile Inputs- body */
+    font-family: "Plus Jakarta Sans";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.savingsHistoryItem .savingsHistoryItemAmount {
+    color: #F9F9F9;
+    text-align: right;
+
+    /* inputs-Body */
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}

@@ -1,0 +1,85 @@
+.reward-container {
+    min-height: 100vh;
+    width: 95vw;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 0 4%;
+}
+
+h1#principal {
+    color: #F9F9F9;
+    font-family: "Plus Jakarta Sans";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-left: 4.5%;
+    line-height: 120px;
+    text-align: left;
+}
+
+.MissionLevel {
+    display: flex;
+    flex-direction: row;
+    margin-left: 3%;
+    height: 460px;
+}
+
+#backgroundReward {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../assets/desktop/svg/fondo.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.iqual {
+    height: 100%;
+    flex: 1;
+    background-color: #181818;
+    padding: 20px;
+    border-radius: 16px;
+    color: white;
+    margin: 0 1%;
+}
+
+/* #nav-container {
+    margin-top: 4%;
+} */
+
+@media only screen and (max-width: 500px) {
+    h1 #principal {
+        font-size: 163%;
+        line-height: 36px;
+        margin-left: 4%;
+        margin-top: 10%;
+    }
+
+    .MissionLevel {
+        flex-direction: column;
+        height: auto;
+        margin-left: 0;
+    }
+
+    .iqual {
+        width: 90%;
+        padding: 15px;
+        margin: 10px 5%;
+    }
+
+    #backgroundReward {
+        background-image: url('../../assets/mobile/svg/SignUp.svg');
+        background-size: cover;
+        background-position: top;
+    }
+
+    #nav-container {
+        display: none;
+    }
+}

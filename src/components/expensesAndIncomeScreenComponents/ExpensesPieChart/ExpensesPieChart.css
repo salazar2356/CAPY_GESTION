@@ -1,0 +1,60 @@
+.pie-card-container {
+  display: flex;
+}
+
+.select-expenses-pie {
+  width: 100%;
+  background-color: #2d18bf;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: white;
+}
+
+.pie-card-right {
+  width: 40%;
+  padding: 30px 15px 0 0;
+}
+
+.info-pie-chart {
+  display: flex;
+}
+
+.container-info-pie-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-pie-chart-color {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.info-pie-chart-color div:nth-child(1) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ball-name-chart {
+  width: 10px;
+  height: 10px;
+  border-radius: 55px;
+}
+
+.ball-name-chart-color1{
+    background: #2d18bf;
+}
+.ball-name-chart-color2{
+    background: #a8f25d;
+}
+.ball-name-chart-color3{
+    background: #f2622e;
+}
+.ball-name-chart-color4{
+    background: #c4c4c4;
+}

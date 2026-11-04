@@ -1,0 +1,259 @@
+#cardLogin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 25%;
+  height: 85%;
+  padding: 6% 2%;
+  color: white;
+  background-color: #2D18BF;
+  border-radius: 24px;
+  margin-right: 5%;
+}
+
+#cardLogin h1 {
+  font-size: 3vw;
+  font-weight: bold;
+  line-height: 1.2;
+  font-size: 56px;
+  text-align: center;
+}
+
+#cardLogin h3 {
+  color: #F9F9F9;
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 1%;
+  width: 100%;
+}
+
+#cardLogin .inputLogInData {
+  width: 100%;
+  padding: 2.5%;
+  margin-bottom: 5%;
+  border-radius: 5px;
+  border: none;
+  font-size: 1vw;
+  border: 1px solid rgba(217, 217, 217, 0.36);
+  background: rgba(217, 217, 217, 0.36);
+  color: rgba(212, 212, 212, 0.986);
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+}
+
+#forgotPasswordText {
+  color: #F9F9F9;
+  font-family: "Space Grotesk";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 100%;
+  text-align: right;
+}
+
+#cardLogin button {
+  margin-top: 13%;
+  width: 100%;
+  height: 11%;
+  padding: 3%;
+  background-color: #A8F25D;
+  color: #0b0d1b;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  color: #121212;
+  font-family: "Plus Jakarta Sans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#cardLogin button:hover {
+  color: #2d18bf;
+  background-color: #f9f9f9;
+}
+
+#Cuenta {
+  margin-top: 3%;
+  text-align: center;
+  color: var(--Primary-Base-White, #FFF);
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+#Cuenta span {
+  color: var(--Primary-Base-White, #FFF);
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+#Cuenta span:hover {
+  text-decoration: underline;
+  text-decoration-color: #FFF;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 500px) {
+  #cardLogin {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 520px;
+    max-width: 100%;
+    padding: 3% 3%;
+    color: white;
+    background-color: #2D18BF;
+    border-radius: 24px;
+  }
+
+  #cardLogin h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  #cardLogin h3 {
+    margin: 3% 0% 2% 2%;
+    color: #F9F9F9;
+    font-family: "Space Grotesk";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+
+  #cardLogin .inputLogInData {
+    width: 95%;
+    padding: 8px;
+    margin: 0 auto 2%;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(217, 217, 217, 0.36);
+    color: rgba(212, 212, 212, 0.986);
+  }
+
+
+  #ButtonLogin {
+    margin: 5% auto 0;
+    margin-top: 10%;
+    width: 95%;
+    height: 40px;
+    padding: 8px;
+    background-color: #A8F25D;
+    color: #121212;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+
+  #signUpGoogleContainer p {
+    font-size: 12px;
+  }
+
+}
+
+@media only screen and (min-width: 320px) and (max-width: 500px) {
+  .LogIn {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: 520px;
+    max-width: 380px;
+    padding: 2% 2%;
+    color: white;
+    background-color: #2D18BF;
+    border-radius: 24px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .LogIn a {
+    color: #F9F9F9;
+    font-family: "Space Grotesk";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 0;
+    margin-right: 3%;
+  }
+  
+  .LogIn h3 {
+    margin: 3% 0% 2% 2%;
+    color: #F9F9F9;
+    font-family: "Space Grotesk";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+
+  input {
+    width: 95%;
+    padding: 8px;
+    margin: 0 auto 2%;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(217, 217, 217, 0.36);
+    color: rgba(212, 212, 212, 0.986);
+  }
+
+ 
+  #ButtonLogin {
+    margin: 5% auto 0;
+    margin-top: 10%;
+    width: 95%;
+    height: 40px;
+    padding: 8px;
+    background-color: #A8F25D;
+    color: #121212;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+
+  #signUpGoogleContainer p {
+    font-size: 12px;
+  } 
+
+}

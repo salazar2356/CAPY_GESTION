@@ -1,0 +1,325 @@
+.Register {
+  justify-content: start;
+  display: flex;
+  flex-direction: column;
+  align-items: baselineç;
+  width: 27%;
+  height: 85%;
+  padding: 2% 2%;
+  color: white;
+  background-color: #2D18BF;
+  border-radius: 24px;
+  margin-right: 8%;
+  margin-left: auto;
+}
+
+.Register h1 {
+  font-size: 2.5vw;
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.Register h3 {
+  color: #F9F9F9;
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 1%;
+  width: 100%;
+}
+
+.Register input {
+  width: 100%;
+  padding: 2.5%;
+  margin-bottom: 4%;
+  border-radius: 5px;
+  border: none;
+  font-size: 1vw;
+  border: 1px solid rgba(217, 217, 217, 0.36);
+  background: rgba(217, 217, 217, 0.36);
+  color: rgba(212, 212, 212, 0.986);
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  height: 5vh;
+}
+
+.Register button {
+  margin-top: 2%;
+  width: 100%;
+  height: 8.125%;
+  padding: 3%;
+  background-color: #A8F25D;
+  color: #0b0d1b;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  color: #121212;
+  font-family: "Plus Jakarta Sans";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 900;
+
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.Register button:hover {
+  color: #2d18bf;
+  background-color: #f9f9f9;
+}
+
+.Register-container a {
+  font-size: 1vw;
+  color: #A8F25D;
+  text-decoration: underline;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+}
+
+.Register-container p {
+  color: #A8F25D;
+  font-size: 1vw;
+  text-align: center;
+}
+
+.Register a {
+  color: #F9F9F9;
+  font-family: "Space Grotesk";
+  font-size: 13.5px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-align: right;
+  cursor: pointer;
+  margin-top: 0;
+}
+
+#CrearCuenta {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 16.5px;
+  font-weight: 400;
+}
+
+#terminos {
+  display: flex;
+  justify-content: flex-start;
+  text-align: left;
+  align-items: center;
+  margin-left: 2%;
+}
+
+#CheckText {
+  margin-top: 10px;
+  text-align: left;
+  font-size: 16.5px;
+  font-weight: 400;
+}
+
+#CheckText span {
+  font-weight: 700;
+}
+
+#terminos input[type="checkbox"] {
+  width: 1vw;
+  height: 1vw;
+  margin: 0;
+  margin-top: 2%;
+  margin-right: 0.5vw;
+  accent-color: #A8F25D;
+}
+
+
+#signUpGoogleContainer {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#signUpGoogleContainer img {
+  width: 10%;
+  margin-top: 10px;
+}
+
+#signUpGoogleContainer p {
+  font-size: 16px;
+}
+
+#signUpGoogleContainer p {
+  margin: 10px;
+}
+
+#googleIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 6vh;
+
+  cursor: pointer;
+  background-color: #f9f9f9e6;
+  border-radius: 10px;
+  padding: 0.5vh;
+}
+
+#googleIconContainer img {
+  width: 10%;
+  margin: 0 10px 0 0;
+}
+
+#googleIconContainer p {
+  margin: 0;
+  color: #2d18bf;
+}
+
+#CrearCuenta {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--Primary-Base-White, #FFF);
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+#CrearCuenta span {
+  color: var(--Primary-Base-White, #FFF);
+  font-family: "Space Grotesk";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  cursor: pointer;
+  transition: text-decoration 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+#CrearCuenta span:hover {
+  text-decoration: underline;
+  text-decoration-color: #FFF;
+}
+
+
+@media only screen and (min-width: 320px) and (max-width: 500px) {
+  .Register {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 380px;
+    padding: 2% 2%;
+    color: white;
+    background-color: #2D18BF;
+    border-radius: 24px;
+    margin: 0 auto;
+  }
+
+  .Register h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+
+  .Register h3 {
+    margin: 3% 0% 2% 2%;
+    color: #F9F9F9;
+    font-family: "Space Grotesk";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .LogIn-left .highlight {
+    background-color: #d2ff00;
+    color: #1f1f1f;
+    padding: 2px 8px;
+    border-radius: 5px;
+  }
+
+  .LogIn-container {
+    width: 100%;
+    background-color: #2a2d54;
+    border-radius: 20px;
+    padding: 5% 8%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .LogIn-container h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10%;
+    text-align: center;
+  }
+
+  input {
+    width: 95%;
+    padding: 8px;
+    margin: 0 auto 2%;
+    margin-bottom: 2%;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(217, 217, 217, 0.36);
+    color: rgba(212, 212, 212, 0.986);
+  }
+
+
+  button {
+    margin: 5% auto 0;
+    margin-top: 10px;
+    width: 48%;
+    height: 40px;
+    padding: 8px;
+    background-color: #A8F25D;
+    color: #121212;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 900;
+  }
+
+  .Register-container a,
+  .Register-container p {
+    font-size: 0.875rem;
+    color: #A8F25D;
+    text-align: center;
+  }
+
+  #terminos {
+    justify-content: flex-start;
+    text-align: left;
+    margin-left: 2%;
+  }
+
+  #terminos input[type="checkbox"] {
+    width: 6%;
+    height: 6%;
+    margin: 0;
+    margin-top: 4%;
+  }
+
+  #Check {
+    font-family: "Plus Jakarta Sans";
+    margin-top: 10px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  #signUpGoogleContainer p {
+    font-size: 12px;
+  }
+
+}
+
+

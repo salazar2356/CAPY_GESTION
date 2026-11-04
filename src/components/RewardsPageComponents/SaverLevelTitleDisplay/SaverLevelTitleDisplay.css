@@ -1,0 +1,30 @@
+#SaverLevelTitleDisplayContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#SaverLevelTitleDisplayContainer h3 {
+    margin: 0;
+}
+
+#SaverLevelTitleDisplayContainer img{
+    height: 150px;
+    width: 100%;
+}
+
+@media only screen and (max-width: 500px) {
+    #SaverLevelTitleDisplayContainer {
+        padding: 3%;
+    }
+
+    #SaverLevelTitleDisplayContainer h3 {
+        font-size: 90%;
+        text-align: center;
+    }
+
+    #SaverLevelTitleDisplayContainer img {
+        height: 180px; 
+    }
+}

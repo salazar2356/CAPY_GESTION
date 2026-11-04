@@ -1,0 +1,43 @@
+.income {
+    background-image: url(../../../assets/desktop/svg/ingresosfon.svg);
+    height: 100%;
+    width: 100%;
+    color: white;
+    border-radius: 16px;
+    position: relative; 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.income h2 {
+    color: #F9F9F9;
+    margin-left: 16px;
+    font-family: "Space Grotesk";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 3;
+    height: 8.5vh;
+}
+
+.income h1 {
+    color: #F9F9F9;
+    margin-left: 16px;
+    font-family: "Space Grotesk";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    width: 100%;
+    text-align: left;
+}
+
+.MoveButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 16px;
+    height: 16px;
+}

@@ -1,0 +1,122 @@
+.MissionItemContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    height: 1%;
+    cursor: pointer;
+}
+
+.missionTextContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 65%;
+}
+
+.MissionDesc p {
+    line-height: 150%;
+    width: 100%;
+    margin: 0;
+
+    color: var(--Primary-Base-White, #FFF);
+    font-family: "Plus Jakarta Sans";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.missionTextContainer h3 {
+    margin: 0 0 2% 0;
+    color: var(--Primary-Base-White, #FFF);
+    font-family: "Plus Jakarta Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.MissionCapyPoints {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    border-radius: 6px;
+}
+
+.MissionCapyPoints img {
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.CapyPointsAmount {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 10px;
+}
+
+.MissionItemContainer .ligth {
+    color: #F9F9F9;
+}
+
+.MissionItemContainer .dark {
+    color: #181818;
+}
+
+.CapyPointsAmount .Capypoints {
+    font-size: 10px;
+}
+
+.CapyPointsAmount .Gain {
+    font-size: 16px;
+}
+
+@media only screen and (max-width: 500px) {
+    .MissionItemContainer {
+        align-items: flex-start;
+        height: auto;
+        margin-bottom: 5%;
+        width: 100%;
+    }
+
+    .MissionDesc p {
+        line-height: 150%;
+        width: 100%;
+        margin: 0;
+
+        color: var(--Primary-Base-White, #FFF);
+        font-family: "Plus Jakarta Sans";
+        font-size: 8.791px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    .MissionCapyPoints {
+        justify-content: space-between;
+        padding: 0 10px;
+    }
+
+    .MissionCapyPoints img {
+        height: 20px;
+        margin: 0 5px;
+    }
+
+    .CapyPointsAmount .Capypoints {
+        font-size: 8px;
+    }
+
+    .CapyPointsAmount .Gain {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,58 @@
+.MissionItemContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 90%;
+    height: 7.5%;
+}
+
+.MissionDesc {
+    font-size: 14px;
+    line-height: 150%;
+    width: 60%;
+}
+
+.MissionCapyPoints {
+    background-color: #2D18BF;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    border-radius: 6px;
+    width: 27%;
+}
+
+.MissionCapyPoints img {
+    height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.CapyPointsAmount {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: 10px;
+    width: 100%;
+}
+
+.CapyPointsAmount .Capypoints {
+    font-size: 10px;
+}
+
+.CapyPointsAmount .Gain {
+    font-size: 16px;
+}
+
+.darkText {
+    color: #181818;
+}
+
+.lightTex {
+    color: #FFFFFF;
+}
