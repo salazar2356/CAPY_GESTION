@@ -3,20 +3,21 @@ import fireIconWhite from '../../../assets/desktop/svg/fireIconWhite.svg'
 import globeIconWhite from '../../../assets/desktop/svg/globeIconWhite.svg'
 import keyIconWhite from '../../../assets/desktop/svg/KeyIconWhite.svg'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { changeAddSavingModal, RootState } from '../../../store/store'
+import { useDispatch } from 'react-redux'
+import { changeAddSavingModal } from '../../../store/store'
 
 import xIconWhite from '../../../assets/desktop/svg/icons/xIconWhite.svg'
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { savingEnum } from '../../../store/savings/types'
-import { CreatedNewSaving } from '../../../services/Firebase/FirestoreUsers'
+import { createSaving, getActionErrorMessage } from '../../../services/Firebase/FirestoreActions'
 import { ChangeFirebaseContext } from '../../../Contexts/changeFirebaseContext'
-import { convertISOStringToTimestamp } from '../../../utils/timestampConvertion'
+import { showRewardToasts } from '../../../utils/toast'
 
 export const AddSavingGoalModal = () => {
     const dispatch = useDispatch()
     const OnChangeFirebase = useContext(ChangeFirebaseContext)
-    const savingsArray = useSelector((state: RootState) => state.savings.savingsData);
+    const [error, setError] = useState('')
+    const [saving, setSaving] = useState(false)
 
     const savingNameInputRef = useRef<HTMLInputElement>(null)
     const savingColorInputRef = useRef<HTMLSelectElement>(null)
@@ -101,43 +102,60 @@ export const AddSavingGoalModal = () => {
                             <input type="number" placeholder="Enter the monthly savings amount" ref={savingMonthlyInputRef} />
                         </div>
 
-                        <button id="AddSavingGoalRadioInputButton" onClick={(e) => {
+                        {error && <p style={{ color: '#121212', background: '#F2622E', borderRadius: '8px', padding: '8px 12px', fontWeight: 600 }}>{error}</p>}
+
+                        <button id="AddSavingGoalRadioInputButton" disabled={saving} onClick={async (e) => {
                             e.preventDefault();
+                            setError('')
 
                             const selectedImage = getSelectedImage();
-
-                            if (savingNameInputRef.current && selectedImage) {
-                                let actualSelectedImageName: savingEnum = savingEnum.other
-                                switch (selectedImage) {
-                                    case "AddSavingGoalRadioInputFire":
-                                        actualSelectedImageName = savingEnum.fire
-                                        break;
-                                    case "AddSavingGoalRadioInputPlanet":
-                                        actualSelectedImageName = savingEnum.globe
-                                        break;
-                                    case "AddSavingGoalRadioInputKey":
-                                        actualSelectedImageName = savingEnum.key
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-                                const convertionOfSavingsArrayToTimestamp = savingsArray.map((storeSaving) => ({
-                                    ...storeSaving,
-                                    savingHistory: storeSaving.savingHistory.map((storeSavingHistory) => ({
-                                        ...storeSavingHistory,
-                                        date: convertISOStringToTimestamp(storeSavingHistory.date),
-                                    })),
-                                }))
-
-                                if (savingColorInputRef.current && savingTotalFeeInputRef.current && savingMonthlyInputRef.current) {
-                                    CreatedNewSaving(OnChangeFirebase.logedUserUID, savingColorInputRef.current.value, actualSelectedImageName, savingNameInputRef.current.value, parseInt(savingTotalFeeInputRef.current.value), parseInt(savingMonthlyInputRef.current.value), convertionOfSavingsArrayToTimestamp, OnChangeFirebase.fetchAndSetUserData)
-                                    dispatch(changeAddSavingModal(false))
-                                } else {
-                                    console.log("Some addSaving modal ref is null")
-                                }
+                            if (!savingNameInputRef.current?.value.trim()) {
+                                setError('Escribe el nombre de la meta.')
+                                return
                             }
-                        }}>Create new saving</button>
+                            if (!savingColorInputRef.current?.value) {
+                                setError('Elige un color.')
+                                return
+                            }
+                            if (!selectedImage) {
+                                setError('Elige una imagen.')
+                                return
+                            }
+
+                            let actualSelectedImageName: savingEnum = savingEnum.other
+                            switch (selectedImage) {
+                                case "AddSavingGoalRadioInputFire":
+                                    actualSelectedImageName = savingEnum.fire
+                                    break;
+                                case "AddSavingGoalRadioInputPlanet":
+                                    actualSelectedImageName = savingEnum.globe
+                                    break;
+                                case "AddSavingGoalRadioInputKey":
+                                    actualSelectedImageName = savingEnum.key
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            setSaving(true)
+                            try {
+                                const reward = await createSaving(OnChangeFirebase.logedUserUID, {
+                                    savingName: savingNameInputRef.current.value,
+                                    savingColor: savingColorInputRef.current.value,
+                                    savingImage: actualSelectedImageName,
+                                    savingTotalFee: Number(savingTotalFeeInputRef.current?.value),
+                                    monthlySaving: Number(savingMonthlyInputRef.current?.value)
+                                })
+                                showRewardToasts(reward, 'Meta de ahorro creada')
+                                await OnChangeFirebase.fetchAndSetUserData()
+                                dispatch(changeAddSavingModal(false))
+                            } catch (err) {
+                                console.error(err)
+                                setError(getActionErrorMessage(err))
+                            } finally {
+                                setSaving(false)
+                            }
+                        }}>{saving ? 'Saving...' : 'Create new saving'}</button>
                     </form>
                 </div>
             </div>

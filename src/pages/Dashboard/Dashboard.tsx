@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { NavigationHook } from '../../hooks/navigationHook'
 import { useUserFirebaseData } from '../../hooks/useUserFirebaseData'
 import { CapyAssistant } from '../../components/capyAssistantComponent/capyAssistantComponent'
+import { WelcomeModal } from '../../components/WelcomeModal/WelcomeModal'
 
 export const Dashboard = () => {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -52,6 +53,7 @@ export const Dashboard = () => {
 
             </div>
             <CapyAssistant />
+            <WelcomeModal />
         </main >
     </>
 }

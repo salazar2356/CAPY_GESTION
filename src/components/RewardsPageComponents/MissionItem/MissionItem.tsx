@@ -1,12 +1,10 @@
 import './MissionItem.css';
 
-import { useSelector } from 'react-redux';
-
 import logoWhite from '../../../assets/desktop/svg/logo/logoCapyMoneyWhite.svg';
 import logoBlack from '../../../assets/desktop/svg/logo/logoCapyMoneyBlack.svg';
-import { updateCompletedMission } from '../../../services/Firebase/FirestoreUsers';
-import { RootState } from '../../../store/store';
-import { useContext } from 'react';
+import { completeMission, getActionErrorMessage } from '../../../services/Firebase/FirestoreActions';
+import { useContext, useState } from 'react';
+import { showRewardToasts, showToast } from '../../../utils/toast';
 import { ChangeFirebaseContext } from '../../../Contexts/changeFirebaseContext';
 
 interface MissionItemProps {
@@ -21,14 +19,22 @@ interface MissionItemProps {
 }
 
 export const MissionItem = ({ text, gainAmount, backgroundColor, capyPointsDark, isCompleted, missionId, missionTitle }: MissionItemProps) => {
-    const userUID = useSelector((state: RootState) => state.userData.userUID);
-    const { missions, userExpGained, summary, } = useSelector((state: RootState) => state.rewards);
     const OnChangeFirebase = useContext(ChangeFirebaseContext)
+    const [busy, setBusy] = useState(false)
 
-    const handleCompleteMission = () => {
-        if (!isCompleted) {
-            updateCompletedMission(userUID, missionId, missions, userExpGained, summary.goalsCompleted, summary.accumulatedCapypoints, OnChangeFirebase.fetchAndSetUserData)
-            OnChangeFirebase.setIsInitialized(false)
+    // HU42: completar una misión solo si se cumple su condición
+    const handleCompleteMission = async () => {
+        if (isCompleted || busy) return;
+        setBusy(true)
+        try {
+            const reward = await completeMission(OnChangeFirebase.logedUserUID, missionId)
+            showRewardToasts(reward, `¡Misión "${missionTitle}" completada!`)
+            await OnChangeFirebase.fetchAndSetUserData()
+        } catch (err) {
+            console.error(err)
+            showToast(getActionErrorMessage(err), 'error')
+        } finally {
+            setBusy(false)
         }
     };
 
@@ -49,7 +55,10 @@ export const MissionItem = ({ text, gainAmount, backgroundColor, capyPointsDark,
     };
 
     return (
-        <div className='MissionItemContainer' onClick={handleCompleteMission}>
+        <div className='MissionItemContainer' onClick={handleCompleteMission} role="button" tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter') handleCompleteMission() }}
+            style={{ cursor: isCompleted ? 'default' : 'pointer', opacity: busy ? 0.6 : 1 }}
+            title={isCompleted ? 'Completed' : 'Click to claim this mission'}>
             <div className='missionTextContainer'>
                 <h3>{missionTitle}</h3>
                 <p className='MissionDesc'>{text}</p>

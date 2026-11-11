@@ -19,6 +19,9 @@ export const Missions = () => {
       <div className="info-container">
         <h2>Missions</h2>
         <div id='missionItemContainer'>
+          {filteredAndSortedMissions.length === 0 && (
+            <p>🎉 You completed all your missions!</p>
+          )}
           {filteredAndSortedMissions.map((mission) => (
             <MissionItem
               key={mission.missionId}

@@ -27,19 +27,17 @@ export const SavingsGoals = ({ savingsGoalsItemsArray }: SavingsGoalsProps) => {
             </div>
 
             <div id='savingsGoalsListContainer'>
+                {savingsGoalsItemsArray.length === 0 && (
+                    <p style={{ color: '#F9F9F9' }}>You don't have savings goals yet. Create your first one!</p>
+                )}
                 {savingsGoalsItemsArray.map((goal) => {
-                    switch (goal.goalImage) {
-                        case savingEnum.fire:
-                            return <SavingGoalItem key={goal.goalTitle + goal.goalMonthlySaving} goalImage={fireIconWhite} goalImageColor={goal.goalImageColor} goalTitle={goal.goalTitle} goalMonthlySaving={goal.goalMonthlySaving} goalActualFee={goal.goalActualFee} goalTotalFee={goal.goalTotalFee}></SavingGoalItem>
-                        case savingEnum.globe:
-                            return <SavingGoalItem key={goal.goalTitle + goal.goalMonthlySaving} goalImage={planetIconBlack} goalImageColor={goal.goalImageColor} goalTitle={goal.goalTitle} goalMonthlySaving={goal.goalMonthlySaving} goalActualFee={goal.goalActualFee} goalTotalFee={goal.goalTotalFee}></SavingGoalItem>
-                        case savingEnum.key:
-                            return <SavingGoalItem key={goal.goalTitle + goal.goalMonthlySaving} goalImage={KeyIconWhite} goalImageColor={goal.goalImageColor} goalTitle={goal.goalTitle} goalMonthlySaving={goal.goalMonthlySaving} goalActualFee={goal.goalActualFee} goalTotalFee={goal.goalTotalFee}></SavingGoalItem>
-                        case savingEnum.other:
-                            return <SavingGoalItem key={goal.goalTitle + goal.goalMonthlySaving} goalImage={""} goalImageColor={goal.goalImageColor} goalTitle={goal.goalTitle} goalMonthlySaving={goal.goalMonthlySaving} goalActualFee={goal.goalActualFee} goalTotalFee={goal.goalTotalFee}></SavingGoalItem>
-                        default:
-                            break;
+                    const imageByType: Record<string, string> = {
+                        [savingEnum.fire]: fireIconWhite,
+                        [savingEnum.globe]: planetIconBlack,
+                        [savingEnum.key]: KeyIconWhite,
+                        [savingEnum.other]: ""
                     }
+                    return <SavingGoalItem key={goal.goalTitle} {...goal} goalImage={imageByType[goal.goalImage] ?? ""}></SavingGoalItem>
                 })}
             </div>
         </div>

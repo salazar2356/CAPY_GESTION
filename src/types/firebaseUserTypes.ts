@@ -25,10 +25,31 @@ export interface userDataFromFirebaseType {
     cards: Array<cardType>,
     exchangeData: Array<exchangeType>,
     missionsData: Array<missionType>,
-    savingsData: Array<savingFirebaseType>
+    savingsData: Array<savingFirebaseType>,
+    // Campos nuevos (opcionales para que las cuentas viejas sigan funcionando)
+    pointsHistory?: Array<pointsHistoryFirebaseType>,
+    streak?: streakFirebaseType,
+    welcomeSeen?: boolean
+}
+
+// HU46: cada vez que el usuario gana o gasta Capypoints
+export interface pointsHistoryFirebaseType {
+    id: string,
+    date: Timestamp,
+    points: number,
+    exp: number,
+    reason: string
+}
+
+// HU44: racha de días con actividad financiera
+export interface streakFirebaseType {
+    current: number,
+    best: number,
+    lastActiveDate: string // formato YYYY-MM-DD
 }
 
 export interface realIncomeFirebaseType {
+    id?: string,
     incomeCategory: incomeNameCategories,
     incomeEntrie: incomeNameEntries,
     incomeDate: Timestamp,
@@ -38,6 +59,7 @@ export interface realIncomeFirebaseType {
 }
 
 export interface realExpenseFirebaseType {
+    id?: string,
     expenseCategory: expenseNameCategories,
     expenseSite: string,
     expenseDate: Timestamp,
@@ -61,10 +83,12 @@ export interface savingFirebaseType {
     monthlySaving: number,
     savingActualFee: number,
     savingTotalFee: number,
-    savingHistory: Array<savingHistoryFirebaseType>
+    savingHistory: Array<savingHistoryFirebaseType>,
+    paused?: boolean,     // HU35
+    completed?: boolean   // HU36
 }
 
-interface savingHistoryFirebaseType {
+export interface savingHistoryFirebaseType {
     date: Timestamp,
     deposit: number
 }

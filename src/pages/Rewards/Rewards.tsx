@@ -6,6 +6,7 @@ import { Missions } from '../../components/RewardsPageComponents/Missions/Missio
 import { SaverLevel } from '../../components/RewardsPageComponents/SaverLevel/SaverLevel';
 import { GlobalAppNav } from '../../components/Nav/Nav';
 import Summary from '../../components/RewardsPageComponents/Summary/Summary';
+import { PointsHistory } from '../../components/RewardsPageComponents/PointsHistory/PointsHistory';
 import { NavigationHook } from '../../hooks/navigationHook';
 import { useUserFirebaseData } from '../../hooks/useUserFirebaseData';
 import { ChangeFirebaseContext } from '../../Contexts/changeFirebaseContext';
@@ -61,6 +62,8 @@ export const Rewards: React.FC = () => {
           <div className='canjeo'>
             <RewardGrid></RewardGrid>
           </div>
+
+          <PointsHistory></PointsHistory>
 
           <div id='backgroundReward' className='backgroundPage'>
 

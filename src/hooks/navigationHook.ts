@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../types/routesEnum";
+import { doSignOut } from "../services/Firebase/auth";
 
 export const NavigationHook = () => {
     const navigate = useNavigate();
@@ -16,8 +17,10 @@ export const NavigationHook = () => {
     const navigateToProfile = useCallback(() => navigate(routes.profilePage), [navigate]);
     const navigateToMascot = useCallback(() => navigate(routes.mascot), [navigate]);
 
+    // Cierra la sesión también en Firebase Auth
     const handleLogOut = useCallback(() => {
         sessionStorage.removeItem('userUID');
+        doSignOut().catch((err) => console.error('Error al cerrar sesión:', err));
         navigateToLogin();
     }, [navigateToLogin]);
 

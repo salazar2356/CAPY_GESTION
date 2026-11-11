@@ -91,6 +91,14 @@
     .page{
         padding: 0px;
     }
+    /* En celular la página debe poder hacer scroll para llegar a los botones */
+    #profilePage {
+        height: 100vh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding-bottom: 120px;
+        box-sizing: border-box;
+    }
     .avatarImage {
         margin-left: 125px;
         margin-top: 105px;
@@ -118,7 +126,7 @@
  }
  .logOutButton{
     margin-left: 42px;
-    margin-top: 880px;
+    margin-top: 960px; /* deja espacio para los botones de perfil (opinión y eliminar cuenta) */
     background-color: #181818;
     width: 335px;
     border-radius: 8px;

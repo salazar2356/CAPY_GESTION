@@ -13,6 +13,9 @@ const RewardGrid: React.FC = () => {
                 <h2>Exchange</h2>
             </div>
             <div id='rewardCard'>
+                {exchangeData.filter((reward) => !reward.isRedeemed).length === 0 && (
+                    <p style={{ color: '#F9F9F9' }}>You redeemed all available rewards. 🎉</p>
+                )}
                 {exchangeData
                     .filter((reward) => !reward.isRedeemed)
                     .map((reward) => (

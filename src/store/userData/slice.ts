@@ -51,6 +51,7 @@ export const userDataSlice = createSlice({
                 totalBalance: action.payload.totalBalance,
                 totalIncome: action.payload.totalIncome,
                 totalExpenses: action.payload.totalExpenses,
+                welcomeSeen: action.payload.welcomeSeen,
             }
         }
     }

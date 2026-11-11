@@ -48,7 +48,7 @@ export const SavingsPage = () => {
         })
     })
 
-    const valueSavingsPercentage = (100 * savingDataTotalValue / userDataData.totalIncome)
+    const valueSavingsPercentage = userDataData.totalIncome > 0 ? Math.min(100, (100 * savingDataTotalValue / userDataData.totalIncome)) : 0
 
     const chartData: Array<savingItemType> = []
     const savingsGoalsData: Array<SavingGoalItemProps> = []
@@ -56,9 +56,9 @@ export const SavingsPage = () => {
     savingsData.savingsData.forEach((saving) => {
         chartData.push({
             savingName: saving.savingName,
-            savingValue: (100 * saving.savingValue) / savingDataTotalValue,
+            savingValue: savingDataTotalValue > 0 ? (100 * saving.savingValue) / savingDataTotalValue : 0,
             fill: saving.savingColor,
-            percentage: (100 * saving.savingValue) / savingDataTotalValue
+            percentage: savingDataTotalValue > 0 ? (100 * saving.savingValue) / savingDataTotalValue : 0
         })
 
         if (saving.savingName !== 'Others') {
@@ -68,7 +68,9 @@ export const SavingsPage = () => {
                 goalTitle: saving.savingName,
                 goalMonthlySaving: saving.monthlySaving,
                 goalActualFee: saving.savingActualFee,
-                goalTotalFee: saving.savingTotalFee
+                goalTotalFee: saving.savingTotalFee,
+                goalPaused: saving.paused ?? false,
+                goalCompleted: saving.completed ?? (saving.savingActualFee >= saving.savingTotalFee)
             })
         }
     })

@@ -1,0 +1,232 @@
+/* Estilos compartidos para los modales nuevos (movimientos, metas, bienvenida, perfil) */
+
+.capyModalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 2, 3, 0.85);
+  /* Por encima del menú y del asistente Capy */
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.capyModal {
+  width: min(480px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  background: #2D18BF;
+  color: #F9F9F9;
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-sizing: border-box;
+  font-family: "Space Grotesk", sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.capyModal h3 {
+  margin: 0 0 4px;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.capyModal p {
+  margin: 0;
+}
+
+.capyModalField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.capyModalField label {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.capyModalField input,
+.capyModalField select,
+.capyModalField textarea {
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(217, 217, 217, 0.36);
+  background: rgba(217, 217, 217, 0.36);
+  color: #F9F9F9;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 16px;
+}
+
+.capyModalField textarea {
+  height: 96px;
+  padding: 10px 12px;
+  resize: vertical;
+}
+
+.capyModalField select option {
+  color: #121212;
+}
+
+.capyModalField input::placeholder,
+.capyModalField textarea::placeholder {
+  color: rgba(249, 249, 249, 0.7);
+}
+
+.capyModalTabs {
+  display: flex;
+  gap: 8px;
+}
+
+.capyModalTabs button {
+  flex: 1;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid #A8F25D;
+  background: transparent;
+  color: #F9F9F9;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.capyModalTabs button.active {
+  background: #A8F25D;
+  color: #121212;
+}
+
+.capyModalError {
+  color: #121212;
+  background: #F2622E;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.capyModalActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.capyModalActions button {
+  flex: 1;
+  min-width: 120px;
+  height: 46px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-family: "Plus Jakarta Sans", "Space Grotesk", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.capyModalActions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.capyBtnPrimary {
+  background: #A8F25D;
+  color: #121212;
+}
+
+.capyBtnPrimary:hover:not(:disabled) {
+  background: #F9F9F9;
+  color: #2D18BF;
+}
+
+.capyBtnSecondary {
+  background: rgba(249, 249, 249, 0.15);
+  color: #F9F9F9;
+}
+
+.capyBtnDanger {
+  background: #F2622E;
+  color: #FFFFFF;
+}
+
+/* Botones pequeños dentro de las listas (editar / eliminar) */
+.capyIconButtons {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.capyIconButtons button {
+  border: none;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #2D18BF;
+  color: #F9F9F9;
+}
+
+.capyIconButtons button.danger {
+  background: #F2622E;
+}
+
+.capyAddMovementButton {
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  background: #A8F25D;
+  color: #121212;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.capyAddMovementButton:hover {
+  background: #F9F9F9;
+  color: #2D18BF;
+}
+
+@media only screen and (max-width: 500px) {
+  .capyModal {
+    padding: 22px 16px;
+  }
+
+  .capyModal h3 {
+    font-size: 22px;
+  }
+}
+
+/* Historiales de ingresos/gastos en celular: la cabecera y cada fila pueden bajar de línea */
+@media only screen and (max-width: 500px) {
+  .topHistoryExpenses,
+  .topHistoryIncomes {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .card-container-expense-details,
+  .card-container-incomes-details {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+/* Espacio al final para que la barra inferior y el asistente no tapen el último elemento */
+@media only screen and (max-width: 500px) {
+  #expensesAndIncomePage {
+    padding-bottom: 160px;
+  }
+}

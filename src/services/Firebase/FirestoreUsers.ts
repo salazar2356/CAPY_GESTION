@@ -11,6 +11,7 @@ import { cardNamesEnum } from "../../store/userData/types";
 import { plannedExpenseFirebaseType, savingFirebaseType, userDataFromFirebaseType } from "../../types/firebaseUserTypes";
 import { savingEnum } from "../../store/savings/types";
 import { getCurrentTimestamp } from "../../utils/timestampConvertion";
+import { DEFAULT_EXCHANGES, DEFAULT_MISSIONS } from "../../utils/defaultGameData";
 
 // Colección donde la app guarda los datos reales de cada usuario
 const REAL_USERS = "realUsers";
@@ -88,9 +89,12 @@ export const createFinalUser = async (userUIDForm: string, nameForm: string, ema
         realIncomes: [],
         plannedExpenses: [],
         cards: [],
-        exchangeData: [],
-        missionsData: [],
-        savingsData: []
+        exchangeData: DEFAULT_EXCHANGES,
+        missionsData: DEFAULT_MISSIONS,
+        savingsData: [],
+        pointsHistory: [],
+        streak: { current: 0, best: 0, lastActiveDate: "" },
+        welcomeSeen: false // HU09: se muestra la bienvenida la primera vez
     }
 
     await setDoc(doc(db, REAL_USERS, userUIDForm), newUserObject);

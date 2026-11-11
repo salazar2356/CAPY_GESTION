@@ -13,6 +13,8 @@ import otherSvg from '../../../assets/desktop/svg/otherExpenseSvg.svg'
 import familySvg from '../../../assets/desktop/svg/familySvg.svg'
 import friendsSvg from '../../../assets/desktop/svg/friendsSvg.svg'
 import { formatDate } from "../../../utils/timestampConvertion";
+import { MovementModal } from "../../MovementModal/MovementModal";
+import "../../ui/capyModal.css";
 
 interface ExpensesHistoryProps {
   ExpenseHistoryData: realExpenseType[];
@@ -21,6 +23,8 @@ interface ExpensesHistoryProps {
 export const ExpensesHistory = ({ ExpenseHistoryData }: ExpensesHistoryProps) => {
   const [selectedCategory, setSelectedCategory] = useState<expenseNameCategories>(expenseNameCategories.category); // State for selected category
   const [filteredExpenses, setFilteredExpenses] = useState<realExpenseType[]>([]);
+  const [showNewModal, setShowNewModal] = useState(false);
+  const [editingExpense, setEditingExpense] = useState<realExpenseType | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value as expenseNameCategories);
@@ -70,6 +74,8 @@ export const ExpensesHistory = ({ ExpenseHistoryData }: ExpensesHistoryProps) =>
         return updatedExpense;
       });
 
+      // Los más recientes primero
+      newFilterExpenses.sort((a, b) => b.expenseDate.localeCompare(a.expenseDate));
       setFilteredExpenses(newFilterExpenses);
     };
 
@@ -80,6 +86,7 @@ export const ExpensesHistory = ({ ExpenseHistoryData }: ExpensesHistoryProps) =>
     <div className="generalHistoryExpenses">
       <div className="topHistoryExpenses">
         <h1>History</h1>
+        <button className="capyAddMovementButton" onClick={() => setShowNewModal(true)}>+ Add expense</button>
         <select
           className="select-history-expenses"
           name="categories"
@@ -100,8 +107,10 @@ export const ExpensesHistory = ({ ExpenseHistoryData }: ExpensesHistoryProps) =>
           filteredExpenses.map((expense, index) => (
             <li
               className="cards-expenses-info"
-              key={index}
-              style={{ marginBottom: "20px", listStyleType: "none" }}
+              key={expense.id ?? index}
+              style={{ marginBottom: "20px", listStyleType: "none", cursor: "pointer" }}
+              onClick={() => setEditingExpense(expense)}
+              title="Click to edit or delete"
             >
               <div className="expense-content">
                 <img
@@ -118,14 +127,24 @@ export const ExpensesHistory = ({ ExpenseHistoryData }: ExpensesHistoryProps) =>
                     <p>Date: {formatDate(expense.expenseDate).toLocaleDateString()}</p>
                   </div>
                   <p className="history-expense-amount">${expense.expenseAmount}</p>
+                  <div className="capyIconButtons">
+                    <button onClick={(e) => { e.stopPropagation(); setEditingExpense(expense) }} aria-label="Edit expense">Edit</button>
+                  </div>
                 </div>
               </div>
             </li>
           ))
         ) : (
-          <p>No hay ingresos para la categoría seleccionada.</p>
+          <p>No hay gastos para la categoría seleccionada.</p>
         )}
       </div>
+
+      {showNewModal && (
+        <MovementModal initialKind="expense" onClose={() => setShowNewModal(false)} />
+      )}
+      {editingExpense && (
+        <MovementModal initialKind="expense" expense={editingExpense} onClose={() => setEditingExpense(null)} />
+      )}
     </div >
   );
 };

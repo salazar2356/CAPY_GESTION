@@ -1,0 +1,108 @@
+.pointsHistory {
+    margin: 32px 4% 48px 4%;
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 2fr;
+    gap: 24px;
+    font-family: "Space Grotesk", sans-serif;
+    color: #F9F9F9;
+}
+
+.pointsHistory h2 {
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    grid-column: 1 / -1;
+}
+
+.pointsHistoryCard {
+    background-color: #181818;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.pointsHistoryCard h3 {
+    margin: 0 0 12px 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.streakValue {
+    font-size: 48px;
+    font-weight: 800;
+    margin: 0;
+    color: #A8F25D;
+}
+
+.streakHint {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.pointsHistoryList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 320px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pointsHistoryItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgba(249, 249, 249, 0.06);
+}
+
+.pointsHistoryItem p {
+    margin: 0;
+}
+
+.pointsHistoryItem .date {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.pointsHistoryItem .amount {
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.pointsHistoryItem .amount.positive {
+    color: #A8F25D;
+}
+
+.pointsHistoryItem .amount.negative {
+    color: #F2622E;
+}
+
+.redeemedList {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+@media only screen and (max-width: 900px) {
+    .pointsHistory {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .pointsHistory {
+        margin: 24px 5%;
+    }
+
+    .pointsHistory h2 {
+        font-size: 24px;
+    }
+}

@@ -12,5 +12,7 @@ export const DEFAULT_STATE_REWARDS: rewardsSliceType = {
     saverLevels: constantsSaverLevels,
     missions: [],
     exchangeData: [],
-    userExpGained: 0
+    userExpGained: 0,
+    pointsHistory: [],
+    streak: { current: 0, best: 0, lastActiveDate: "" }
 }

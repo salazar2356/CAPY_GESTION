@@ -8,6 +8,12 @@ interface PrincipalContentProps {
   currentPassword: string;
   newPassword: string;
   onChange: (field: 'username' | 'email' | 'currentPassword' | 'newPassword', value: string) => void;
+  onSave: () => void;
+  onDiscard: () => void;
+  onDeleteAccount: () => void;
+  onFeedback: () => void;
+  saving: boolean;
+  isGoogleAccount: boolean;
 }
 
 export const PrincipalContent: React.FC<PrincipalContentProps> = ({
@@ -16,7 +22,12 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
   currentPassword,
   newPassword,
   onChange,
-
+  onSave,
+  onDiscard,
+  onDeleteAccount,
+  onFeedback,
+  saving,
+  isGoogleAccount,
 }) => {
 
   return (
@@ -48,7 +59,11 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
 
         <div className="passwordSection">
           <h3 className="sectionTitle">Password</h3>
-          <p className="sectionSubtitle">Modify your current password</p>
+          <p className="sectionSubtitle">
+            {isGoogleAccount
+              ? 'Your account uses Google, so it has no password to change.'
+              : 'Write your current password to change your email or password'}
+          </p>
           <div className="inputRow">
             <div className="inputGroup">
               <label htmlFor="currentPassword" className="inputLabel">Current password</label>
@@ -58,6 +73,8 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
                   className="inputField"
                   type="password"
                   value={currentPassword}
+                  disabled={isGoogleAccount}
+                  autoComplete="current-password"
                   onChange={(e) => onChange('currentPassword', e.target.value)}
                 />
               </div>
@@ -69,6 +86,8 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
                 className="inputField"
                 type="password"
                 value={newPassword}
+                disabled={isGoogleAccount}
+                autoComplete="new-password"
                 onChange={(e) => onChange('newPassword', e.target.value)}
               />
             </div>
@@ -88,9 +107,11 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
           </div>
         </div>
 
-        <div className="buttonsRow">
-          <button className="discardButton">Discard</button>
-          <button className="saveButton">Save changes</button>
+        <div className="buttonsRow" style={{ flexWrap: 'wrap' }}>
+          <button className="discardButton" onClick={onFeedback} disabled={saving}>Give feedback</button>
+          <button className="discardButton" onClick={onDeleteAccount} disabled={saving} style={{ borderColor: '#F2622E', color: '#F2622E' }}>Delete account</button>
+          <button className="discardButton" onClick={onDiscard} disabled={saving}>Discard</button>
+          <button className="saveButton" onClick={onSave} disabled={saving}>{saving ? 'Saving...' : 'Save changes'}</button>
         </div>
       </section>
     </div>

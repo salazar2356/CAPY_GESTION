@@ -5,7 +5,8 @@ export interface userDataType {
     cards: Array<cardType>,
     totalBalance: number,
     totalIncome: number,
-    totalExpenses: number
+    totalExpenses: number,
+    welcomeSeen: boolean
 }
 
 export interface cardType {
