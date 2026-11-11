@@ -24,6 +24,8 @@ interface MovementModalProps {
     // Si llega un movimiento, el modal funciona en modo edición
     income?: realIncomeType,
     expense?: realExpenseType,
+    // true: no se muestran las pestañas Income/Expense (el botón ya eligió el tipo)
+    lockKind?: boolean,
     onClose: () => void
 }
 
@@ -54,7 +56,7 @@ const showBudgetAlert = (alert: BudgetAlert | null) => {
     }
 };
 
-export const MovementModal = ({ initialKind, income, expense, onClose }: MovementModalProps) => {
+export const MovementModal = ({ initialKind, income, expense, lockKind = false, onClose }: MovementModalProps) => {
     const OnChangeFirebase = useContext(ChangeFirebaseContext);
     const isEditing = Boolean(income || expense);
 
@@ -142,10 +144,12 @@ export const MovementModal = ({ initialKind, income, expense, onClose }: Movemen
         <div className="capyModalBackdrop" onClick={(e) => { if (e.target === e.currentTarget && !saving) onClose(); }}>
             <div className="capyModal" role="dialog" aria-modal="true" aria-labelledby="movementModalTitle">
                 <h3 id="movementModalTitle">
-                    {isEditing ? 'Edit movement' : 'New movement'}
+                    {isEditing
+                        ? (kind === 'income' ? 'Edit income' : 'Edit expense')
+                        : lockKind ? (kind === 'income' ? 'New income' : 'New expense') : 'New movement'}
                 </h3>
 
-                {!isEditing && (
+                {!isEditing && !lockKind && (
                     <div className="capyModalTabs">
                         <button type="button" className={kind === 'income' ? 'active' : ''} onClick={() => setKind('income')}>Income</button>
                         <button type="button" className={kind === 'expense' ? 'active' : ''} onClick={() => setKind('expense')}>Expense</button>

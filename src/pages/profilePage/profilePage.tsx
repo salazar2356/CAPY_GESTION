@@ -23,6 +23,7 @@ import {
 import { getActionErrorMessage, sendFeedback } from '../../services/Firebase/FirestoreActions';
 import { showToast } from '../../utils/toast';
 import { getSaverLevelInfo } from '../../utils/saverLevels';
+import { PremiumModal } from '../../components/PremiumModal/PremiumModal';
 
 interface UserData {
   name: string;
@@ -76,6 +77,7 @@ export const ProfilePage: React.FC = () => {
   const [deletePassword, setDeletePassword] = useState('');
   const [deleteError, setDeleteError] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showPremium, setShowPremium] = useState(false);
   const [rating, setRating] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [feedbackError, setFeedbackError] = useState('');
@@ -216,6 +218,7 @@ export const ProfilePage: React.FC = () => {
                 onDiscard={handleDiscard}
                 onDeleteAccount={() => { setDeleteError(''); setDeletePassword(''); setShowDelete(true); }}
                 onFeedback={() => { setFeedbackError(''); setShowFeedback(true); }}
+                onPremium={() => setShowPremium(true)}
                 saving={saving}
                 isGoogleAccount={googleAccount}
               />
@@ -282,6 +285,8 @@ export const ProfilePage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {showPremium && <PremiumModal onClose={() => setShowPremium(false)} />}
 
       <div id="profileBackground" className="backgroundPage"></div>
     </main>

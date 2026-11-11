@@ -126,7 +126,7 @@
  }
  .logOutButton{
     margin-left: 42px;
-    margin-top: 960px; /* deja espacio para los botones de perfil (opinión y eliminar cuenta) */
+    margin-top: 1020px; /* deja espacio para los botones de perfil (premium, opinión y eliminar cuenta) */
     background-color: #181818;
     width: 335px;
     border-radius: 8px;

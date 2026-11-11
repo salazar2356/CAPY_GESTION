@@ -12,6 +12,7 @@ interface PrincipalContentProps {
   onDiscard: () => void;
   onDeleteAccount: () => void;
   onFeedback: () => void;
+  onPremium: () => void;
   saving: boolean;
   isGoogleAccount: boolean;
 }
@@ -26,6 +27,7 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
   onDiscard,
   onDeleteAccount,
   onFeedback,
+  onPremium,
   saving,
   isGoogleAccount,
 }) => {
@@ -108,6 +110,7 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
         </div>
 
         <div className="buttonsRow" style={{ flexWrap: 'wrap' }}>
+          <button className="discardButton" onClick={onPremium} disabled={saving}>Capy Premium ✨</button>
           <button className="discardButton" onClick={onFeedback} disabled={saving}>Give feedback</button>
           <button className="discardButton" onClick={onDeleteAccount} disabled={saving} style={{ borderColor: '#F2622E', color: '#F2622E' }}>Delete account</button>
           <button className="discardButton" onClick={onDiscard} disabled={saving}>Discard</button>

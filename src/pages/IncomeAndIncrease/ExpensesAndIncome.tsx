@@ -3,9 +3,8 @@ import "./ExpensesAndIncome.css";
 import { ExpensesGraphic } from "../../components/expensesAndIncomeScreenComponents/ExpensesGraphic/ExpensesGraphic";
 import { IncomeData, IncomesGraphic } from "../../components/expensesAndIncomeScreenComponents/IncomesGraphic/IncomesGraphic";
 import { ExpensePlanner } from "../../components/expensesAndIncomeScreenComponents/ExpensePlanner/ExpensePlanner";
-import { ExpensesHistory } from "../../components/expensesAndIncomeScreenComponents/ExpensesHistory/ExpensesHistory";
 import { ExpensesPieChart } from "../../components/expensesAndIncomeScreenComponents/ExpensesPieChart/ExpensesPieChart";
-import { IncomeHistory } from "../../components/expensesAndIncomeScreenComponents/IncomeHistory/IncomeHistory";
+import { MovementsHistory } from "../../components/MovementsHistory/MovementsHistory";
 import { ExpenseData } from "../../components/expensesAndIncomeScreenComponents/ExpensesGraphic/ExpensesGraphic";
 import { useState, useEffect } from "react";
 import { GlobalAppNav } from "../../components/Nav/Nav";
@@ -384,7 +383,7 @@ export const ExpensesAndIncomePage = () => {
                       <ExpensePlanner ExpensePlannerData={expensesReduxData.plannedExpenses} />
                     </div>
                     <div className="right-div">
-                      <ExpensesHistory ExpenseHistoryData={expensesReduxData.realExpenses} />
+                      <MovementsHistory />
                     </div>
                   </div>
                 </div>
@@ -443,7 +442,7 @@ export const ExpensesAndIncomePage = () => {
                         <ExpensePlanner ExpensePlannerData={expensesReduxData.plannedExpenses} />
                       </div>
                       <div className="right-div">
-                        <ExpensesHistory ExpenseHistoryData={expensesReduxData.realExpenses} />
+                        <MovementsHistory />
                       </div>
                     </div>
                   </div>
@@ -507,7 +506,7 @@ export const ExpensesAndIncomePage = () => {
                       <ExpensePlanner ExpensePlannerData={expensesReduxData.plannedExpenses} />
                     </div>
                     <div className="right-div">
-                      <IncomeHistory IncomeHistoryData={incomesReduxData.realIncomes} />
+                      <MovementsHistory />
                     </div>
                   </div>
                 </div>
@@ -563,7 +562,7 @@ export const ExpensesAndIncomePage = () => {
                         <ExpensePlanner ExpensePlannerData={expensesReduxData.plannedExpenses} />
                       </div>
                       <div className="right-div">
-                        <IncomeHistory IncomeHistoryData={incomesReduxData.realIncomes} />
+                        <MovementsHistory />
                       </div>
                     </div>
                   </div>

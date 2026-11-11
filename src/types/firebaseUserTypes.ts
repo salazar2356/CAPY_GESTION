@@ -29,7 +29,9 @@ export interface userDataFromFirebaseType {
     // Campos nuevos (opcionales para que las cuentas viejas sigan funcionando)
     pointsHistory?: Array<pointsHistoryFirebaseType>,
     streak?: streakFirebaseType,
-    welcomeSeen?: boolean
+    welcomeSeen?: boolean,
+    premiumInterest?: boolean,       // HU59
+    premiumInterestAt?: Timestamp
 }
 
 // HU46: cada vez que el usuario gana o gasta Capypoints

@@ -92,7 +92,7 @@ function CardLogIn() {
     }
     try {
       await doPasswordReset(email);
-      setInfo("Te enviamos un correo para restablecer tu contraseña.");
+      setInfo("Si el correo está registrado, te llegará un enlace para restablecer tu contraseña en unos minutos. Revisa también la carpeta de spam.");
     } catch (err) {
       setError(getAuthErrorMessage(err));
     }

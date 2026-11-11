@@ -16,6 +16,7 @@ import { SaverLevel } from "../../RewardsPageComponents/SaverLevel/SaverLevel";
 // import { Missions } from "../Missions/Missions";
 import { Missions } from "../../RewardsPageComponents/Missions/Missions";
 import { Capy } from "../Capy/Capy";
+import { RecentMovements } from "../RecentMovements/RecentMovements";
 
 export const InteractiveGrid = () => {
   useEffect(() => {
@@ -67,6 +68,12 @@ export const InteractiveGrid = () => {
       <div className="grid-stack-item" gs-h="3" gs-w="4">
         <div className="grid-item-content">
           <Missions></Missions>
+        </div>
+      </div>
+      {/* HU17: últimos movimientos */}
+      <div className="grid-stack-item" gs-h="4" gs-w="6">
+        <div className="grid-item-content">
+          <RecentMovements></RecentMovements>
         </div>
       </div>
     </div>

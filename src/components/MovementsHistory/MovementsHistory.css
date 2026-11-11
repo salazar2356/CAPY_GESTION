@@ -1,0 +1,132 @@
+/* Historial de movimientos (ingresos y gastos juntos). Usa también las clases de ExpensesHistory.css */
+
+.movementsHistory {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.movementsHistoryTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.movementsHistoryTop h1 {
+  margin: 0;
+}
+
+.movementsFilter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.movementsFilter button {
+  border: 2px solid #A8F25D;
+  background: transparent;
+  color: #F9F9F9;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.movementsFilter button.active {
+  background: #A8F25D;
+  color: #121212;
+}
+
+.movementRow {
+  cursor: pointer;
+  list-style: none;
+}
+
+.movementRow:hover {
+  background-color: #222222;
+}
+
+.movementTypeBadge {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  width: fit-content;
+}
+
+.movementTypeBadge.kind-income {
+  background: #A8F25D;
+  color: #121212;
+}
+
+.movementTypeBadge.kind-expense {
+  background: #F2622E;
+  color: #FFFFFF;
+}
+
+.movementAmount.kind-income {
+  color: #A8F25D !important;
+  font-weight: 700 !important;
+}
+
+.movementAmount.kind-expense {
+  color: #F2622E !important;
+  font-weight: 700 !important;
+}
+
+.movementsEmpty {
+  color: #F9F9F9;
+  font-family: "Space Grotesk", sans-serif;
+  opacity: 0.8;
+}
+
+/* Bloque del Dashboard (HU17) */
+.recentMovements {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #181818;
+  border-radius: 16px;
+  padding: 16px;
+  color: #F9F9F9;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.recentMovements h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.recentMovements .image-card-expenses {
+  width: 48px;
+  height: 48px;
+}
+
+.recentMovements .cards-expenses-info h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.recentMovements .expense-details p {
+  margin: 0;
+}
+
+.seeAllMovements {
+  border: none;
+  background: none;
+  color: #A8F25D;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}

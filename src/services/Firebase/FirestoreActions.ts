@@ -670,6 +670,18 @@ export const sendFeedback = async (uid: string, email: string, rating: number, m
 };
 
 // ---------------------------------------------------------------------------
+// HU59: interés en el plan premium
+// ---------------------------------------------------------------------------
+
+export const registerPremiumInterest = async (uid: string) => {
+    if (!uid) throw { code: "auth/no-current-user" };
+    await updateDoc(userRef(uid), {
+        premiumInterest: true,
+        premiumInterestAt: Timestamp.now()
+    });
+};
+
+// ---------------------------------------------------------------------------
 // Mensajes de error de estas acciones
 // ---------------------------------------------------------------------------
 
