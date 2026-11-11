@@ -37,7 +37,7 @@ export interface realIncomeFirebaseType {
     incomeImage?: string
 }
 
-interface realExpenseFirebaseType {
+export interface realExpenseFirebaseType {
     expenseCategory: expenseNameCategories,
     expenseSite: string,
     expenseDate: Timestamp,

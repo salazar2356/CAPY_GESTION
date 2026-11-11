@@ -1,8 +1,9 @@
 // Required for side-effects
 import "firebase/firestore";
 
-import { doc, getDoc, getFirestore, setDoc, Timestamp, updateDoc } from "firebase/firestore";
-import { app } from "./Firebase";
+import { deleteDoc, doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
+import type { User } from "firebase/auth";
+import { db, auth } from "./Firebase";
 import { exchangeNameEnum, exchangeType, missionType, saverLevelsNames, summaryType } from "../../store/rewards/types";
 import { expenseNameCategories } from "../../store/expenses/types";
 import { incomeNameCategories, incomeNameEntries } from "../../store/incomes/types";
@@ -11,8 +12,11 @@ import { plannedExpenseFirebaseType, savingFirebaseType, userDataFromFirebaseTyp
 import { savingEnum } from "../../store/savings/types";
 import { getCurrentTimestamp } from "../../utils/timestampConvertion";
 
+// Colección donde la app guarda los datos reales de cada usuario
+const REAL_USERS = "realUsers";
 
-const db = getFirestore(app);
+// Alias para que CardLogIn y CardRegister usen el mismo tipo
+export type UserData = userDataFromFirebaseType;
 
 export const getUser = async (userUID: string) => {
     const docRef = doc(db, "users", userUID);
@@ -26,12 +30,17 @@ export const getUser = async (userUID: string) => {
 }
 
 export const getRealUser = async (userUID: string) => {
-    const docRef = doc(db, "realUsers", userUID);
+    const docRef = doc(db, REAL_USERS, userUID);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
         return docSnap.data() as userDataFromFirebaseType;
     } else {
+        // Si el usuario está logueado pero aún no tiene documento, se lo creamos
+        const current = auth.currentUser;
+        if (current && current.uid === userUID) {
+            return ensureUserDoc(current);
+        }
         console.log("No such document!");
     }
 }
@@ -84,11 +93,39 @@ export const createFinalUser = async (userUIDForm: string, nameForm: string, ema
         savingsData: []
     }
 
-    await setDoc(doc(db, "realUsers", userUIDForm), newUserObject);
+    await setDoc(doc(db, REAL_USERS, userUIDForm), newUserObject);
 
-    const docRef = doc(db, "realUsers", userUIDForm);
+    const docRef = doc(db, REAL_USERS, userUIDForm);
     const data = await getDoc(docRef);
-    return data.data()
+    return data.data() as userDataFromFirebaseType
+}
+
+// Devuelve los datos del usuario en realUsers; si no existen (Google o cuentas viejas) los crea
+export const ensureUserDoc = async (user: User): Promise<userDataFromFirebaseType> => {
+    const snap = await getDoc(doc(db, REAL_USERS, user.uid));
+    if (snap.exists()) return snap.data() as userDataFromFirebaseType;
+
+    return createFinalUser(
+        user.uid,
+        user.displayName || user.email?.split("@")[0] || "Usuario",
+        user.email || ""
+    );
+}
+
+// Actualizar nombre (HU12)
+export const updateUserName = async (uid: string, name: string) => {
+    await updateDoc(doc(db, REAL_USERS, uid), { name });
+}
+
+// Actualizar correo (HU12)
+export const updateUserEmail = async (uid: string, email: string) => {
+    await updateDoc(doc(db, REAL_USERS, uid), { email });
+}
+
+// Borrar los datos del usuario en Firestore (HU58). Se llama ANTES de borrar la cuenta de Auth
+export const deleteUserData = async (uid: string) => {
+    await deleteDoc(doc(db, REAL_USERS, uid));
+    await deleteDoc(doc(db, "users", uid)); // datos de la versión antigua, si existen
 }
 
 export const createPruebaUser = async (userUIDForm: string, nameForm: string, emailForm: string) => {
@@ -229,9 +266,9 @@ export const createPruebaUser = async (userUIDForm: string, nameForm: string, em
         ]
     }
 
-    await setDoc(doc(db, "realUsers", userUIDForm), newUserObject);
+    await setDoc(doc(db, REAL_USERS, userUIDForm), newUserObject);
 
-    const docRef = doc(db, "realUsers", userUIDForm);
+    const docRef = doc(db, REAL_USERS, userUIDForm);
     const data = await getDoc(docRef);
 
     if (!data.exists()) {
@@ -254,7 +291,7 @@ export const updateCompletedMission = async (
     currentAccumulatedCapypoints: number,
     fetchAndSetUserData: () => void
 ) => {
-    const docRef = doc(db, "realUsers", userUID);
+    const docRef = doc(db, REAL_USERS, userUID);
 
     let completedMissionExp = 0
     let grantMissionCapypoints = 0
@@ -289,7 +326,7 @@ export const updateCompletedMission = async (
 };
 
 export const ReedemRewardFirebase = async (userUID: string, rewardToReedemId: number, allExchangeArray: Array<exchangeType>, currentTotalIncomes: number, fetchAndSetUserData: () => void, currentSaverLevel: summaryType) => {
-    const docRef = doc(db, "realUsers", userUID);
+    const docRef = doc(db, REAL_USERS, userUID);
 
     let exchangeCapypointsCost = 0
     let exchangeMoneyPrice = 0
@@ -303,8 +340,6 @@ export const ReedemRewardFirebase = async (userUID: string, rewardToReedemId: nu
         }
         return exchange
     });
-
-    //Tal vez aqui lo mejor sea crear un nuevo elemento en income y asi sume despues todo, pero pues, por ahora asi funciona xd
 
     try {
         await updateDoc(docRef, {
@@ -325,7 +360,7 @@ export const ReedemRewardFirebase = async (userUID: string, rewardToReedemId: nu
 }
 
 export const CreatedNewSaving = async (userUID: string, newSavingColor: string, newSavingImage: savingEnum, newSavingName: string, newSavingTotalFee: number, newSavingMonthlySaving: number, actualSavingsArray: Array<savingFirebaseType>, fetchAndSetUserData: () => void) => {
-    const docRef = doc(db, "realUsers", userUID);
+    const docRef = doc(db, REAL_USERS, userUID);
 
     let newSavingHexColor = ""
 
@@ -369,7 +404,7 @@ export const CreatedNewSaving = async (userUID: string, newSavingColor: string, 
 }
 
 export const EditSavingAddMonthlySaving = async function name(userUID: string, savingName: string, actualSavingsArray: Array<savingFirebaseType>, fetchAndSetUserData: () => void) {
-    const docRef = doc(db, "realUsers", userUID);
+    const docRef = doc(db, REAL_USERS, userUID);
 
     const updatedSavingsArray = actualSavingsArray.map((saving) => {
         if (saving.savingName === savingName) {
@@ -401,7 +436,7 @@ export const EditSavingAddMonthlySaving = async function name(userUID: string, s
 }
 
 export const DeleteSaving = async (userUID: string, savingNameToDelete: string, actualSavingsArray: Array<savingFirebaseType>, fetchAndSetUserData: () => void) => {
-    const docRef = doc(db, "realUsers", userUID);
+    const docRef = doc(db, REAL_USERS, userUID);
 
     const updatedSavingsArray = actualSavingsArray.filter(
         (saving) => saving.savingName !== savingNameToDelete
@@ -420,7 +455,7 @@ export const DeleteSaving = async (userUID: string, savingNameToDelete: string, 
 }
 
 export const CreatePlannedExpense = async (userUID: string, newExpenseCategory: expenseNameCategories, newExpenseSite: string, newExpenseAmount: number, newExpenseEntrie: incomeNameEntries, allCurrentPlannedExpenses: Array<plannedExpenseFirebaseType>, fetchAndSetUserData: () => void) => {
-    const docRef = doc(db, "realUsers", userUID);
+    const docRef = doc(db, REAL_USERS, userUID);
 
     const newPlannedExpense: plannedExpenseFirebaseType = {
         expenseCategory: newExpenseCategory,

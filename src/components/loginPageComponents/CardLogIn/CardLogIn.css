@@ -56,6 +56,7 @@
   line-height: normal;
   width: 100%;
   text-align: right;
+  cursor: pointer;
 }
 
 #cardLogin button {
@@ -112,6 +113,7 @@
   text-decoration-color: #FFF;
 }
 
+/* ===== Celular (320px a 500px) ===== */
 @media only screen and (min-width: 320px) and (max-width: 500px) {
   #cardLogin {
     justify-content: center;
@@ -143,7 +145,6 @@
     line-height: normal;
   }
 
-
   #cardLogin .inputLogInData {
     width: 95%;
     padding: 8px;
@@ -155,7 +156,6 @@
     background: rgba(217, 217, 217, 0.36);
     color: rgba(212, 212, 212, 0.986);
   }
-
 
   #ButtonLogin {
     margin: 5% auto 0;
@@ -172,11 +172,9 @@
     font-weight: 900;
   }
 
-
   #signUpGoogleContainer p {
     font-size: 12px;
   }
-
 }
 
 @media only screen and (min-width: 320px) and (max-width: 500px) {
@@ -211,7 +209,7 @@
     margin-top: 0;
     margin-right: 3%;
   }
-  
+
   .LogIn h3 {
     margin: 3% 0% 2% 2%;
     color: #F9F9F9;
@@ -221,7 +219,6 @@
     font-weight: 500;
     line-height: normal;
   }
-
 
   input {
     width: 95%;
@@ -235,7 +232,6 @@
     color: rgba(212, 212, 212, 0.986);
   }
 
- 
   #ButtonLogin {
     margin: 5% auto 0;
     margin-top: 10%;
@@ -251,9 +247,40 @@
     font-weight: 900;
   }
 
-
   #signUpGoogleContainer p {
     font-size: 12px;
-  } 
+  }
+}
 
+/* ===== Escritorio: ancho mínimo para que la tarjeta no quede angosta ===== */
+@media only screen and (min-width: 1024px) {
+  #cardLogin {
+    min-width: 340px;
+    max-width: 500px;
+  }
+}
+
+/* ===== Tablet (501px a 1023px) ===== */
+@media only screen and (min-width: 501px) and (max-width: 1023px) {
+  #cardLogin {
+    width: min(480px, 90%);
+    height: auto;
+    margin: 0 auto;
+    padding: 40px 32px;
+    box-sizing: border-box;
+  }
+
+  #cardLogin h1 {
+    font-size: 48px;
+  }
+
+  #cardLogin .inputLogInData {
+    box-sizing: border-box;
+    padding: 0 12px;
+    height: 44px;
+  }
+
+  #googleIconContainer img {
+    width: 28px;
+  }
 }
