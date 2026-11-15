@@ -19,7 +19,14 @@ function CardLogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [info, setInfo] = useState("");
+  // Aviso al volver de restablecer la contraseña (HU06 CA3)
+  const [info, setInfo] = useState(() => {
+    if (sessionStorage.getItem('passwordResetOk')) {
+      sessionStorage.removeItem('passwordResetOk');
+      return "Tu contraseña se actualizó. Inicia sesión con la nueva contraseña.";
+    }
+    return "";
+  });
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -92,7 +99,8 @@ function CardLogIn() {
     }
     try {
       await doPasswordReset(email);
-      setInfo("Si el correo está registrado, te llegará un enlace para restablecer tu contraseña en unos minutos. Revisa también la carpeta de spam.");
+      // CA2: mensaje neutro, exista o no la cuenta
+      setInfo("Si el correo está registrado, te enviamos un enlace. Revisa también la carpeta de spam.");
     } catch (err) {
       setError(getAuthErrorMessage(err));
     }

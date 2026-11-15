@@ -11,6 +11,7 @@ import { SavingsPage } from "../pages/savingsPage/savingsPage";
 import { Rewards } from "../pages/Rewards/Rewards";
 import { ExpensesAndIncomePage } from "../pages/IncomeAndIncrease/ExpensesAndIncome";
 import { ProfilePage } from "../pages/profilePage/profilePage";
+import { AuthAction } from "../pages/AuthAction/AuthAction";
 
 
 export const mainRoutes = [
@@ -45,6 +46,9 @@ export const mainRoutes = [
     {
         path: routes.profilePage,
         element: <ProfilePage></ProfilePage>,
+    },
+    {
+        path: routes.authAction,
+        element: <AuthAction></AuthAction>,
     }
 ]
-

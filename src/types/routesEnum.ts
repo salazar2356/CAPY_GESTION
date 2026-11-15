@@ -9,5 +9,6 @@ export enum routes {
     settings = '/settings',
     profile = '/profile',
     mascot = '/mascot',
-    profilePage = '/profilePage'
+    profilePage = '/profilePage',
+    authAction = '/auth-action'
 }

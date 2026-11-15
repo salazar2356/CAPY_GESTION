@@ -14,6 +14,9 @@ import {
   deleteUser,
   signOut,
   onAuthStateChanged,
+  verifyPasswordResetCode,
+  confirmPasswordReset,
+  applyActionCode,
   type User
 } from "firebase/auth";
 import { getRealUser, updateUserName, updateUserEmail, deleteUserData } from "./FirestoreUsers";
@@ -63,10 +66,33 @@ export const onAuthChange = (callback: (user: User | null) => void) => {
 };
 
 // Enviar correo para recuperar contraseña (HU06)
+// CA2: si el correo no existe no se muestra error (mensaje neutro).
+// El enlace vuelve a Capy (página "auth-action") para escribir y confirmar la contraseña nueva.
 export const doPasswordReset = async (email: string) => {
   if (!email.trim()) throw { code: "auth/missing-email" };
-  await sendPasswordResetEmail(auth, email.trim());
+  try {
+    await sendPasswordResetEmail(auth, email.trim(), {
+      url: `${window.location.origin}${window.location.pathname}#/login`
+    });
+  } catch (err) {
+    const code = (err as { code?: string })?.code;
+    if (code === "auth/user-not-found") return; // mensaje neutro
+    if (code === "auth/unauthorized-continue-uri" || code === "auth/invalid-continue-uri") {
+      // Si el dominio no está autorizado en Firebase, se envía igual sin la URL de regreso
+      await sendPasswordResetEmail(auth, email.trim());
+      return;
+    }
+    throw err;
+  }
 };
+
+// HU06 (CA3): validar el enlace, guardar la contraseña nueva y confirmar cambios de correo
+export const doVerifyResetCode = (oobCode: string) => verifyPasswordResetCode(auth, oobCode);
+
+export const doConfirmPasswordReset = (oobCode: string, newPassword: string) =>
+  confirmPasswordReset(auth, oobCode, newPassword);
+
+export const doApplyActionCode = (oobCode: string) => applyActionCode(auth, oobCode);
 
 // ¿La cuenta actual se creó con Google (sin contraseña)?
 export const isGoogleAccount = () => {
@@ -172,6 +198,8 @@ export const getAuthErrorMessage = (err: unknown): string => {
     case "auth/google-account": return "Tu cuenta usa Google, por eso no tiene contraseña para cambiar.";
     case "auth/no-current-user": return "Tu sesión expiró. Inicia sesión de nuevo.";
     case "auth/missing-email": return "Escribe tu correo.";
+    case "auth/expired-action-code": return "El enlace ya venció. Pide uno nuevo desde \"Forgot your password?\".";
+    case "auth/invalid-action-code": return "El enlace no es válido o ya se usó. Pide uno nuevo desde \"Forgot your password?\".";
     case "permission-denied": return "Firestore rechazó la operación (revisa las reglas de seguridad).";
     case "unavailable": return "No se pudo conectar con la base de datos. Revisa tu conexión.";
     case "not-found": return "No se encontraron los datos del usuario.";
