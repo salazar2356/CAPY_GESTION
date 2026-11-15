@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getRealUser } from '../services/Firebase/FirestoreUsers';
-import { normalizeUserDoc } from '../services/Firebase/FirestoreActions';
+import { normalizeUserDoc, DEFAULT_NOTIFICATION_PREFS } from '../services/Firebase/FirestoreActions';
 import { updateAllUserSlice } from '../store/userData/slice';
 import { convertTimestampToDate } from '../utils/timestampConvertion';
 import { updateAllSavingsSlice } from '../store/savings/slice';
@@ -35,6 +35,10 @@ export const useUserFirebaseData = (userUID: string | null) => {
                         totalIncome: userDataFirebase.totalIncome,
                         totalExpenses: userDataFirebase.totalExpenses,
                         welcomeSeen: userDataFirebase.welcomeSeen ?? true,
+                        assistantEnabled: userDataFirebase.assistantEnabled ?? true,
+                        avatar: userDataFirebase.avatar ?? "",
+                        paymentMethods: userDataFirebase.paymentMethods ?? [],
+                        notificationPrefs: { ...DEFAULT_NOTIFICATION_PREFS, ...(userDataFirebase.notificationPrefs ?? {}) },
                     })
                 );
 
@@ -66,7 +70,8 @@ export const useUserFirebaseData = (userUID: string | null) => {
                     exchangeData: userDataFirebase.exchangeData,
                     userExpGained: userDataFirebase.userExpGained,
                     pointsHistory,
-                    streak: userDataFirebase.streak ?? { current: 0, best: 0, lastActiveDate: "" }
+                    streak: userDataFirebase.streak ?? { current: 0, best: 0, lastActiveDate: "" },
+                    weeklyMissions: userDataFirebase.weeklyMissions ?? { weekStart: "", missions: [] }
                 }));
 
                 const newRealIncomesData = userDataFirebase.realIncomes.map((income) => ({

@@ -52,9 +52,17 @@ export const userDataSlice = createSlice({
                 totalIncome: action.payload.totalIncome,
                 totalExpenses: action.payload.totalExpenses,
                 welcomeSeen: action.payload.welcomeSeen,
+                assistantEnabled: action.payload.assistantEnabled,
+                avatar: action.payload.avatar,
+                paymentMethods: action.payload.paymentMethods,
+                notificationPrefs: action.payload.notificationPrefs,
             }
+        },
+        // HU14 / HU52: cambia preferencias sin esperar a recargar los datos
+        setUserPreferences: (state, action: PayloadAction<Partial<Pick<userDataType, 'assistantEnabled' | 'avatar' | 'notificationPrefs'>>>) => {
+            return { ...state, ...action.payload }
         }
     }
 });
 
-export const { changeUserEmail, changeUserName, changeUserUID, addUserCard, deleteUserCard, updateAllUserSlice } = userDataSlice.actions;
+export const { changeUserEmail, changeUserName, changeUserUID, addUserCard, deleteUserCard, updateAllUserSlice, setUserPreferences } = userDataSlice.actions;

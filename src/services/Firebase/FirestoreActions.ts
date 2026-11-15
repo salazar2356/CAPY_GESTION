@@ -9,6 +9,8 @@ import { db } from "./Firebase";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UpdateData = { [field: string]: any };
 import {
+    notificationPrefsType,
+    paymentMethodType,
     plannedExpenseFirebaseType,
     pointsHistoryFirebaseType,
     realExpenseFirebaseType,
@@ -22,6 +24,7 @@ import { incomeNameCategories, incomeNameEntries } from "../../store/incomes/typ
 import { savingEnum } from "../../store/savings/types";
 import { DEFAULT_EXCHANGES, DEFAULT_MISSIONS, missionConditions, missionContext } from "../../utils/defaultGameData";
 import { getSaverLevelInfo } from "../../utils/saverLevels";
+import { buildWeeklyMissions, getWeekStartKey, isWeeklyMissionDone } from "../../utils/weeklyMissions";
 
 const REAL_USERS = "realUsers";
 
@@ -202,6 +205,25 @@ export const normalizeUserDoc = async (uid: string, data: userDataFromFirebaseTy
         }
     }
 
+    // HU18 (CA3): todo usuario tiene el medio "Efectivo"
+    if (!data.paymentMethods) {
+        fixed.paymentMethods = [{ id: "cash", name: "Efectivo", type: "Efectivo" }];
+        updates.paymentMethods = fixed.paymentMethods;
+    }
+
+    // HU52 (CA1): el asistente empieza activado
+    if (data.assistantEnabled === undefined) {
+        fixed.assistantEnabled = true;
+        updates.assistantEnabled = true;
+    }
+
+    // HU43: cada lunes se renuevan las misiones semanales; las no completadas desaparecen sin restar puntos
+    const weekStart = getWeekStartKey();
+    if (!data.weeklyMissions || data.weeklyMissions.weekStart !== weekStart) {
+        fixed.weeklyMissions = { weekStart, missions: buildWeeklyMissions(weekStart) };
+        updates.weeklyMissions = fixed.weeklyMissions;
+    }
+
     // Nivel correcto según la experiencia (HU45)
     const levelName = getSaverLevelInfo(data.userExpGained || 0).levelName;
     if (!data.saverLevel || data.saverLevel.saverLevelName !== levelName) {
@@ -243,7 +265,8 @@ export interface ExpenseInput {
     expenseCategory: expenseNameCategories,
     expenseSite: string,
     expenseAmount: number,
-    expenseDate: Date
+    expenseDate: Date,
+    paymentMethodId?: string  // HU18
 }
 
 const validateAmount = (amount: number) => {
@@ -310,7 +333,8 @@ export const addExpense = async (uid: string, input: ExpenseInput): Promise<{ re
         expenseSite: input.expenseSite.trim() || input.expenseCategory,
         expenseAmount: input.expenseAmount,
         expenseDate: Timestamp.fromDate(input.expenseDate),
-        expenseColor: EXPENSE_COLORS[input.expenseCategory] || "#9E9E9E"
+        expenseColor: EXPENSE_COLORS[input.expenseCategory] || "#9E9E9E",
+        paymentMethodId: input.paymentMethodId ?? ""
     };
 
     const newExpenses = [...(data.realExpenses || []), expense];
@@ -362,7 +386,8 @@ export const updateExpense = async (uid: string, expenseId: string, input: Expen
         expenseSite: input.expenseSite.trim() || input.expenseCategory,
         expenseAmount: input.expenseAmount,
         expenseDate: Timestamp.fromDate(input.expenseDate),
-        expenseColor: EXPENSE_COLORS[input.expenseCategory] || e.expenseColor
+        expenseColor: EXPENSE_COLORS[input.expenseCategory] || e.expenseColor,
+        paymentMethodId: input.paymentMethodId ?? e.paymentMethodId ?? ""
     } : e);
 
     await updateDoc(userRef(uid), {
@@ -670,6 +695,133 @@ export const sendFeedback = async (uid: string, email: string, rating: number, m
 };
 
 // ---------------------------------------------------------------------------
+// HU38: registrar un retiro de una meta
+// ---------------------------------------------------------------------------
+
+export const WITHDRAWAL_REASONS = ["Imprevisto", "Cambio de planes", "Otro"];
+
+export const withdrawFromSaving = async (uid: string, savingName: string, amount: number, reason?: string) => {
+    validateAmount(amount);
+    const data = await readUser(uid);
+    const saving = (data.savingsData || []).find((s) => s.savingName === savingName);
+    if (!saving) throw { code: "not-found" };
+    if (amount > saving.savingActualFee) throw { code: "saving/withdraw-too-much" }; // CA2
+
+    const newActual = saving.savingActualFee - amount;
+    const historyEntry: { date: Timestamp, deposit: number, reason?: string } = { date: Timestamp.now(), deposit: -amount };
+    if (reason) historyEntry.reason = reason; // CA3
+
+    const savingsData = data.savingsData.map((s) => s.savingName === savingName ? {
+        ...s,
+        savingValue: Math.max(0, s.savingValue - amount),
+        savingActualFee: newActual,
+        savingHistory: [...(s.savingHistory || []), historyEntry],
+        completed: newActual >= s.savingTotalFee
+    } : s);
+
+    await updateDoc(userRef(uid), {
+        savingsData,
+        totalSavings: Math.max(0, (data.totalSavings || 0) - amount)
+    });
+};
+
+// ---------------------------------------------------------------------------
+// HU43: completar una misión semanal
+// ---------------------------------------------------------------------------
+
+export const completeWeeklyMission = async (uid: string, missionId: string): Promise<RewardResult> => {
+    const data = await readUser(uid);
+    const weekly = data.weeklyMissions;
+    if (!weekly || weekly.weekStart !== getWeekStartKey()) throw { code: "mission/week-ended" };
+
+    const mission = weekly.missions.find((m) => m.id === missionId);
+    if (!mission) throw { code: "not-found" };
+    if (mission.completed) throw { code: "mission/already-completed" };
+
+    const history = (data.pointsHistory || []).map((h) => ({ date: h.date.toDate(), reason: h.reason }));
+    if (!isWeeklyMissionDone(mission, weekly.weekStart, history)) throw { code: "mission/not-ready" };
+
+    const missions = weekly.missions.map((m) => m.id === missionId ? { ...m, completed: true } : m);
+    const { updates, result } = buildRewardUpdates(data, mission.capypoints, mission.exp, `Weekly mission completed: ${mission.name}`);
+
+    await updateDoc(userRef(uid), {
+        ...updates,
+        weeklyMissions: { weekStart: weekly.weekStart, missions },
+        "saverLevel.goalsCompleted": (data.saverLevel?.goalsCompleted || 0) + 1
+    });
+
+    return result;
+};
+
+// ---------------------------------------------------------------------------
+// HU18: medios de pago
+// ---------------------------------------------------------------------------
+
+export const PAYMENT_METHOD_TYPES = ["Efectivo", "Nequi", "Daviplata", "Tarjeta débito", "Tarjeta crédito", "Otro"];
+
+export const addPaymentMethod = async (uid: string, input: { name: string, type: string, last4?: string }) => {
+    const name = input.name.trim();
+    if (!name) throw { code: "payment/missing-name" };
+    if (!PAYMENT_METHOD_TYPES.includes(input.type)) throw { code: "payment/missing-type" };
+    const last4 = (input.last4 || "").trim();
+    // CA2: solo 4 dígitos, sin fecha de vencimiento ni código de seguridad
+    if (last4 && !/^\d{4}$/.test(last4)) throw { code: "payment/invalid-last4" };
+
+    const data = await readUser(uid);
+    if ((data.paymentMethods || []).some((m) => m.name.toLowerCase() === name.toLowerCase())) {
+        throw { code: "payment/duplicated-name" };
+    }
+    const method: paymentMethodType = { id: newId(), name, type: input.type };
+    if (last4) method.last4 = last4;
+
+    await updateDoc(userRef(uid), { paymentMethods: [...(data.paymentMethods || []), method] });
+};
+
+// CA4: los gastos de ese medio se conservan y quedan como "Sin medio"
+export const deletePaymentMethod = async (uid: string, methodId: string) => {
+    const data = await readUser(uid);
+    await updateDoc(userRef(uid), {
+        paymentMethods: (data.paymentMethods || []).filter((m) => m.id !== methodId),
+        realExpenses: (data.realExpenses || []).map((e) => e.paymentMethodId === methodId ? { ...e, paymentMethodId: "" } : e)
+    });
+};
+
+// ---------------------------------------------------------------------------
+// HU56: preferencias de notificaciones
+// ---------------------------------------------------------------------------
+
+export const DEFAULT_NOTIFICATION_PREFS: notificationPrefsType = {
+    dailyReminder: false,
+    reminderHour: "20:00",
+    budgetAlerts: true,
+    goalReminders: true,
+    newMissions: true
+};
+
+export const setNotificationPrefs = async (uid: string, prefs: notificationPrefsType) => {
+    if (!/^\d{2}:\d{2}$/.test(prefs.reminderHour)) throw { code: "notifications/invalid-hour" };
+    await updateDoc(userRef(uid), { notificationPrefs: prefs });
+};
+
+// ---------------------------------------------------------------------------
+// HU52: activar / desactivar el asistente Capy
+// ---------------------------------------------------------------------------
+
+export const setAssistantEnabled = async (uid: string, enabled: boolean) => {
+    await updateDoc(userRef(uid), { assistantEnabled: enabled });
+};
+
+// ---------------------------------------------------------------------------
+// HU14: avatar del usuario
+// ---------------------------------------------------------------------------
+
+export const setUserAvatar = async (uid: string, avatar: string) => {
+    // Una foto comprimida ocupa ~30 KB; se limita por seguridad (Firestore admite 1 MB por documento)
+    if (avatar.length > 300000) throw { code: "avatar/too-large" };
+    await updateDoc(userRef(uid), { avatar });
+};
+
+// ---------------------------------------------------------------------------
 // HU59: interés en el plan premium
 // ---------------------------------------------------------------------------
 
@@ -697,6 +849,15 @@ export const getActionErrorMessage = (err: unknown): string => {
         case "saving/duplicated-name": return "Ya tienes una meta con ese nombre.";
         case "saving/paused": return "Esta meta está pausada. Reanúdala para hacer aportes.";
         case "saving/completed": return "Esta meta ya está cumplida.";
+        case "saving/withdraw-too-much": return "No puedes retirar más de lo ahorrado";
+        case "payment/missing-name": return "Escribe el nombre del medio de pago.";
+        case "payment/missing-type": return "Elige el tipo de medio de pago.";
+        case "payment/invalid-last4": return "Escribe solo los últimos 4 dígitos (números).";
+        case "payment/duplicated-name": return "Ya tienes un medio con ese nombre.";
+        case "notifications/invalid-hour": return "Elige una hora válida.";
+        case "mission/week-ended": return "Esta semana ya terminó. Recarga la página para ver tus nuevas misiones.";
+        case "avatar/invalid-file": return "Solo se permiten imágenes JPG o PNG de máximo 2 MB.";
+        case "avatar/too-large": return "La imagen es muy pesada. Prueba con otra.";
         case "mission/not-ready": return "Todavía no cumples el requisito de esta misión.";
         case "mission/already-completed": return "Ya completaste esta misión.";
         case "reward/not-enough-points": return `Te faltan ${e.missing ?? ""} Capypoints para canjear esta recompensa.`;

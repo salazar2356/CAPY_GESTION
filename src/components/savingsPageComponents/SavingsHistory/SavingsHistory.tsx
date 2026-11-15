@@ -28,6 +28,7 @@ export const SavingsHistory = ({ savingsData }: SavingsHistoryProps) => {
                                     savingHistoryTitle={savingItem.savingName}
                                     savingHistoryDate={formatDate(savingItemHistoryItem.date).toLocaleDateString()}
                                     savingHistoryDeposit={savingItemHistoryItem.deposit}
+                                    savingHistoryReason={savingItemHistoryItem.reason}
                                 />
                             case savingEnum.globe:
                                 return <SavingHistoryItem
@@ -37,6 +38,7 @@ export const SavingsHistory = ({ savingsData }: SavingsHistoryProps) => {
                                     savingHistoryTitle={savingItem.savingName}
                                     savingHistoryDate={formatDate(savingItemHistoryItem.date).toLocaleDateString()}
                                     savingHistoryDeposit={savingItemHistoryItem.deposit}
+                                    savingHistoryReason={savingItemHistoryItem.reason}
                                 />
                             case savingEnum.key:
                                 return <SavingHistoryItem
@@ -46,6 +48,7 @@ export const SavingsHistory = ({ savingsData }: SavingsHistoryProps) => {
                                     savingHistoryTitle={savingItem.savingName}
                                     savingHistoryDate={formatDate(savingItemHistoryItem.date).toLocaleDateString()}
                                     savingHistoryDeposit={savingItemHistoryItem.deposit}
+                                    savingHistoryReason={savingItemHistoryItem.reason}
                                 />
                             default:
                                 break;

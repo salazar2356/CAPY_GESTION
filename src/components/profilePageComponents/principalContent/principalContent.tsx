@@ -1,6 +1,8 @@
 import React from 'react';
 import './principalContent.css';
 import userIcon from "../../../assets/desktop/svg/userIcon.svg"
+import { useRef } from 'react';
+import { PRESET_AVATARS, UserAvatar } from '../../UserAvatar/UserAvatar';
 
 interface PrincipalContentProps {
   username: string;
@@ -13,6 +15,10 @@ interface PrincipalContentProps {
   onDeleteAccount: () => void;
   onFeedback: () => void;
   onPremium: () => void;
+  onNotifications: () => void;                 // HU56
+  avatar: string;                              // HU14
+  onSelectAvatar: (avatar: string) => void;
+  onUploadAvatar: (file: File) => void;
   saving: boolean;
   isGoogleAccount: boolean;
 }
@@ -28,9 +34,14 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
   onDeleteAccount,
   onFeedback,
   onPremium,
+  onNotifications,
+  avatar,
+  onSelectAvatar,
+  onUploadAvatar,
   saving,
   isGoogleAccount,
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div className="settingsPage">
@@ -98,18 +109,65 @@ export const PrincipalContent: React.FC<PrincipalContentProps> = ({
 
         <div className="avatarSection">
           <h3 className="sectionTitle">Change Avatar</h3>
-          <div className="avatarUpload">
-            <img src={userIcon} alt="Current Avatar" className="userIcon" />
-            <div className="uploadBox">
+          {/* HU14 (CA2, CA3): subir foto JPG o PNG de máximo 2 MB */}
+          <div className="avatarUpload" style={{ flexWrap: 'wrap' }}>
+            <UserAvatar avatar={avatar} fallbackSrc={userIcon} className="userIcon" alt="Current Avatar" />
+          {/* HU14 (CA1): avatares prediseñados de Capy */}
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }} role="radiogroup" aria-label="Capy avatars">
+            {PRESET_AVATARS.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                role="radio"
+                aria-checked={avatar === preset.id}
+                aria-label={preset.label}
+                onClick={() => onSelectAvatar(preset.id)}
+                disabled={saving}
+                style={{
+                  width: '44px', height: '44px', padding: 0, borderRadius: '50%', cursor: 'pointer', background: 'none',
+                  border: avatar === preset.id ? '3px solid #A8F25D' : '3px solid transparent'
+                }}
+              >
+                <UserAvatar avatar={preset.id} fallbackSrc={userIcon} size="100%" alt={preset.label} />
+              </button>
+            ))}
+          </div>
+
+            <div
+              className="uploadBox"
+              role="button"
+              tabIndex={0}
+              style={{ cursor: 'pointer' }}
+              onClick={() => fileInputRef.current?.click()}
+              onKeyDown={(e) => { if (e.key === 'Enter') fileInputRef.current?.click() }}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files?.[0];
+                if (file) onUploadAvatar(file);
+              }}
+            >
               <p className="uploadText">
                 <span className="clickHere">Click here</span> to upload your file or drag
               </p>
-              <p className="uploadFormat">Supported Format: SVG, JPG, PNG</p>
+              <p className="uploadFormat">Supported Format: JPG, PNG (max 2 MB)</p>
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/png,image/jpeg"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) onUploadAvatar(file);
+                e.target.value = '';
+              }}
+            />
           </div>
         </div>
 
         <div className="buttonsRow" style={{ flexWrap: 'wrap' }}>
+          <button className="discardButton" onClick={onNotifications} disabled={saving}>Notifications 🔔</button>
           <button className="discardButton" onClick={onPremium} disabled={saving}>Capy Premium ✨</button>
           <button className="discardButton" onClick={onFeedback} disabled={saving}>Give feedback</button>
           <button className="discardButton" onClick={onDeleteAccount} disabled={saving} style={{ borderColor: '#F2622E', color: '#F2622E' }}>Delete account</button>

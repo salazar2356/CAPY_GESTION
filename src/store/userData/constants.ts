@@ -10,5 +10,9 @@ export const DEFAULT_STATE_USER_DATA: userDataType = {
     totalBalance: 0,
     totalIncome: 0,
     totalExpenses: 0,
-    welcomeSeen: true
+    welcomeSeen: true,
+    assistantEnabled: true,
+    avatar: "",
+    paymentMethods: [],
+    notificationPrefs: { dailyReminder: false, reminderHour: "20:00", budgetAlerts: true, goalReminders: true, newMissions: true }
 }

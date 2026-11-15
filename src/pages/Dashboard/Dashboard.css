@@ -1,4 +1,5 @@
-@media only screen and (min-width: 1200px) and (max-width: 1600px) {
+/* Escritorio y tablet: cualquier pantalla de más de 500px */
+@media only screen and (min-width: 501px) {
     #dashboardPage {
         width: 95vw;
         min-height: 100vh;
@@ -69,5 +70,72 @@
         background-position: center;
         background-repeat: no-repeat;
         z-index: -1;
+    }
+}
+
+/* ===== Celular ===== */
+@media only screen and (max-width: 500px) {
+    #dashboardPage {
+        width: 100%;
+        min-height: 100vh;
+        padding: 16px 16px 0;
+        box-sizing: border-box;
+    }
+
+    #dashboardPage #ContentContainerDashboard {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #dashboardPage #TitleTextContainer {
+        margin: 8px 0 16px;
+    }
+
+    #dashboardPage #TitleTextContainer h1 {
+        color: #F9F9F9;
+        font-family: "Plus Jakarta Sans";
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 4px;
+    }
+
+    #dashboardPage #TitleTextContainer p {
+        color: #F9F9F9;
+        font-family: "Plus Jakarta Sans";
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    #dashboardPage .TextHint {
+        color: #CCFC56;
+        font-family: 'Space Grotesk';
+    }
+
+    #backgroundDashboard {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url('../../assets/desktop/svg/landingBackground.svg');
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+    }
+}
+
+/* Tablet: espacio a la izquierda para el menú lateral */
+@media only screen and (min-width: 501px) and (max-width: 1023px) {
+    #dashboardPage {
+        width: 100%;
+        margin: 0;
+        padding: 0 16px 0 92px;
+        box-sizing: border-box;
+    }
+
+    #ContentContainerDashboard {
+        margin: 0;
     }
 }

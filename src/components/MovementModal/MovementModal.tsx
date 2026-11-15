@@ -2,6 +2,8 @@
 import '../ui/capyModal.css';
 
 import { useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import { ChangeFirebaseContext } from '../../Contexts/changeFirebaseContext';
 import { expenseNameCategories, realExpenseType } from '../../store/expenses/types';
 import { incomeNameCategories, incomeNameEntries, realIncomeType } from '../../store/incomes/types';
@@ -71,6 +73,12 @@ export const MovementModal = ({ initialKind, income, expense, lockKind = false, 
 
     const [expenseCategory, setExpenseCategory] = useState<expenseNameCategories>(expense?.expenseCategory ?? expenseNameCategories.mercado);
     const [expenseSite, setExpenseSite] = useState<string>(expense?.expenseSite ?? '');
+    // HU18: con qué medio se pagó el gasto
+    const paymentMethods = useSelector((state: RootState) => state.userData.paymentMethods);
+    const budgetAlertsEnabled = useSelector((state: RootState) => state.userData.notificationPrefs.budgetAlerts);
+    const [paymentMethodId, setPaymentMethodId] = useState<string>(
+        expense ? (expense.paymentMethodId ?? '') : (paymentMethods[0]?.id ?? '')
+    );
 
     const [error, setError] = useState('');
     const [saving, setSaving] = useState(false);
@@ -102,15 +110,15 @@ export const MovementModal = ({ initialKind, income, expense, lockKind = false, 
                     showRewardToasts(reward, 'Ingreso registrado');
                 }
             } else {
-                const input = { expenseCategory, expenseSite, expenseAmount: numericAmount, expenseDate: fromInputDate(date) };
+                const input = { expenseCategory, expenseSite, expenseAmount: numericAmount, expenseDate: fromInputDate(date), paymentMethodId };
                 if (expense?.id) {
                     const alert = await updateExpense(uid, expense.id, input);
                     showToast('Gasto actualizado', 'success');
-                    showBudgetAlert(alert);
+                    if (budgetAlertsEnabled) showBudgetAlert(alert); // HU56
                 } else {
                     const { reward, budgetAlert } = await addExpense(uid, input);
                     showRewardToasts(reward, 'Gasto registrado');
-                    showBudgetAlert(budgetAlert);
+                    if (budgetAlertsEnabled) showBudgetAlert(budgetAlert); // HU56
                 }
             }
             await OnChangeFirebase.fetchAndSetUserData();
@@ -192,6 +200,13 @@ export const MovementModal = ({ initialKind, income, expense, lockKind = false, 
                             <label htmlFor="movementExpenseCategory">Category</label>
                             <select id="movementExpenseCategory" value={expenseCategory} onChange={(e) => setExpenseCategory(e.target.value as expenseNameCategories)}>
                                 {expenseCategories.map((c) => <option key={c} value={c}>{c}</option>)}
+                            </select>
+                        </div>
+                        <div className="capyModalField">
+                            <label htmlFor="movementPaymentMethod">Paid with</label>
+                            <select id="movementPaymentMethod" value={paymentMethodId} onChange={(e) => setPaymentMethodId(e.target.value)}>
+                                {paymentMethods.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
+                                <option value="">Sin medio</option>
                             </select>
                         </div>
                         <div className="capyModalField">

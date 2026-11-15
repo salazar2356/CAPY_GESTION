@@ -67,6 +67,8 @@ export interface MovementItem {
 export const useMovements = (): Array<MovementItem> => {
     const incomes = useSelector((state: RootState) => state.incomes.realIncomes);
     const expenses = useSelector((state: RootState) => state.expenses.realExpenses);
+    const paymentMethods = useSelector((state: RootState) => state.userData.paymentMethods);
+    const methodName = (id?: string) => paymentMethods.find((m) => m.id === id)?.name ?? 'Sin medio';
 
     const items: Array<MovementItem> = [
         ...incomes.map((income, i) => ({
@@ -85,7 +87,7 @@ export const useMovements = (): Array<MovementItem> => {
             date: expense.expenseDate,
             amount: expense.expenseAmount,
             title: expense.expenseSite || expense.expenseCategory,
-            subtitle: `Category: ${expense.expenseCategory}`,
+            subtitle: `Category: ${expense.expenseCategory} · Paid with: ${methodName(expense.paymentMethodId)}`,
             icon: EXPENSE_ICONS[expense.expenseCategory] ?? otherExpenseSvg,
             expense
         })),

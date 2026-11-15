@@ -19,6 +19,7 @@ export enum expenseNameCategories {
 
 export interface realExpenseType {
     id?: string,
+    paymentMethodId?: string,
     expenseCategory: expenseNameCategories,
     expenseSite: string,
     expenseDate: string,

@@ -86,14 +86,14 @@ export const ComparationBarGraph = ({ period = 'daily' }: { period?: Comparation
     const hasData = chartData.some((d) => d.expenses > 0 || d.incomes > 0)
 
     return <>
-        <Card style={{ backgroundColor: 'transparent', border: 'none', marginTop: '20px' }} className="w-[60%]">
+        <Card style={{ backgroundColor: 'transparent', border: 'none', marginTop: '8px' }} className="w-[60%]">
             <CardContent >
                 {!hasData && (
                     <p style={{ color: '#F9F9F9', fontFamily: '"Space Grotesk"', fontSize: '14px', textAlign: 'center', margin: '0 0 8px 0' }}>
                         No movements in this period yet.
                     </p>
                 )}
-                <ChartContainer config={chartConfig}>
+                <ChartContainer config={chartConfig} className="w-full max-h-[190px]">
                     <BarChart accessibilityLayer data={chartData}>
                         <CartesianGrid vertical={false} />
                         <XAxis

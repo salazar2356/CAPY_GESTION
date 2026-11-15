@@ -8,7 +8,9 @@ import { PrincipalContent } from '../../components/profilePageComponents/princip
 import userImageIcon from "../../../src/assets/desktop/svg/avatarHeader.svg"
 import logOutButton from "../../../src/assets/desktop/svg/logOutButton.svg"
 import { RootState } from '../../store/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserPreferences } from '../../store/userData/slice';
+import { UserAvatar, prepareAvatarFile } from '../../components/UserAvatar/UserAvatar';
 import { NavigationHook } from '../../hooks/navigationHook';
 import { useUserFirebaseData } from '../../hooks/useUserFirebaseData';
 import {
@@ -20,10 +22,11 @@ import {
   isGoogleAccount,
   onAuthChange
 } from '../../services/Firebase/auth';
-import { getActionErrorMessage, sendFeedback } from '../../services/Firebase/FirestoreActions';
+import { getActionErrorMessage, sendFeedback, setAssistantEnabled, setUserAvatar } from '../../services/Firebase/FirestoreActions';
 import { showToast } from '../../utils/toast';
 import { getSaverLevelInfo } from '../../utils/saverLevels';
 import { PremiumModal } from '../../components/PremiumModal/PremiumModal';
+import { NotificationsModal } from '../../components/Notifications/NotificationsModal';
 
 interface UserData {
   name: string;
@@ -78,6 +81,47 @@ export const ProfilePage: React.FC = () => {
   const [deleteError, setDeleteError] = useState('');
   const [showFeedback, setShowFeedback] = useState(false);
   const [showPremium, setShowPremium] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const dispatch = useDispatch();
+
+  // HU52: activar o desactivar el asistente Capy (se guarda en Firestore)
+  const handleToggleAssistant = async (enabled: boolean) => {
+    const previous = userDataRedux.assistantEnabled;
+    dispatch(setUserPreferences({ assistantEnabled: enabled }));
+    try {
+      await setAssistantEnabled(userDataRedux.userUID, enabled);
+      showToast(enabled ? 'Asistente Capy activado' : 'Asistente Capy desactivado', 'info');
+    } catch (err) {
+      console.error(err);
+      dispatch(setUserPreferences({ assistantEnabled: previous }));
+      showToast(getActionErrorMessage(err), 'error');
+    }
+  };
+
+  // HU14: guardar el avatar elegido o la foto subida
+  const saveAvatar = async (avatar: string) => {
+    setSaving(true);
+    try {
+      await setUserAvatar(userDataRedux.userUID, avatar);
+      dispatch(setUserPreferences({ avatar }));
+      showToast('Avatar actualizado', 'success');
+    } catch (err) {
+      console.error(err);
+      showToast(getActionErrorMessage(err), 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleUploadAvatar = async (file: File) => {
+    try {
+      const dataUrl = await prepareAvatarFile(file);
+      await saveAvatar(dataUrl);
+    } catch (err) {
+      // CA3: archivo inválido -> error y se mantiene la imagen anterior
+      showToast(getActionErrorMessage(err), 'error', 5000);
+    }
+  };
   const [rating, setRating] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [feedbackError, setFeedbackError] = useState('');
@@ -193,7 +237,7 @@ export const ProfilePage: React.FC = () => {
       <GlobalAppNav />
 
       <div className="contentWrapper">
-        <img src={userImageIcon} alt="Current Avatar" className="avatarImage" />
+        <UserAvatar avatar={userDataRedux.avatar} fallbackSrc={userImageIcon} alt="Current Avatar" className="avatarImage" />
 
         <div className="generalProfile">
           <ProfileHeader />
@@ -204,7 +248,12 @@ export const ProfilePage: React.FC = () => {
                 name={userData.name}
                 email={userData.email}
                 rank={userData.rank}
+                assistantEnabled={userDataRedux.assistantEnabled}
+                onToggleAssistant={handleToggleAssistant}
               />
+              <button className="logOutButton" onClick={handleLogOut}>
+                <img src={logOutButton} alt="Log Out Icon" className="logOutIcon" />
+              </button>
             </div>
 
             <div className="principalContent">
@@ -219,15 +268,16 @@ export const ProfilePage: React.FC = () => {
                 onDeleteAccount={() => { setDeleteError(''); setDeletePassword(''); setShowDelete(true); }}
                 onFeedback={() => { setFeedbackError(''); setShowFeedback(true); }}
                 onPremium={() => setShowPremium(true)}
+                onNotifications={() => setShowNotifications(true)}
+                avatar={userDataRedux.avatar}
+                onSelectAvatar={saveAvatar}
+                onUploadAvatar={handleUploadAvatar}
                 saving={saving}
                 isGoogleAccount={googleAccount}
               />
             </div>
           </div>
         </div>
-        <button className="logOutButton" onClick={handleLogOut}>
-          <img src={logOutButton} alt="Log Out Icon" className="logOutIcon" />
-        </button>
       </div>
 
       {showDelete && (
@@ -287,6 +337,7 @@ export const ProfilePage: React.FC = () => {
       )}
 
       {showPremium && <PremiumModal onClose={() => setShowPremium(false)} />}
+      {showNotifications && <NotificationsModal onClose={() => setShowNotifications(false)} />}
 
       <div id="profileBackground" className="backgroundPage"></div>
     </main>

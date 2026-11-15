@@ -14,7 +14,8 @@ export interface savingType {
 
 export interface savingHistoryType {
     date: string,
-    deposit: number
+    deposit: number,
+    reason?: string
 }
 
 export interface savingSliceType {

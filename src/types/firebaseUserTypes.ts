@@ -31,7 +31,47 @@ export interface userDataFromFirebaseType {
     streak?: streakFirebaseType,
     welcomeSeen?: boolean,
     premiumInterest?: boolean,       // HU59
-    premiumInterestAt?: Timestamp
+    premiumInterestAt?: Timestamp,
+    assistantEnabled?: boolean,      // HU52
+    avatar?: string,                 // HU14: "capy:#2D18BF" o una imagen "data:image/jpeg;base64,..."
+    weeklyMissions?: weeklyMissionsFirebaseType, // HU43
+    paymentMethods?: Array<paymentMethodType>,   // HU18
+    notificationPrefs?: notificationPrefsType     // HU56
+}
+
+// HU18: medio de pago (sin datos sensibles: solo los últimos 4 dígitos)
+export interface paymentMethodType {
+    id: string,
+    name: string,
+    type: string,
+    last4?: string
+}
+
+// HU56: preferencias de notificaciones
+export interface notificationPrefsType {
+    dailyReminder: boolean,
+    reminderHour: string,   // "20:00"
+    budgetAlerts: boolean,
+    goalReminders: boolean,
+    newMissions: boolean
+}
+
+// HU43: misiones que cambian cada semana (lunes a domingo)
+export interface weeklyMissionFirebaseType {
+    id: string,
+    kind: string,
+    name: string,
+    description: string,
+    color: string,
+    capypoints: number,
+    exp: number,
+    target: number,
+    completed: boolean
+}
+
+export interface weeklyMissionsFirebaseType {
+    weekStart: string, // YYYY-MM-DD (lunes)
+    missions: Array<weeklyMissionFirebaseType>
 }
 
 // HU46: cada vez que el usuario gana o gasta Capypoints
@@ -62,6 +102,7 @@ export interface realIncomeFirebaseType {
 
 export interface realExpenseFirebaseType {
     id?: string,
+    paymentMethodId?: string,  // HU18
     expenseCategory: expenseNameCategories,
     expenseSite: string,
     expenseDate: Timestamp,
@@ -92,5 +133,6 @@ export interface savingFirebaseType {
 
 export interface savingHistoryFirebaseType {
     date: Timestamp,
-    deposit: number
+    deposit: number,      // negativo cuando es un retiro (HU38)
+    reason?: string       // motivo del retiro (HU38)
 }

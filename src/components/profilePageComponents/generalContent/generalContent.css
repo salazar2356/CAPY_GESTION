@@ -127,3 +127,20 @@
     justify-content:initial;
 }
 }
+
+/* El nombre y el nivel se acomodan sin salirse */
+.nameInfo {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rango {
+    width: auto;
+    white-space: nowrap;
+    margin-right: 16px;
+}
+
+/* El nombre no ocupa todo el ancho para que el nivel quede a su lado */
+.nameInfo .name {
+    width: auto;
+}

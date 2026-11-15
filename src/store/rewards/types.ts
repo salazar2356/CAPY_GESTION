@@ -5,7 +5,26 @@ export interface rewardsSliceType {
     exchangeData: Array<exchangeType>,
     userExpGained: number,
     pointsHistory: Array<pointsHistoryType>,
-    streak: streakType
+    streak: streakType,
+    weeklyMissions: weeklyMissionsType
+}
+
+// HU43
+export interface weeklyMissionType {
+    id: string,
+    kind: string,
+    name: string,
+    description: string,
+    color: string,
+    capypoints: number,
+    exp: number,
+    target: number,
+    completed: boolean
+}
+
+export interface weeklyMissionsType {
+    weekStart: string,
+    missions: Array<weeklyMissionType>
 }
 
 export interface pointsHistoryType {

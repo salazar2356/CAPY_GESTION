@@ -10,7 +10,9 @@ import {
     depositToSaving,
     editSaving,
     getActionErrorMessage,
-    toggleSavingPause
+    toggleSavingPause,
+    withdrawFromSaving,
+    WITHDRAWAL_REASONS
 } from '../../../services/Firebase/FirestoreActions'
 import { showRewardToasts, showToast } from '../../../utils/toast'
 
@@ -36,6 +38,8 @@ export const SavingGoalItem = ({ goalImage, goalImageColor, goalTitle, goalMonth
     const [total, setTotal] = useState(String(goalTotalFee))
     const [monthly, setMonthly] = useState(String(goalMonthlySaving))
     const [depositAmount, setDepositAmount] = useState(String(goalMonthlySaving))
+    const [withdrawAmount, setWithdrawAmount] = useState('')
+    const [withdrawReason, setWithdrawReason] = useState('')
     const [error, setError] = useState('')
     const [busy, setBusy] = useState(false)
 
@@ -88,6 +92,21 @@ export const SavingGoalItem = ({ goalImage, goalImageColor, goalTitle, goalMonth
         await OnChangeFirebase.fetchAndSetUserData()
     })
 
+    // HU38: registrar un retiro (no puede ser mayor que lo ahorrado)
+    const handleWithdraw = () => run(async () => {
+        const amount = Number(withdrawAmount)
+        if (!amount || amount <= 0) {
+            setError('Escribe un monto mayor que 0.')
+            return
+        }
+        await withdrawFromSaving(uid, goalTitle, amount, withdrawReason || undefined)
+        showToast(`Retiro de $${amount} registrado`, 'info')
+        setWithdrawAmount('')
+        setWithdrawReason('')
+        setView('none')
+        await OnChangeFirebase.fetchAndSetUserData()
+    })
+
     // HU35: pausar / reanudar
     const handleTogglePause = () => run(async () => {
         const paused = await toggleSavingPause(uid, goalTitle)
@@ -123,6 +142,29 @@ export const SavingGoalItem = ({ goalImage, goalImageColor, goalTitle, goalMonth
                             <div className="capyModalActions">
                                 <button type="button" className="capyBtnPrimary" onClick={handleDeposit} disabled={busy || goalPaused}>
                                     {goalPaused ? 'Paused' : busy ? 'Saving...' : 'Add deposit'}
+                                </button>
+                            </div>
+                        </>
+                    )}
+
+                    {/* HU38: registrar retiro */}
+                    {goalActualFee > 0 && (
+                        <>
+                            <div className="capyModalField">
+                                <label htmlFor="withdrawAmount">Register withdrawal (saved: ${goalActualFee})</label>
+                                <input id="withdrawAmount" type="number" min="1" placeholder="Amount to withdraw"
+                                    value={withdrawAmount} onChange={(e) => setWithdrawAmount(e.target.value)} />
+                            </div>
+                            <div className="capyModalField">
+                                <label htmlFor="withdrawReason">Reason (optional)</label>
+                                <select id="withdrawReason" value={withdrawReason} onChange={(e) => setWithdrawReason(e.target.value)}>
+                                    <option value="">No reason</option>
+                                    {WITHDRAWAL_REASONS.map((r) => <option key={r} value={r}>{r}</option>)}
+                                </select>
+                            </div>
+                            <div className="capyModalActions">
+                                <button type="button" className="capyBtnSecondary" onClick={handleWithdraw} disabled={busy}>
+                                    {busy ? 'Saving...' : 'Register withdrawal'}
                                 </button>
                             </div>
                         </>

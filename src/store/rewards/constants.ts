@@ -14,5 +14,6 @@ export const DEFAULT_STATE_REWARDS: rewardsSliceType = {
     exchangeData: [],
     userExpGained: 0,
     pointsHistory: [],
-    streak: { current: 0, best: 0, lastActiveDate: "" }
+    streak: { current: 0, best: 0, lastActiveDate: "" },
+    weeklyMissions: { weekStart: "", missions: [] }
 }

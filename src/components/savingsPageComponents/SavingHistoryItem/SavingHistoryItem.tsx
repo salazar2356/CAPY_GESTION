@@ -5,10 +5,12 @@ interface SavingHistoryItemProps {
     savingHistoryColor: string,
     savingHistoryTitle: string,
     savingHistoryDate: string,
-    savingHistoryDeposit: number
+    savingHistoryDeposit: number,
+    savingHistoryReason?: string   // HU38: motivo del retiro
 }
 
-export const SavingHistoryItem = ({ savingHistoryImage, savingHistoryColor, savingHistoryTitle, savingHistoryDate, savingHistoryDeposit }: SavingHistoryItemProps) => {
+export const SavingHistoryItem = ({ savingHistoryImage, savingHistoryColor, savingHistoryTitle, savingHistoryDate, savingHistoryDeposit, savingHistoryReason }: SavingHistoryItemProps) => {
+    const isWithdrawal = savingHistoryDeposit < 0
     return <>
         <div className='savingsHistoryItem'>
             <div className='savingsHistoryItemTitle'>
@@ -16,12 +18,14 @@ export const SavingHistoryItem = ({ savingHistoryImage, savingHistoryColor, savi
                 <div className='savingsHistoryItemTitleText'>
                     <div className='savingsHistoryItemTitleTextNameDate'>
                         <h4>{savingHistoryTitle}</h4>
-                        <p>{savingHistoryDate}</p>
+                        <p>{savingHistoryDate}{isWithdrawal ? ` · Withdrawal${savingHistoryReason ? `: ${savingHistoryReason}` : ''}` : ''}</p>
                     </div>
                 </div>
             </div>
 
-            <p className='savingsHistoryItemAmount'>${savingHistoryDeposit}</p>
+            <p className='savingsHistoryItemAmount' style={isWithdrawal ? { color: '#F2622E' } : undefined}>
+                {isWithdrawal ? `-$${Math.abs(savingHistoryDeposit)}` : `$${savingHistoryDeposit}`}
+            </p>
         </div>
     </>
 }
