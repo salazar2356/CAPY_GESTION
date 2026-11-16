@@ -7,12 +7,15 @@ export interface savingType {
     monthlySaving: number,
     savingActualFee: number,
     savingTotalFee: number,
-    savingHistory: Array<savingHistoryType>
+    savingHistory: Array<savingHistoryType>,
+    paused?: boolean,
+    completed?: boolean
 }
 
 export interface savingHistoryType {
     date: string,
-    deposit: number
+    deposit: number,
+    reason?: string
 }
 
 export interface savingSliceType {

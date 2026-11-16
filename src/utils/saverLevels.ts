@@ -51,4 +51,37 @@ export const constantsSaverLevels: Array<saverLevelType> = [
         image: saverLevelsImages.maxImage,
         expNecesary: 11200
     }
-]
+];
+
+export const getSaverLevelInfo = (expGained: number) => {
+  let currentLevelIndex = 0;
+
+  for (let i = 0; i < constantsSaverLevels.length; i++) {
+    if (expGained >= constantsSaverLevels[i].expNecesary) {
+      currentLevelIndex = i;
+    } else {
+      break;
+    }
+  }
+
+  const currentLevel = constantsSaverLevels[currentLevelIndex];
+  const nextLevel = constantsSaverLevels[currentLevelIndex + 1];
+  const isMax = !nextLevel;
+
+  const prevExp = currentLevelIndex === 0 ? 0 : constantsSaverLevels[currentLevelIndex - 1].expNecesary;
+  const nextLevelExp = isMax ? currentLevel.expNecesary : nextLevel.expNecesary;
+  
+  const progress = isMax 
+    ? 100 
+    : Math.min(100, Math.max(0, ((expGained - prevExp) / (nextLevelExp - prevExp)) * 100));
+
+  return {
+    levelNumber: currentLevelIndex + 1,
+    levelName: currentLevel.name,
+    levelImage: currentLevel.image,
+    nextLevelExp,
+    expToNextLevel: isMax ? 0 : Math.max(0, nextLevelExp - expGained),
+    progress,
+    isMax,
+  };
+};

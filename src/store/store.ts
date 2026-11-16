@@ -1,4 +1,4 @@
-import { combineReducers, configureStore, createSlice, type UnknownAction } from '@reduxjs/toolkit';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 import { savingsSlice } from './savings/slice';
 import { rewardsSlice } from './rewards/slice';
 import { expensesSlice } from './expenses/slice';
@@ -19,17 +19,15 @@ const pruebaSlice = createSlice({
 
 export const { changeAddSavingModal } = pruebaSlice.actions;
 
-const appReducer = combineReducers({
+export const store = configureStore({
+    reducer: {
         global: pruebaSlice.reducer,
         savings: savingsSlice.reducer,
         rewards: rewardsSlice.reducer,
         expenses: expensesSlice.reducer,
         incomes: incomesSlice.reducer,
         userData: userDataSlice.reducer
-});
-
-export const store = configureStore({
-    reducer: (state: ReturnType<typeof appReducer> | undefined, action: UnknownAction) => appReducer(action.type === 'app/reset' ? undefined : state, action)
+    }
 });
 
 // Define y exporta RootState para usar el tipo en otros archivos

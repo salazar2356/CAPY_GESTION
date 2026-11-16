@@ -159,7 +159,7 @@ background-color: #181818;
     background-color: #A8F25D;
   }
   
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 480px) {
     .inputRow{
       flex-direction: column;
 
@@ -175,3 +175,56 @@ background-color: #181818;
       height: 130px;
     }
   }
+/* Botones de guardar / descartar / opinión / eliminar cuenta en celular: 2 por fila */
+@media only screen and (max-width: 480px) {
+  .buttonsRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    position: relative;
+    z-index: 5;
+  }
+
+  .buttonsRow button {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 8px;
+  }
+}
+
+
+/* Perfil en escritorio: 6 botones en una sola fila */
+@media only screen and (min-width: 481px) {
+  .buttonsRow {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .buttonsRow .discardButton,
+  .buttonsRow .saveButton {
+    padding: 8px 12px;
+  }
+
+  .avatarUpload .uploadBox {
+    flex: 1;
+    min-width: 220px;
+    width: auto;
+    height: auto;
+    min-height: 60px;
+    margin-left: 0;
+  }
+}
+
+/* La sección de ajustes crece con su contenido (antes medía 390px fijos) */
+.settingsPage {
+  height: auto;
+  min-height: 390px;
+  box-sizing: border-box;
+}
+
+/* Los campos ocupan el espacio disponible (máximo 410px) y no se salen de la tarjeta */
+.principalContent .inputField {
+  width: 100%;
+  max-width: 410px;
+  box-sizing: border-box;
+}

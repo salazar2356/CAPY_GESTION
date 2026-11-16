@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 import { NavigationHook } from '../../hooks/navigationHook'
 import { useUserFirebaseData } from '../../hooks/useUserFirebaseData'
 import { CapyAssistant } from '../../components/capyAssistantComponent/capyAssistantComponent'
+import { WelcomeModal } from '../../components/WelcomeModal/WelcomeModal'
+import { ChangeFirebaseContext } from '../../Contexts/changeFirebaseContext'
 
 export const Dashboard = () => {
     const [isInitialized, setIsInitialized] = useState(false);
@@ -29,7 +31,11 @@ export const Dashboard = () => {
         }
     }, [isInitialized, handleNavigation, sessionStorageUserUID, fetchAndSetUserData]);
 
-    return <>
+    return <ChangeFirebaseContext.Provider value={{
+        setIsInitialized: setIsInitialized,
+        fetchAndSetUserData: fetchAndSetUserData,
+        logedUserUID: sessionStorageUserUID ?? ''
+    }}>
         <main className='page' id='dashboardPage'>
 
             <div id='marginPage'>
@@ -52,6 +58,7 @@ export const Dashboard = () => {
 
             </div>
             <CapyAssistant />
+            <WelcomeModal />
         </main >
-    </>
+    </ChangeFirebaseContext.Provider>
 }

@@ -21,17 +21,23 @@ import savingsIconBlack from '../../assets/desktop/svg/icons/navIcons/SavingsNav
 import rewardsIconBlack from '../../assets/desktop/svg/icons/navIcons/RewardsNavIconBlack.svg'
 import { routes } from '../../types/routesEnum';
 import { NavigationHook } from '../../hooks/navigationHook';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { UserAvatar } from '../UserAvatar/UserAvatar';
+import { NotificationCenter } from '../Notifications/NotificationCenter';
 
 export const GlobalAppNav = () => {
 
   const { handleNavigation, handleLogOut } = NavigationHook()
   const location = useLocation()
+  const avatar = useSelector((state: RootState) => state.userData.avatar)
 
 
   switch (location.pathname) {
     case routes.dashboard:
       return < >
         <nav className='navContainer'>
+          <NotificationCenter />
 
           <div className='capy'>
             <img className="Logo" src={LogoCapy} alt="Logo" />
@@ -47,7 +53,7 @@ export const GlobalAppNav = () => {
             </div>
 
             <div className='last'>
-              <img className="User" src={profileIconWhite} alt="User" onClick={handleNavigation.navigateToProfile} />
+              <UserAvatar avatar={avatar} fallbackSrc={profileIconWhite} className="User" alt="User" onClick={handleNavigation.navigateToProfile} />
               <img className="LogOut" src={logOutIconWhite} alt="LogOut" onClick={() => { handleLogOut() }} />
             </div>
           </div>
@@ -58,6 +64,7 @@ export const GlobalAppNav = () => {
     case routes.expensesAndIncome:
       return < >
         <nav className='navContainer'>
+          <NotificationCenter />
 
           <div className='capy'>
             <img className="Logo" src={LogoCapy} alt="Logo" />
@@ -73,7 +80,7 @@ export const GlobalAppNav = () => {
             </div>
 
             <div className='last'>
-              <img className="User" src={profileIconWhite} alt="User" onClick={handleNavigation.navigateToProfile} />
+              <UserAvatar avatar={avatar} fallbackSrc={profileIconWhite} className="User" alt="User" onClick={handleNavigation.navigateToProfile} />
               <img className="LogOut" src={logOutIconWhite} alt="LogOut" onClick={() => { handleLogOut() }} />
             </div>
           </div>
@@ -84,6 +91,7 @@ export const GlobalAppNav = () => {
     case routes.savings:
       return < >
         <nav className='navContainer'>
+          <NotificationCenter />
 
           <div className='capy'>
             <img className="Logo" src={LogoCapy} alt="Logo" />
@@ -99,7 +107,7 @@ export const GlobalAppNav = () => {
             </div>
 
             <div className='last'>
-              <img className="User" src={profileIconWhite} alt="User" onClick={handleNavigation.navigateToProfile} />
+              <UserAvatar avatar={avatar} fallbackSrc={profileIconWhite} className="User" alt="User" onClick={handleNavigation.navigateToProfile} />
               <img className="LogOut" src={logOutIconWhite} alt="LogOut" onClick={() => { handleLogOut() }} />
             </div>
           </div>
@@ -110,6 +118,7 @@ export const GlobalAppNav = () => {
     case routes.rewards:
       return < >
         <nav className='navContainer'>
+          <NotificationCenter />
 
           <div className='capy'>
             <img className="Logo" src={LogoCapy} alt="Logo" />
@@ -125,7 +134,7 @@ export const GlobalAppNav = () => {
             </div>
 
             <div className='last'>
-              <img className="User" src={profileIconWhite} alt="User" onClick={handleNavigation.navigateToProfile} />
+              <UserAvatar avatar={avatar} fallbackSrc={profileIconWhite} className="User" alt="User" onClick={handleNavigation.navigateToProfile} />
               <img className="LogOut" src={logOutIconWhite} alt="LogOut" onClick={() => { handleLogOut() }} />
             </div>
           </div>
@@ -135,6 +144,7 @@ export const GlobalAppNav = () => {
     case routes.profilePage:
       return < >
         <nav className='navContainer'>
+          <NotificationCenter />
 
           <div className='capy'>
             <img className="Logo" src={LogoCapy} alt="Logo" />
@@ -150,7 +160,7 @@ export const GlobalAppNav = () => {
             </div>
 
             <div className='last'>
-              <img className="User focus" src={profileIconBlack} alt="User" />
+              <UserAvatar avatar={avatar} fallbackSrc={profileIconBlack} className="User focus" alt="User" />
               <img className="LogOut" src={logOutIconWhite} alt="LogOut" onClick={() => { handleLogOut() }} />
             </div>
           </div>

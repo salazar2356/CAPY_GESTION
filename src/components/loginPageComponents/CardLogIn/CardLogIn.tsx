@@ -1,70 +1,158 @@
 import './CardLogIn.css';
-import { useState, type FormEvent } from 'react';
-import { authErrorMessage, doGoogleSignIn, doPasswordReset, doSignInWithEmailAndPassword } from '../../../services/Firebase/auth';
+
+import { useState } from "react";
+import { useDispatch } from 'react-redux';
+
+import {
+  doGoogleSignIn,
+  doSignInWithEmailAndPassword,
+  doPasswordReset,
+  getAuthErrorMessage
+} from "../../../services/Firebase/auth";
+import { getRealUser, ensureUserDoc, type UserData } from "../../../services/Firebase/FirestoreUsers";
 import { NavigationHook } from '../../../hooks/navigationHook';
+import { changeUserEmail, changeUserName, changeUserUID } from '../../../store/userData/slice';
+
 import logoGoogle from '../../../assets/desktop/svg/logo/logoGoogle.svg';
 
 function CardLogIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [notice, setNotice] = useState('');
-  const [busy, setBusy] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  // Aviso al volver de restablecer la contraseña (HU06 CA3)
+  const [info, setInfo] = useState(() => {
+    if (sessionStorage.getItem('passwordResetOk')) {
+      sessionStorage.removeItem('passwordResetOk');
+      return "Tu contraseña se actualizó. Inicia sesión con la nueva contraseña.";
+    }
+    return "";
+  });
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
   const { handleNavigation } = NavigationHook();
 
-  const login = async (google = false) => {
-    if (busy) return;
-    setBusy(true);
-    setError('');
-    setNotice('');
+  // Guarda los datos en Redux y sessionStorage y navega al dashboard
+  const finishLogin = (userData: UserData) => {
+    dispatch(changeUserName(userData.name));
+    dispatch(changeUserEmail(userData.email));
+    dispatch(changeUserUID(userData.userUID));
+    sessionStorage.setItem('userUID', userData.userUID);
+    handleNavigation.navigateToDashboard();
+  };
+
+  const handleLoginEmail = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (loading) return;
+    setError("");
+    setInfo("");
+
+    if (!email.trim() || !password) {
+      setError("Escribe tu correo y contraseña.");
+      return;
+    }
+
+    setLoading(true);
     try {
-      if (google) await doGoogleSignIn();
-      else await doSignInWithEmailAndPassword(email.trim(), password);
-      handleNavigation.navigateToDashboard();
-    } catch (err) { setError(authErrorMessage(err)); }
-    finally { setBusy(false); }
+      const userCredential = await doSignInWithEmailAndPassword(email, password);
+      const userData = await getRealUser(userCredential.user.uid);
+
+      if (!userData) {
+        setError("No se encontraron los datos del usuario.");
+        return;
+      }
+
+      finishLogin(userData);
+    } catch (err) {
+      console.error(err);
+      setError(getAuthErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    void login();
+  // Inicio de sesión con Google (si es la primera vez, crea el documento en "realUsers")
+  const handleGoogleLogin = async () => {
+    if (loading) return;
+    setError("");
+    setInfo("");
+    setLoading(true);
+    try {
+      const result = await doGoogleSignIn();
+      const userData = await ensureUserDoc(result.user);
+      finishLogin(userData);
+    } catch (err) {
+      console.error(err);
+      setError(getAuthErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const resetPassword = async () => {
-    if (!email.trim()) { setError('Ingresa tu correo para recuperar la contraseña.'); return; }
-    setBusy(true);
-    setError('');
+  // Recuperar contraseña (HU06): usa el correo escrito en el campo Email
+  const handleForgotPassword = async () => {
+    setError("");
+    setInfo("");
+    if (!email.trim()) {
+      setError("Escribe tu correo arriba y vuelve a presionar 'Forgot your password?'.");
+      return;
+    }
     try {
       await doPasswordReset(email);
-      setNotice('Si existe una cuenta con ese correo, recibirás un enlace para recuperar el acceso.');
-    } catch (err) { setError(authErrorMessage(err)); }
-    finally { setBusy(false); }
+      // CA2: mensaje neutro, exista o no la cuenta
+      setInfo("Si el correo está registrado, te enviamos un enlace. Revisa también la carpeta de spam.");
+    } catch (err) {
+      setError(getAuthErrorMessage(err));
+    }
   };
 
-  return <div className="LogIn" id="cardLogin">
-    <h1>Sign In</h1>
-    {error && <p role="alert" style={{ color: '#ff7676' }}>{error}</p>}
-    {notice && <p role="status">{notice}</p>}
-    <form onSubmit={handleSubmit}>
-      <h3><label htmlFor="login-email">Email</label></h3>
-      <input id="login-email" type="email" placeholder="Enter your email" value={email}
-        onChange={event => setEmail(event.target.value)} className="inputLogInData" autoComplete="email" required />
-      <h3><label htmlFor="login-password">Password</label></h3>
-      <input id="login-password" type="password" placeholder="Enter your password" value={password}
-        onChange={event => setPassword(event.target.value)} className="inputLogInData" autoComplete="current-password" required />
-      <p id="forgotPasswordText"><button className="auth-text-button" type="button" disabled={busy} onClick={() => void resetPassword()}>Forgot your password?</button></p>
-      <button id="ButtonLogin" type="submit" disabled={busy}>{busy ? 'Please wait…' : 'Log In'}</button>
-    </form>
-    <div id="signUpGoogleContainer">
-      <p>Or</p>
-      <button id="googleIconContainer" type="button" disabled={busy} onClick={() => void login(true)}>
-        <img src={logoGoogle} alt="" /><span>Sign In with Google</span>
-      </button>
-    </div>
-    <p id="Cuenta">Don't have an account?{' '}
-      <button className="auth-text-button" type="button" onClick={handleNavigation.navigateToRegister}>Register now</button>
-    </p>
-  </div>;
+  return (
+    <>
+      <div className='LogIn' id='cardLogin'>
+        <h1>Sign In</h1>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {info && <p style={{ color: "#A8F25D" }}>{info}</p>}
+
+        <h3>Email</h3>
+        <input
+          type='email'
+          placeholder='Enter your email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className='inputLogInData'
+        />
+
+        <h3>Password</h3>
+        <input
+          type='password'
+          placeholder='Enter your password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className='inputLogInData'
+        />
+
+        <p id='forgotPasswordText' onClick={handleForgotPassword}>Forgot your password?</p>
+        <button id='ButtonLogin' onClick={handleLoginEmail} disabled={loading}>
+          {loading ? 'Loading...' : 'Log In'}
+        </button>
+        <div id="signUpGoogleContainer">
+          <p>Or</p>
+          <div id="googleIconContainer" onClick={handleGoogleLogin}>
+            <img src={logoGoogle} alt="Google logo" />
+            <p>Sign In with Google</p>
+          </div>
+        </div>
+
+        <p id="Cuenta">
+          Don't have an account?{" "}
+          <span onClick={handleNavigation.navigateToRegister}>
+            Register now
+          </span>
+        </p>
+      </div>
+    </>
+  );
 }
 
 export default CardLogIn;

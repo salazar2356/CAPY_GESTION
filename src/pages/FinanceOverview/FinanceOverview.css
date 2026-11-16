@@ -1,6 +1,0 @@
-.finance-overview { min-height: 100vh; background: #030018; color: #fff; font-family: 'Space Grotesk', sans-serif; }
-.finance-content { margin: 60px 6% 60px 150px; max-width: 1000px; display: grid; gap: 24px; }
-.finance-content h1 { font-size: 40px; text-align: left; }
-.finance-item { padding: 24px; background: #211661; border: 1px solid #ffffff30; border-radius: 20px; }
-.finance-item progress { width: 100%; accent-color: #a8f25d; }
-@media (max-width: 600px) { .finance-content { margin: 32px 20px 120px; } }

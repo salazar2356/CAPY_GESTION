@@ -1,14 +1,13 @@
 import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getRealUser } from '../services/Firebase/FirestoreUsers';
+import { normalizeUserDoc, DEFAULT_NOTIFICATION_PREFS } from '../services/Firebase/FirestoreActions';
 import { updateAllUserSlice } from '../store/userData/slice';
 import { convertTimestampToDate } from '../utils/timestampConvertion';
 import { updateAllSavingsSlice } from '../store/savings/slice';
 import { updateAllRewardsSlice } from '../store/rewards/slice';
 import { updateAllIncomesSlice } from '../store/incomes/slice';
 import { updateAllExpensesSlice } from '../store/expenses/slice';
-import { auth } from '../services/Firebase/Firebase';
-import { constantsSaverLevels } from '../utils/saverLevels';
 
 
 export const useUserFirebaseData = (userUID: string | null) => {
@@ -16,13 +15,16 @@ export const useUserFirebaseData = (userUID: string | null) => {
     const dispatch = useDispatch();
 
     const fetchAndSetUserData = useCallback(async () => {
-        if (!userUID) return false;
+        if (!userUID) return;
 
         setIsLoading(true);
         try {
-            const userDataFirebase = await getRealUser(userUID);
+            const rawUserData = await getRealUser(userUID);
 
-            if (userDataFirebase && auth.currentUser?.uid === userUID) {
+            if (rawUserData) {
+                // Completa los campos que falten (ids, misiones, racha, etc.) y los guarda en Firestore
+                const userDataFirebase = await normalizeUserDoc(userUID, rawUserData);
+
                 dispatch(
                     updateAllUserSlice({
                         userEmail: userDataFirebase.email,
@@ -32,12 +34,17 @@ export const useUserFirebaseData = (userUID: string | null) => {
                         totalBalance: userDataFirebase.totalBalance,
                         totalIncome: userDataFirebase.totalIncome,
                         totalExpenses: userDataFirebase.totalExpenses,
+                        welcomeSeen: userDataFirebase.welcomeSeen ?? true,
+                        assistantEnabled: userDataFirebase.assistantEnabled ?? true,
+                        avatar: userDataFirebase.avatar ?? "",
+                        paymentMethods: userDataFirebase.paymentMethods ?? [],
+                        notificationPrefs: { ...DEFAULT_NOTIFICATION_PREFS, ...(userDataFirebase.notificationPrefs ?? {}) },
                     })
                 );
 
                 const newSavingsData = userDataFirebase.savingsData.map((saving) => ({
                     ...saving,
-                    savingHistory: saving.savingHistory.map((savingHistory) => ({
+                    savingHistory: (saving.savingHistory || []).map((savingHistory) => ({
                         ...savingHistory,
                         date: convertTimestampToDate(savingHistory.date).toISOString(),
                     })),
@@ -45,16 +52,26 @@ export const useUserFirebaseData = (userUID: string | null) => {
 
                 dispatch(updateAllSavingsSlice({ savingsData: newSavingsData }));
 
+                const pointsHistory = (userDataFirebase.pointsHistory || [])
+                    .map((entry) => ({
+                        ...entry,
+                        date: convertTimestampToDate(entry.date).toISOString()
+                    }))
+                    .sort((a, b) => b.date.localeCompare(a.date)); // más reciente primero
+
                 dispatch(updateAllRewardsSlice({
                     summary: {
                         saverLevel: userDataFirebase.saverLevel.saverLevelName,
                         goalsCompleted: userDataFirebase.saverLevel.goalsCompleted,
                         accumulatedCapypoints: userDataFirebase.saverLevel.accumulatedCapypoints
                     },
-                    saverLevels: constantsSaverLevels,
+                    saverLevels: [],
                     missions: userDataFirebase.missionsData,
                     exchangeData: userDataFirebase.exchangeData,
-                    userExpGained: userDataFirebase.userExpGained
+                    userExpGained: userDataFirebase.userExpGained,
+                    pointsHistory,
+                    streak: userDataFirebase.streak ?? { current: 0, best: 0, lastActiveDate: "" },
+                    weeklyMissions: userDataFirebase.weeklyMissions ?? { weekStart: "", missions: [] }
                 }));
 
                 const newRealIncomesData = userDataFirebase.realIncomes.map((income) => ({
@@ -80,12 +97,9 @@ export const useUserFirebaseData = (userUID: string | null) => {
                     realExpenses: newRealExpensesData,
                     plannedExpenses: newPlannedExpenses
                 }))
-                return true;
             }
-            return false;
         } catch (error) {
             console.error('Error fetching user data:', error);
-            return false;
         } finally {
             setIsLoading(false);
         }

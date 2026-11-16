@@ -111,7 +111,7 @@
 
   }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
 .name{
     margin: 0px;
     width: 60%;
@@ -126,4 +126,21 @@
     margin: 0;
     justify-content:initial;
 }
+}
+
+/* El nombre y el nivel se acomodan sin salirse */
+.nameInfo {
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.rango {
+    width: auto;
+    white-space: nowrap;
+    margin-right: 16px;
+}
+
+/* El nombre no ocupa todo el ancho para que el nivel quede a su lado */
+.nameInfo .name {
+    width: auto;
 }

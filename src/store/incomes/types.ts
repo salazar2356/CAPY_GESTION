@@ -3,6 +3,7 @@ export interface incomesSliceType {
 }
 
 export interface realIncomeType {
+    id?: string,
     incomeCategory: incomeNameCategories,
     incomeEntrie: incomeNameEntries,
     incomeDate: string,

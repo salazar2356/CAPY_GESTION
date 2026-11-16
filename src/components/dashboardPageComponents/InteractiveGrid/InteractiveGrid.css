@@ -12,3 +12,239 @@
     justify-content: center;
     align-items: center;
 }
+
+/* ===== Tamaños de las tarjetas: el contenido se adapta y no se sale ===== */
+.grid-item-content {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+.grid-item-content > * {
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+/* Total Balance */
+#gridContainer .balance {
+    overflow: hidden;
+    justify-content: space-between;
+    padding-bottom: 14px;
+}
+
+#gridContainer .balance h3:first-of-type {
+    height: auto;
+    margin: 16px 16px 0;
+    font-size: clamp(20px, 1.8vw, 28px);
+}
+
+#gridContainer .balance h1 {
+    margin: 0 16px;
+    font-size: clamp(26px, 2.6vw, 36px);
+}
+
+#gridContainer .balance h3:last-of-type {
+    margin: 0 16px;
+    font-size: 13px;
+}
+
+/* Total Income / Total Expenses */
+#gridContainer .income,
+#gridContainer .expenses {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 12px 16px;
+}
+
+#gridContainer .income h2,
+#gridContainer .expenses h2:first-of-type {
+    height: auto;
+    line-height: normal;
+    margin: 0;
+    font-size: 15px;
+}
+
+#gridContainer .income h1,
+#gridContainer .expenses h1 {
+    margin: 0;
+    font-size: clamp(20px, 2vw, 30px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Tarjetas con listas largas: se puede hacer scroll dentro de ellas */
+.widgetTall .grid-item-content > *,
+.widgetList .grid-item-content > *,
+.widgetCards > * {
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.widgetCards > .cardSpace {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* ===== Celular y tablet angosta: tarjetas una debajo de otra ===== */
+#gridContainer.dashboardStack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    padding-bottom: 140px;
+    box-sizing: border-box;
+}
+
+.dashboardStack > .grid-stack-item {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.dashboardStack > .grid-stack-item > .grid-item-content {
+    height: 100%;
+}
+
+.dashboardStack .widgetBalance { height: 190px; }
+.dashboardStack .widgetSmall { height: 110px; }
+.dashboardStack .widgetCapy { height: 200px; }
+.dashboardStack .widgetCards { height: auto; }
+.dashboardStack .widgetChart { height: 330px; }
+.dashboardStack .widgetTall { height: 380px; }
+.dashboardStack .widgetList { height: 460px; }
+
+.dashboardStack .widgetCards > .cardSpace {
+    height: auto;
+    padding-bottom: 12px;
+}
+
+.dashboardStack .widgetCards .cardContainer {
+    height: auto;
+    min-height: 120px;
+    padding: 12px 0;
+}
+
+.dashboardStack .MoveButton {
+    display: none;
+}
+
+
+/* Celular: Savings y Saver level toman la altura de su contenido */
+.dashboardStack .widgetAuto {
+    height: auto;
+    min-height: 300px;
+}
+
+.dashboardStack .widgetAuto > .grid-item-content {
+    height: auto;
+}
+
+.dashboardStack .widgetAuto > .grid-item-content > * {
+    height: auto;
+    padding: 16px 0;
+}
+
+
+/* Saver level: la barra ya no ocupa toda la pantalla (100vh / 25vh) */
+#gridContainer #SaverLevelProgressBarContainer {
+    height: auto;
+    padding: 8px 0;
+}
+
+#gridContainer #SaverProgressLabels {
+    height: auto;
+}
+
+#gridContainer #SaverLevelProgressBarContainer .h-\[25\%\] {
+    height: 22px;
+}
+
+#gridContainer .widgetSaver .SaverLevelContainer {
+    justify-content: space-evenly;
+    overflow: hidden;
+}
+
+/* Celular: Saver level toma la altura de su contenido */
+.dashboardStack .widgetSaver {
+    height: auto;
+}
+
+.dashboardStack .widgetSaver > .grid-item-content,
+.dashboardStack .widgetSaver > .grid-item-content > * {
+    height: auto;
+}
+
+.dashboardStack .widgetSaver > .grid-item-content > * {
+    padding: 16px 0 20px;
+}
+
+/* Gráfica de ingresos y gastos: título y selector más compactos para que se vean los días */
+#gridContainer .comparation p {
+    line-height: normal;
+    margin: 14px 16px 10px;
+}
+
+#gridContainer .comparation .select-container {
+    height: 32px;
+}
+
+/* Celular: las misiones no se salen por la derecha */
+.dashboardStack .missions .info-container {
+    width: auto;
+    margin: 0 16px;
+}
+
+/* Celular: la gráfica usa todo el ancho de la tarjeta */
+.dashboardStack .comparation .w-\[60\%\] {
+    width: 100%;
+}
+
+/* El contenido de cada tarjeta empieza arriba y ocupa la tarjeta (centrado se salía hacia arriba) */
+#gridContainer .grid-item-content {
+    align-items: stretch;
+}
+
+/* Celular: Missions y Latest movements ocupan su tarjeta y hacen scroll por dentro */
+.dashboardStack .widgetTall:not(.widgetSaver) .missions,
+.dashboardStack .widgetList .recentMovements {
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* Missions: la lista empieza debajo del título (antes se repartía y se montaba sobre él) */
+#gridContainer #missionItemContainer {
+    height: auto;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 4px 0 12px;
+}
+
+/* ===== Computador y tablet: 16 px entre tarjetas (8 px por cada lado) =====
+   Gridstack solo aplica su margen a ".grid-stack-item-content"; aquí se usa
+   ".grid-item-content", así que el espacio se define a mano. */
+#gridContainer.grid-stack {
+    width: calc(100% + 16px);
+    margin: 0 -8px;
+}
+
+#gridContainer.grid-stack > .grid-stack-item > .grid-item-content,
+#gridContainer.grid-stack > .grid-stack-item.widgetCards > .cardSpace {
+    position: absolute;
+    inset: 8px;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+}
+
+/* Tablet en columna: la ilustración llena la tarjeta, enfocada en la cara de Capy */
+.dashboardStack .widgetCapy { height: 340px; }
+
+.dashboardStack .capyContainer {
+    background-size: cover;
+    background-position: center 30%;
+    background-color: #111111;
+}

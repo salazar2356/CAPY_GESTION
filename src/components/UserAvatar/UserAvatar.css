@@ -1,0 +1,70 @@
+/* HU14: avatar de Capy recortado igual que el asistente (se ve la cara del capibara) */
+.capyAvatar {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.capyAvatar img {
+    position: absolute;
+    left: 60%;
+    top: 16%;
+    width: 150%;
+    height: 150%;
+    transform: scale(2);
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.photoAvatar {
+    border-radius: 50%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+/* En el menú lateral: mismo tamaño que los demás íconos */
+.navContainer .capyAvatar.User,
+.navContainer .photoAvatar.User {
+    cursor: pointer;
+}
+
+.navContainer .capyAvatar.focus,
+.navContainer .photoAvatar.focus {
+    box-shadow: 0 0 0 4px #CCFC56;
+    cursor: auto;
+}
+
+@media only screen and (min-width: 481px) {
+    .navContainer .capyAvatar.User,
+    .navContainer .photoAvatar.User {
+        width: 65%;
+        height: auto;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .navContainer .capyAvatar.User,
+    .navContainer .photoAvatar.User {
+        width: 40px;
+        height: 40px;
+        margin: 0 0 0 2vw;
+    }
+}
+
+/* Los estilos de los íconos del menú no deben mover la imagen interna del avatar */
+.navContainer .capyAvatar img,
+.navContainer .last .capyAvatar img {
+    position: absolute;
+    left: 60%;
+    top: 16%;
+    width: 150%;
+    height: 150%;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+}

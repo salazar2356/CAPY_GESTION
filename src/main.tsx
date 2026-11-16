@@ -8,8 +8,15 @@ import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { mainRoutes } from './routes/mainRoutes';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import { AuthProvider } from './Contexts/AuthContext';
-import { Suspense } from 'react';
+// HU57: grilla común para celular. Va de último para tener prioridad.
+import './styles/mobile.css';
+
+// HU06: Firebase abre el enlace del correo como "...?mode=resetPassword&oobCode=...".
+// Como la app usa rutas con "#", se envía a la página #/auth-action conservando los parámetros.
+const actionParams = new URLSearchParams(window.location.search);
+if (actionParams.get('mode') && actionParams.get('oobCode') && !window.location.hash.startsWith('#/auth-action')) {
+  window.location.hash = `/auth-action?${actionParams.toString()}`;
+}
 
 const router = createHashRouter([
   ...mainRoutes
@@ -18,11 +25,7 @@ const router = createHashRouter([
 createRoot(document.getElementById('root')!).render(
   // <StrictMode>
     <Provider store={store}>
-      <AuthProvider>
-      <Suspense fallback={<main className="session-status" role="status">Cargando Capy…</main>}>
       <RouterProvider router={router} />
-      </Suspense>
-      </AuthProvider>
     </Provider>
   /* </StrictMode> */
 )

@@ -2,7 +2,7 @@ import { createContext } from "react";
 
 interface ChangeFirebaseContextType {
     setIsInitialized: React.Dispatch<React.SetStateAction<boolean>>;
-    fetchAndSetUserData: () => Promise<unknown>;
+    fetchAndSetUserData: () => Promise<void>;
     logedUserUID: string
 }
 

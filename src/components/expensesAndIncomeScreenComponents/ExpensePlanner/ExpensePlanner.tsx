@@ -1,4 +1,5 @@
 import './ExpensePlanner.css';
+import '../../ui/capyModal.css';
 
 import { useContext, useEffect, useState } from 'react';
 
@@ -25,10 +26,10 @@ import otroCardSvg from '../../../assets/desktop/svg/otroSvg.svg';
 import { incomeNameEntries } from '../../../store/incomes/types';
 import { expenseNameCategories, plannedExpenseType } from '../../../store/expenses/types';
 import { ChangeFirebaseContext } from '../../../Contexts/changeFirebaseContext';
-import { CreatePlannedExpense } from '../../../services/Firebase/FirestoreUsers';
+import { addPlannedExpense, deletePlannedExpense, getActionErrorMessage } from '../../../services/Firebase/FirestoreActions';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { convertISOStringToTimestamp } from '../../../utils/timestampConvertion';
+import { showRewardToasts, showToast } from '../../../utils/toast';
 
 interface ExpensePlannerProps {
   ExpensePlannerData: plannedExpenseType[]
@@ -43,7 +44,17 @@ export const ExpensePlanner = ({ ExpensePlannerData }: ExpensePlannerProps) => {
   // const [entrie, setEntrie] = useState<incomeNameEntries>(incomeNameEntries.otro);
   const [plannedExpenses, setPlannedExpenses] = useState<plannedExpenseType[]>(ExpensePlannerData);
 
-  const allPlannedExpenses = useSelector((state: RootState) => state.expenses.plannedExpenses);
+  const realExpenses = useSelector((state: RootState) => state.expenses.realExpenses);
+  const [saving, setSaving] = useState(false);
+
+  // HU29: cuánto se ha gastado este mes en cada categoría
+  const now = new Date();
+  const spentThisMonth = (category: expenseNameCategories) => realExpenses
+    .filter((e) => {
+      const d = new Date(e.expenseDate);
+      return e.expenseCategory === category && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    })
+    .reduce((acc, e) => acc + e.expenseAmount, 0);
 
   const OnChangeFirebase = useContext(ChangeFirebaseContext)
 
@@ -60,18 +71,44 @@ export const ExpensePlanner = ({ ExpensePlannerData }: ExpensePlannerProps) => {
     }
   };
 
-  const handleAddExpense = () => {
-    if (selectedCard && budget && category) {
+  const handleAddExpense = async () => {
+    if (!budget || selectedCard === incomeNameEntries.cards || category === expenseNameCategories.category) {
+      showToast("Completa la tarjeta, el presupuesto y la categoría.", "error");
+      return;
+    }
 
-      const convertionOfPlannedExpensesToTimestamp = allPlannedExpenses.map((plannedExpense) => ({
-        ...plannedExpense,
-        expenseDate: convertISOStringToTimestamp(plannedExpense.expenseDate)
-      }))
-
-      CreatePlannedExpense(OnChangeFirebase.logedUserUID, category, site, parseInt(budget), selectedCard, convertionOfPlannedExpensesToTimestamp, OnChangeFirebase.fetchAndSetUserData)
+    setSaving(true);
+    try {
+      const reward = await addPlannedExpense(OnChangeFirebase.logedUserUID, {
+        expenseCategory: category,
+        expenseSite: site,
+        expenseAmount: Number(budget),
+        expenseEntrie: selectedCard
+      });
+      showRewardToasts(reward, "Presupuesto agregado");
+      await OnChangeFirebase.fetchAndSetUserData();
       setShowPopup(false);
-    } else {
-      alert("Please fill in all fields");
+      setSelectedCard(incomeNameEntries.cards);
+      setBudget("");
+      setSite("");
+      setCategory(expenseNameCategories.category);
+    } catch (err) {
+      console.error(err);
+      showToast(getActionErrorMessage(err), "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDeletePlanned = async (index: number) => {
+    if (!window.confirm("¿Eliminar este presupuesto?")) return;
+    try {
+      await deletePlannedExpense(OnChangeFirebase.logedUserUID, index);
+      showToast("Presupuesto eliminado", "success");
+      await OnChangeFirebase.fetchAndSetUserData();
+    } catch (err) {
+      console.error(err);
+      showToast(getActionErrorMessage(err), "error");
     }
   };
 
@@ -123,15 +160,25 @@ export const ExpensePlanner = ({ ExpensePlannerData }: ExpensePlannerProps) => {
           {plannedExpenses.map((expense, index) => {
             const cardIconSrc = cardIcons[expense.expenseEntrie]
             const categoryIconSrc = categoryIcons[expense.expenseCategory]
+            const spent = spentThisMonth(expense.expenseCategory)
+            const percentage = expense.expenseAmount > 0 ? Math.round((spent / expense.expenseAmount) * 100) : 0
+            const progressColor = percentage >= 100 ? '#F2622E' : percentage >= 80 ? '#FFC300' : '#A8F25D'
             return (
               <div key={index} className="expense-item">
                 <img src={cardIconSrc} alt={expense.expenseCategory} className="card-icon" />
-                <div className="expense-info">
+                <div className="expense-info" style={{ flex: 1 }}>
                   <p><span>Budget:</span> ${expense.expenseAmount}</p>
                   <div className="category-info">
                     <img src={categoryIconSrc} alt={expense.expenseCategory} className="category-icon" />
                     <p>{expense.expenseCategory}</p>
                   </div>
+                  <p style={{ fontSize: '13px' }}>Spent this month: ${spent} ({percentage}%)</p>
+                  <div style={{ width: '100%', height: '6px', borderRadius: '4px', background: 'rgba(255,255,255,0.25)', overflow: 'hidden' }}>
+                    <div style={{ width: `${Math.min(100, percentage)}%`, height: '100%', background: progressColor }}></div>
+                  </div>
+                </div>
+                <div className="capyIconButtons">
+                  <button className="danger" onClick={() => handleDeletePlanned(index)} aria-label="Delete budget">✕</button>
                 </div>
               </div>
             );
@@ -197,7 +244,7 @@ export const ExpensePlanner = ({ ExpensePlannerData }: ExpensePlannerProps) => {
 
             <div className="button-container">
               <button className="close-button" onClick={togglePopUp}>Cancel</button>
-              <button className="add-button" onClick={handleAddExpense}>Add  expense</button>
+              <button className="add-button" onClick={handleAddExpense} disabled={saving}>{saving ? 'Saving...' : 'Add  expense'}</button>
             </div>
           </div>
 

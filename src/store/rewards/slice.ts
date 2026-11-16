@@ -66,6 +66,9 @@ export const rewardsSlice = createSlice({
                 missions: action.payload.missions,
                 exchangeData: action.payload.exchangeData,
                 userExpGained: action.payload.userExpGained,
+                pointsHistory: action.payload.pointsHistory,
+                streak: action.payload.streak,
+                weeklyMissions: action.payload.weeklyMissions,
             }
         }
     }

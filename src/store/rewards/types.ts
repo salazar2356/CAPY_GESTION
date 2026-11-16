@@ -3,7 +3,42 @@ export interface rewardsSliceType {
     saverLevels: Array<saverLevelType>,
     missions: Array<missionType>
     exchangeData: Array<exchangeType>,
-    userExpGained: number
+    userExpGained: number,
+    pointsHistory: Array<pointsHistoryType>,
+    streak: streakType,
+    weeklyMissions: weeklyMissionsType
+}
+
+// HU43
+export interface weeklyMissionType {
+    id: string,
+    kind: string,
+    name: string,
+    description: string,
+    color: string,
+    capypoints: number,
+    exp: number,
+    target: number,
+    completed: boolean
+}
+
+export interface weeklyMissionsType {
+    weekStart: string,
+    missions: Array<weeklyMissionType>
+}
+
+export interface pointsHistoryType {
+    id: string,
+    date: string, // ISO
+    points: number,
+    exp: number,
+    reason: string
+}
+
+export interface streakType {
+    current: number,
+    best: number,
+    lastActiveDate: string
 }
 
 export interface summaryType {
@@ -58,7 +93,8 @@ export interface exchangeType {
     exchangeId: number,
     // imageSrc: string,
     backgroundColor: string,
-    darkText: boolean
+    darkText: boolean,
+    redeemedAt?: string // ISO, HU51
 }
 
 export enum exchangeNameEnum {

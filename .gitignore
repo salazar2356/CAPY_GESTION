@@ -10,8 +10,6 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
-.vercel
-audit-*.json
 *.local
 
 # Editor directories and files
@@ -24,5 +22,3 @@ audit-*.json
 *.njsproj
 *.sln
 *.sw?
-*.tsbuildinfo
-.verification.local
