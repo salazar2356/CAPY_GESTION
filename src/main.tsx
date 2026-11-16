@@ -8,6 +8,8 @@ import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { mainRoutes } from './routes/mainRoutes';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+// HU57: grilla común para celular. Va de último para tener prioridad.
+import './styles/mobile.css';
 
 // HU06: Firebase abre el enlace del correo como "...?mode=resetPassword&oobCode=...".
 // Como la app usa rutas con "#", se envía a la página #/auth-action conservando los parámetros.

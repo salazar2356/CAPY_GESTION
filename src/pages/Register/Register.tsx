@@ -7,11 +7,11 @@ import CardRegister from "../../components/registerPageComponents/CardRegister/C
 
 export const Register: React.FC = memo(() => {
   const [vectorSrc, setVectorSrc] = useState<string>(
-    window.innerWidth < 500 ? vectorRegisterMobile : vectorRegisterDesktop
+    window.innerWidth <= 480 ? vectorRegisterMobile : vectorRegisterDesktop
   );
 
   const handleResize = useCallback(() => {
-    setVectorSrc(window.innerWidth < 500 ? vectorRegisterMobile : vectorRegisterDesktop);
+    setVectorSrc(window.innerWidth <= 480 ? vectorRegisterMobile : vectorRegisterDesktop);
   }, []);
 
   useEffect(() => {

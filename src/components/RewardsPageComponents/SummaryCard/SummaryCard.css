@@ -34,7 +34,7 @@
   color: #141414;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
   .resumen-card {
     align-items: flex-start;
     padding: 15px;

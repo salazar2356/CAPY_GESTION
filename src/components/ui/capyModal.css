@@ -199,7 +199,7 @@
   color: #2D18BF;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
   .capyModal {
     padding: 22px 16px;
   }
@@ -210,7 +210,7 @@
 }
 
 /* Historiales de ingresos/gastos en celular: la cabecera y cada fila pueden bajar de línea */
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
   .topHistoryExpenses,
   .topHistoryIncomes {
     flex-wrap: wrap;
@@ -225,7 +225,7 @@
 }
 
 /* Espacio al final para que la barra inferior y el asistente no tapen el último elemento */
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
   #expensesAndIncomePage {
     padding-bottom: 160px;
   }

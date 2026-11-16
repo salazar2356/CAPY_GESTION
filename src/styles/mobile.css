@@ -1,0 +1,1022 @@
+/*
+ * HU57 – Capy en el celular.
+ *
+ * Grilla única para celulares (de 320 a 480 px de ancho; tamaño de referencia: 390 x 844).
+ * Todas las pantallas usan las mismas medidas, así ningún componente queda pegado a otro
+ * ni al borde de la pantalla:
+ *   - margen lateral de la página ....... 16 px
+ *   - separación entre tarjetas ......... 16 px
+ *   - relleno interno de las tarjetas ... 16 px
+ *   - espacio inferior reservado para el menú y el botón de Capy
+ *
+ * Este archivo se importa al final (main.tsx) para que tenga prioridad sobre los estilos de cada componente.
+ */
+
+:root {
+    --capy-gutter: 16px;
+    --capy-gap: 16px;
+    --capy-card-padding: 16px;
+    --capy-card-radius: 20px;
+    --capy-nav-height: 64px;
+    --capy-bottom-space: calc(var(--capy-nav-height) + 112px + env(safe-area-inset-bottom, 0px));
+}
+
+@media only screen and (max-width: 480px) {
+
+    html,
+    body {
+        background-color: #07051a;
+        overflow-x: hidden;
+    }
+
+    #root {
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+
+    /* ===== Menú inferior ===== */
+    .navContainer {
+        padding: 0 var(--capy-gutter) calc(8px + env(safe-area-inset-bottom, 0px));
+        box-sizing: border-box;
+    }
+
+    .navContainer .nav {
+        width: 100%;
+        height: var(--capy-nav-height);
+        margin: 0;
+        padding: 0 12px;
+        box-sizing: border-box;
+        justify-content: space-between;
+    }
+
+    /* Íconos táctiles de 44 px como mínimo */
+    .navContainer .principal {
+        width: auto;
+        flex: 1;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+        margin: 0;
+    }
+
+    .navContainer .principal img,
+    .navContainer .last img {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        margin: 0;
+        padding: 9px;
+        box-sizing: border-box;
+    }
+
+    .navContainer .last {
+        width: auto;
+        height: auto;
+        gap: 4px;
+        margin: 0 0 0 12px;
+    }
+
+    .navContainer .capyAvatar.User,
+    .navContainer .photoAvatar.User {
+        width: 40px;
+        height: 40px;
+        margin: 0 2px;
+    }
+
+    /* ===== Botón flotante de Capy: encima del menú, sin taparlo ===== */
+    .assistant {
+        width: 64px;
+        height: 64px;
+        right: var(--capy-gutter);
+        bottom: calc(var(--capy-nav-height) + 20px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .assistant-img {
+        left: 38px;
+        top: 10px;
+    }
+
+    /* ===== Páginas internas: mismo margen y mismo espacio para el menú ===== */
+    #dashboardPage,
+    #expensesAndIncomePage,
+    #savingPage,
+    main.reward-container,
+    #profilePage {
+        width: 100%;
+        max-width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 24px var(--capy-gutter) var(--capy-bottom-space);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--capy-gap);
+    }
+
+    /* Títulos de página */
+    #dashboardPage #TitleTextContainer,
+    #savingPage #TitleTextContainer {
+        margin: 0;
+        padding: 0;
+        height: auto;
+    }
+
+    #savingPage #TitleTextContainer h1,
+    #dashboardPage #TitleTextContainer h1 {
+        font-size: 32px;
+        line-height: 1.15;
+        margin: 0 0 4px;
+    }
+
+    /* Todas las tarjetas comparten radio, relleno y ancho completo */
+    .capyMobileCard,
+    #gridContainer.dashboardStack > .grid-stack-item > .grid-item-content > *,
+    #gridContainer.dashboardStack > .widgetCards > .cardSpace,
+    #expensesAndIncomePage .main-div,
+    #expensesAndIncomePage .planner,
+    #expensesAndIncomePage .movementsHistory,
+    #savingPage #generalSavings,
+    #savingPage #categorySavings,
+    #savingPage #savingsGoalsContainer,
+    #savingPage #savingsHistoryContainer,
+    main.reward-container .iqual > *,
+    main.reward-container .pointsHistoryCard,
+    #profilePage .generalProfile {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        border-radius: var(--capy-card-radius);
+        box-sizing: border-box;
+    }
+
+    /* ===== Dashboard ===== */
+    #dashboardPage #marginPage,
+    #dashboardPage #ContentContainerDashboard {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        gap: var(--capy-gap);
+    }
+
+    #gridContainer.dashboardStack {
+        gap: var(--capy-gap);
+        padding-bottom: 0;
+    }
+
+    #gridContainer.dashboardStack > .grid-stack-item {
+        margin: 0;
+    }
+
+    #dashboardPage #TitleTextContainer h1 {
+        text-align: left;
+    }
+
+    /* Tarjeta de la gráfica: alto según su contenido, sin espacio vacío abajo */
+    #gridContainer.dashboardStack > .widgetChart:not(.widgetAuto) {
+        height: auto;
+    }
+
+    #gridContainer.dashboardStack > .widgetChart:not(.widgetAuto) > .grid-item-content,
+    #gridContainer.dashboardStack > .widgetChart:not(.widgetAuto) > .grid-item-content > * {
+        height: auto;
+        padding-bottom: var(--capy-card-padding);
+    }
+
+    /* Ilustración de Capy completa dentro de su tarjeta */
+    /* Ilustración de Capy: llena toda la tarjeta, enfocada en la cara */
+    #gridContainer.dashboardStack > .widgetCapy {
+        height: 240px;
+    }
+
+    #gridContainer.dashboardStack .capyContainer {
+        background-size: cover;
+        background-position: center 30%;
+        background-color: #111111;
+        border-radius: var(--capy-card-radius);
+    }
+
+    /* ===== Ingresos y gastos ===== */
+    #expensesAndIncomePage .container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    #expensesAndIncomePage .main-div {
+        height: auto;
+        padding: var(--capy-card-padding);
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    #expensesAndIncomePage .select-expenses-graphic {
+        width: 100%;
+        margin: 0;
+        min-height: 44px;
+    }
+
+    #expensesAndIncomePage .expense-graphic-top {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    #expensesAndIncomePage .expense-graphic,
+    #expensesAndIncomePage .piechart-graphic {
+        width: 100%;
+        height: auto;
+        min-height: 180px;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    #expensesAndIncomePage .piechart-graphic {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: var(--capy-gap);
+        padding: var(--capy-card-padding);
+    }
+
+    #expensesAndIncomePage .pie-card-container {
+        order: 1;
+        flex: 0 0 140px;
+        width: 140px;
+        height: 140px;
+    }
+
+    #expensesAndIncomePage .pie-card-container > div {
+        width: 140px;
+        height: 140px;
+        max-height: 140px;
+    }
+
+    #expensesAndIncomePage .pie-card-right {
+        order: 2;
+        flex: 1;
+        min-width: 0;
+        height: auto;
+    }
+
+    #expensesAndIncomePage .chart-expense-bottom {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    #expensesAndIncomePage .left-div,
+    #expensesAndIncomePage .right-div {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+    }
+
+    #expensesAndIncomePage .planner,
+    #expensesAndIncomePage .movementsHistory {
+        height: auto;
+        min-height: 0;
+        padding: var(--capy-card-padding);
+    }
+
+    #expensesAndIncomePage .movementsHistoryTop {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    #expensesAndIncomePage .movementsFilter {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        height: auto;
+    }
+
+    #expensesAndIncomePage .movementsFilter button {
+        width: 100%;
+        min-height: 44px;
+        margin: 0;
+        padding: 0 4px;
+    }
+
+    #expensesAndIncomePage #expensesHistoryListContainer {
+        width: 100%;
+        max-height: 480px;
+        overflow-y: auto;
+        padding: 0;
+    }
+
+    /* ===== Ahorros ===== */
+    #savingPage #marginPageSavingPage,
+    #savingPage #ContentContainerSavings,
+    #savingPage #SavingsCardsContainer,
+    #savingPage #leftCardsContainer,
+    #savingPage #summarySavingsContainer {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    #savingPage #generalSavings,
+    #savingPage #categorySavings,
+    #savingPage #savingsGoalsContainer,
+    #savingPage #savingsHistoryContainer {
+        height: auto;
+        min-height: 0;
+        padding: var(--capy-card-padding);
+    }
+
+    #savingPage #savingsGoalsHeader {
+        width: 100%;
+        margin: 0 0 12px;
+        padding: 0;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    #savingPage #savingsGoalsListContainer {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        max-height: 460px;
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+    }
+
+    #savingPage #savingsHistoryItemsContainer {
+        width: 100%;
+        padding: 0;
+    }
+
+    #savingPage .savingsHistoryItem {
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* ===== Recompensas ===== */
+    main.reward-container .MissionLevel,
+    main.reward-container .canjeo,
+    main.reward-container .reward-grid,
+    main.reward-container .pointsHistory {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+        box-sizing: border-box;
+    }
+
+    main.reward-container .iqual {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+    }
+
+    main.reward-container .iqual > * {
+        height: auto;
+        padding: var(--capy-card-padding);
+    }
+
+    main.reward-container .pointsHistory > div {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    main.reward-container .pointsHistoryCard {
+        padding: var(--capy-card-padding);
+    }
+
+    main.reward-container #rewardCard {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--capy-gap);
+    }
+
+    main.reward-container #rewardCard > * {
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* Misiones: textos legibles y 16 px entre una y otra */
+    main.reward-container #missionItemContainer {
+        gap: var(--capy-gap);
+        margin: 0;
+        padding: 0;
+    }
+
+    main.reward-container .info-container {
+        width: 100%;
+        margin: 0;
+    }
+
+    main.reward-container .info-container h2 {
+        margin: 0 0 var(--capy-gap);
+        font-size: 20px;
+    }
+
+    main.reward-container .MissionItemContainer {
+        width: 100%;
+        margin: 0;
+        gap: 12px;
+        align-items: center;
+    }
+
+    main.reward-container .missionTextContainer {
+        flex: 1;
+        min-width: 0;
+    }
+
+    main.reward-container .MissionDesc,
+    main.reward-container .MissionDesc p {
+        font-size: 12px;
+        line-height: 1.35;
+    }
+
+    main.reward-container .missionTextContainer h3 {
+        font-size: 15px;
+    }
+
+    /* ===== Perfil ===== */
+    #profilePage .contentWrapper {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #profilePage .generalProfile .content {
+        width: 100%;
+        padding: 0;
+    }
+
+    /* ===== Landing ===== */
+    #landingPageContainer section {
+        padding-left: var(--capy-gutter);
+        padding-right: var(--capy-gutter);
+        box-sizing: border-box;
+    }
+
+    #landingPageContainer #navLandingContainer {
+        width: 100%;
+        left: 0;
+        margin: 0;
+        padding: 0 12px;
+        box-sizing: border-box;
+        gap: 8px;
+    }
+
+    #landingPageContainer #navLandingSections {
+        width: auto;
+        flex: 1;
+        min-width: 0;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    #landingPageContainer #navLandingSections * {
+        white-space: nowrap;
+        font-size: 12px;
+        margin: 0;
+    }
+
+    #landingPageContainer #navLandingContainer {
+        top: 12px;
+        height: 52px;
+    }
+
+    #landingPageContainer #navLandingContainer > img {
+        height: 32px;
+        width: auto;
+        flex-shrink: 0;
+    }
+
+    /* Separación pareja entre secciones de la landing */
+    #landingPageContainer #secondSection,
+    #landingPageContainer #thirdSection,
+    #landingPageContainer #fourthSection,
+    #landingPageContainer #fifthSection {
+        min-height: 0;
+        margin: 0;
+        padding-top: 32px;
+        padding-bottom: 32px;
+    }
+
+    #landingPageContainer #fifthSection {
+        padding-bottom: 48px;
+    }
+
+    #landingPageContainer .featuresRow,
+    #landingPageContainer #customersOpinionCardsContainer {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    #landingPageContainer #fourthSection,
+    #landingPageContainer #fifthSection {
+        height: auto;
+        min-height: 0;
+        gap: var(--capy-gap);
+    }
+
+    #landingPageContainer .uniqueFeatureCardContainer,
+    #landingPageContainer .CustomerOpinionContainer {
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    #landingPageContainer .wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    /* ===== Registro e inicio de sesión ===== */
+    #registePageContainer,
+    #logInPageContainer {
+        width: 100%;
+        max-width: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 24px var(--capy-gutter) 32px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    #registePageContainer #logoAndImageContainer,
+    #logInPageContainer #logoAndImageContainer {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+    }
+
+    #registePageContainer .Register,
+    #logInPageContainer #cardLogin {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 20px var(--capy-card-padding);
+        box-sizing: border-box;
+        border-radius: var(--capy-card-radius);
+    }
+
+    #logInPageContainer #cardLogin input:not([type="checkbox"]) {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #registePageContainer .Register input,
+    #logInPageContainer #cardLogin input:not([type="checkbox"]),
+    #registePageContainer .Register button,
+    #logInPageContainer #cardLogin button {
+        min-height: 44px;
+        box-sizing: border-box;
+    }
+
+    /* ===== Ajustes finos por pantalla ===== */
+
+    /* Títulos sin alturas fijas: la primera tarjeta queda a 16 px del título */
+    #expensesAndIncomePage > h1,
+    #profilePage > h1,
+    main.reward-container h1 {
+        height: auto;
+        margin: 0;
+        padding: 0;
+        font-size: 32px;
+        line-height: 1.15;
+    }
+
+    #profilePage > h1 {
+        text-align: center;
+    }
+
+    /* Leyendas de los gráficos dentro de su tarjeta */
+    #savingPage #categorySavingsContent,
+    #savingPage #generalSavings > div {
+        width: 100%;
+        gap: var(--capy-gap);
+    }
+
+    #savingPage #categorySavingsCircularProgressbarWrapper {
+        flex: 0 0 140px;
+        width: 140px;
+    }
+
+    #savingPage #categorySavingsCircularProgressbarWrapper > div {
+        width: 140px !important;
+        height: 140px !important;
+    }
+
+    #savingPage #marginPageSavingPage #TitleTextContainer h1 {
+        width: 100%;
+        height: auto;
+        text-align: left;
+    }
+
+    #savingPage #savingsHistoryContainer > *,
+    #savingPage #savingsHistoryItemsContainer > * {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #savingPage #categorySavingsCircularProgressHints {
+        flex: 1;
+        min-width: 0;
+        font-size: 12px;
+    }
+
+    #expensesAndIncomePage .container-info-pie-chart {
+        width: 100%;
+        font-size: 12px;
+        gap: 8px;
+        padding: 0;
+    }
+
+    #expensesAndIncomePage .select-expenses-pie {
+        width: 100%;
+    }
+
+    /* Perfil: avatar centrado y tarjeta debajo, con la misma separación */
+    #profilePage .contentWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--capy-gap);
+    }
+
+    #profilePage .contentWrapper > .avatarImage {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 96px !important;
+        height: 96px !important;
+        margin: 0;
+    }
+
+    #profilePage .generalProfile {
+        padding: 0;
+        background: transparent;
+    }
+
+    /* La franja decorativa del encabezado no se usa en el celular */
+    #profilePage .generalProfile .profileHeader {
+        display: none;
+    }
+
+    #profilePage .generalProfile .content {
+        background: transparent;
+        border-radius: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+    }
+
+    #profilePage .generalProfile .generalContent,
+    #profilePage .generalProfile .principalContent {
+        width: 100%;
+        margin: 0;
+        padding: var(--capy-card-padding);
+        border-radius: var(--capy-card-radius);
+        background-color: #181818;
+        box-sizing: border-box;
+    }
+
+    #profilePage .generalProfile .generalContent > *,
+    #profilePage .generalProfile .principalContent > * {
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    #profilePage .buttonsRow {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: var(--capy-gap) 0 0;
+    }
+
+    #profilePage .buttonsRow button {
+        width: 100%;
+        min-height: 44px;
+        margin: 0;
+        padding: 0 8px;
+        font-size: 13px;
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+
+    /* Ventana "New Expense" del planificador: todo dentro de la caja y encima del menú */
+    #backgroundPopUpAddExpense {
+        z-index: 1100;
+    }
+
+    .planner .popup {
+        z-index: 1101;
+        width: calc(100vw - 2 * var(--capy-gutter));
+        height: auto;
+        max-height: calc(100vh - 2 * var(--capy-gutter));
+        overflow-y: auto;
+        padding: 20px var(--capy-card-padding);
+        box-sizing: border-box;
+        border-radius: var(--capy-card-radius);
+        justify-content: flex-start;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .planner .popup .title,
+    .planner .popup h3 {
+        position: static;
+        margin: 4px 0 0;
+        text-align: left;
+    }
+
+    .planner .popup .title {
+        margin: 0 0 8px;
+        text-align: center;
+    }
+
+    .planner .popup input,
+    .planner .popup select {
+        width: 100%;
+        height: 44px;
+        margin: 0;
+        padding: 0 12px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    .planner .popup .button-container {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 12px 0 0;
+    }
+
+    .planner .popup .button-container button {
+        position: static;
+        width: 100%;
+        height: 44px;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .planner > button.add {
+        position: static;
+        margin: var(--capy-gap) auto 0;
+        min-height: 44px;
+    }
+
+    /* ===== Ventanas emergentes ===== */
+    .capyModal {
+        width: calc(100vw - 2 * var(--capy-gutter));
+        max-width: calc(100vw - 2 * var(--capy-gutter));
+        max-height: calc(100vh - 2 * var(--capy-gutter));
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+
+    /* Campos de monto con teclado numérico y botones táctiles */
+    input[type="number"],
+    select {
+        min-height: 44px;
+        box-sizing: border-box;
+    }
+}
+
+/* Celulares muy pequeños (320–359 px): se reduce un poco el margen para no apretar el contenido */
+@media only screen and (max-width: 359px) {
+    :root {
+        --capy-gutter: 12px;
+        --capy-gap: 12px;
+        --capy-card-padding: 12px;
+    }
+}
+
+/*
+ * Tablet (481 a 1023 px): el menú va fijo a la izquierda (64 px + 12 px de margen),
+ * así que el contenido arranca 16 px después del menú y nunca queda debajo de él.
+ */
+@media only screen and (min-width: 481px) and (max-width: 1023px) {
+    :root {
+        --capy-side-nav-space: 92px;
+    }
+
+    #expensesAndIncomePage,
+    #savingPage,
+    main.reward-container,
+    #profilePage {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 24px 24px 32px var(--capy-side-nav-space);
+        box-sizing: border-box;
+    }
+
+    #savingPage #marginPageSavingPage,
+    #expensesAndIncomePage .container,
+    #profilePage .contentWrapper {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
+    }
+
+    /* Recompensas: misiones a todo el ancho; nivel y resumen lado a lado */
+    main.reward-container .MissionLevel {
+        width: 100%;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--capy-gap);
+        height: auto;
+    }
+
+    main.reward-container .MissionLevel > .iqual {
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        min-width: 0;
+    }
+
+    main.reward-container .MissionLevel > .iqual:first-of-type {
+        grid-column: 1 / -1;
+    }
+
+    main.reward-container .MissionLevel > .iqual > * {
+        width: 100%;
+        height: auto;
+        padding: var(--capy-card-padding);
+        box-sizing: border-box;
+    }
+
+    main.reward-container .canjeo,
+    main.reward-container .reward-grid,
+    main.reward-container .pointsHistory {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: var(--capy-gap) 0 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    main.reward-container #rewardCard {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--capy-gap);
+        width: 100%;
+    }
+
+    main.reward-container #rewardCard > * {
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* Ingresos y gastos: tarjetas una debajo de otra, sin salirse */
+    #expensesAndIncomePage .container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+        padding: 0;
+    }
+
+    #expensesAndIncomePage .main-div,
+    #expensesAndIncomePage .chart-expense-bottom,
+    #expensesAndIncomePage .left-div,
+    #expensesAndIncomePage .right-div {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    #expensesAndIncomePage .main-div {
+        padding: var(--capy-card-padding);
+        border-radius: var(--capy-card-radius);
+    }
+
+    #expensesAndIncomePage .expense-graphic-top {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--capy-gap);
+    }
+
+    #expensesAndIncomePage .piechart-graphic {
+        justify-content: center;
+        gap: 32px;
+    }
+
+    #expensesAndIncomePage .expense-graphic,
+    #expensesAndIncomePage .piechart-graphic {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    #expensesAndIncomePage .chart-expense-bottom {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--capy-gap);
+        padding: 0;
+    }
+
+    #expensesAndIncomePage .left-div,
+    #expensesAndIncomePage .right-div {
+        padding: 0;
+        min-width: 0;
+    }
+
+    #expensesAndIncomePage .planner,
+    #expensesAndIncomePage .movementsHistory {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: var(--capy-card-padding);
+        border-radius: var(--capy-card-radius);
+        box-sizing: border-box;
+    }
+
+    /* Ahorros: resumen en dos columnas; metas e historial a todo el ancho */
+    #savingPage #SavingsCardsContainer,
+    #savingPage #leftCardsContainer {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--capy-gap);
+        margin: 0;
+    }
+
+    #savingPage #summarySavingsContainer {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--capy-gap);
+        height: auto;
+    }
+
+    #savingPage #generalSavings,
+    #savingPage #categorySavings,
+    #savingPage #savingsGoalsContainer,
+    #savingPage #savingsHistoryContainer {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: var(--capy-card-padding);
+        border-radius: var(--capy-card-radius);
+        box-sizing: border-box;
+        min-width: 0;
+    }
+}

@@ -24,7 +24,7 @@
     flex-wrap: wrap;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
     #Canjear h2 {
         font-size: 24px;
         line-height: 40px;

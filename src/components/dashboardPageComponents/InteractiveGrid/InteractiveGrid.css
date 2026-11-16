@@ -222,3 +222,29 @@
     gap: 10px;
     margin: 4px 0 12px;
 }
+
+/* ===== Computador y tablet: 16 px entre tarjetas (8 px por cada lado) =====
+   Gridstack solo aplica su margen a ".grid-stack-item-content"; aquí se usa
+   ".grid-item-content", así que el espacio se define a mano. */
+#gridContainer.grid-stack {
+    width: calc(100% + 16px);
+    margin: 0 -8px;
+}
+
+#gridContainer.grid-stack > .grid-stack-item > .grid-item-content,
+#gridContainer.grid-stack > .grid-stack-item.widgetCards > .cardSpace {
+    position: absolute;
+    inset: 8px;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+}
+
+/* Tablet en columna: la ilustración llena la tarjeta, enfocada en la cara de Capy */
+.dashboardStack .widgetCapy { height: 340px; }
+
+.dashboardStack .capyContainer {
+    background-size: cover;
+    background-position: center 30%;
+    background-color: #111111;
+}

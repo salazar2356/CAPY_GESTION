@@ -159,7 +159,7 @@ background-color: #181818;
     background-color: #A8F25D;
   }
   
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 480px) {
     .inputRow{
       flex-direction: column;
 
@@ -176,7 +176,7 @@ background-color: #181818;
     }
   }
 /* Botones de guardar / descartar / opinión / eliminar cuenta en celular: 2 por fila */
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
   .buttonsRow {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -194,7 +194,7 @@ background-color: #181818;
 
 
 /* Perfil en escritorio: 6 botones en una sola fila */
-@media only screen and (min-width: 501px) {
+@media only screen and (min-width: 481px) {
   .buttonsRow {
     flex-wrap: wrap;
     gap: 8px;

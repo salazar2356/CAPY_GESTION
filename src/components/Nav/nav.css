@@ -1,5 +1,5 @@
 /* Escritorio y tablet: cualquier pantalla de más de 500px */
-@media only screen and (min-width: 501px) {
+@media only screen and (min-width: 481px) {
   .navContainer {
     border-radius: 50px;
     display: flex;
@@ -90,7 +90,7 @@
 
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
   .navContainer {
     display: flex;
     width: 100vw;
@@ -202,7 +202,7 @@
 
 }
 /* Tablet: el menú lateral no queda diminuto */
-@media only screen and (min-width: 501px) and (max-width: 1023px) {
+@media only screen and (min-width: 481px) and (max-width: 1023px) {
   .navContainer {
     width: 64px;
     left: 12px;

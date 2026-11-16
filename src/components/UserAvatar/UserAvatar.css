@@ -38,7 +38,7 @@
     cursor: auto;
 }
 
-@media only screen and (min-width: 501px) {
+@media only screen and (min-width: 481px) {
     .navContainer .capyAvatar.User,
     .navContainer .photoAvatar.User {
         width: 65%;
@@ -46,7 +46,7 @@
     }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
     .navContainer .capyAvatar.User,
     .navContainer .photoAvatar.User {
         width: 40px;

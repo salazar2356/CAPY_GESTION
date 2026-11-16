@@ -17,7 +17,7 @@
     margin-left: 16px;
     display: flex;
     flex-direction: column;
-    width: 98%;
+    width: calc(100% - 16px);
 }
 
 .info-container h2 {
@@ -31,15 +31,19 @@
     margin: 16px 0 20px 0;
 }
 
+/* Cada misión ocupa lo que necesita su texto y siempre hay 16 px entre ellas */
 #missionItemContainer {
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    margin: 8% 0 0 0;
+    justify-content: flex-start;
+    gap: 16px;
+    margin: 0 0 16px 0;
+    padding-right: 16px;
+    box-sizing: border-box;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
     .missions {
         height: auto;
         border-radius: 12px;

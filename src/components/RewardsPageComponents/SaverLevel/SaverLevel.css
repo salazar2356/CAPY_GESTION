@@ -21,7 +21,7 @@
     margin: 16px 0 20px 0;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
     .SaverLevelContainer {
         height: auto;
         padding: 1%;
