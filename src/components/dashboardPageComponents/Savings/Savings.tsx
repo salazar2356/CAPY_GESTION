@@ -17,7 +17,7 @@ export const Savings = () => {
     totalSavings += saving.savingActualFee
   });
 
-  const savingsPercentage = (totalSavings / totalIncome) * 100
+  const savingsPercentage = totalIncome > 0 ? Math.min(100, (totalSavings / totalIncome) * 100) : 0
   const incomePercentage = 100 - savingsPercentage
 
   return (

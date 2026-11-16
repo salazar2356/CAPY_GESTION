@@ -1,4 +1,4 @@
-@media only screen and (min-width: 1200px) and (max-width: 1600px) {
+@media only screen and (min-width: 501px) {
 	#logInPageContainer {
         display: flex;
         flex-direction: row;
@@ -78,7 +78,7 @@
         width: 100vw;
         width: 100vw;
         height: 100vh;
-        background-image: url('../../assets/mobile/svg/SignUp.svg');
+        background-image: url('../../assets/desktop/svg/fondoLogin.svg');
         background-size: cover;
         background-size: cover;
         background-position: center;
@@ -102,7 +102,7 @@
     }
     
     #backgroundLogIn {
-        background-image: url('../../assets/mobile/svg/SignUp.svg');
+        background-image: url('../../assets/desktop/svg/fondoLogin.svg');
         background-size: cover;
         background-position: top;
     }

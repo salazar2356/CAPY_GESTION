@@ -16,7 +16,7 @@ export const TotalBalance = () => {
 
         <h3>Total Balance</h3>
         <h1>${TotalBalance}</h1>
-        <h3>This month you have added: $21000</h3>
+        <h3>Your current balance</h3>
 
       </div>
 

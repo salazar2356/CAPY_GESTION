@@ -1,7 +1,8 @@
 // Required for side-effects
 import "firebase/firestore";
 
-import { doc, getDoc, getFirestore, setDoc, Timestamp, updateDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore, runTransaction, setDoc, Timestamp, updateDoc } from "firebase/firestore";
+import type { User } from 'firebase/auth';
 import { app } from "./Firebase";
 import { exchangeNameEnum, exchangeType, missionType, saverLevelsNames, summaryType } from "../../store/rewards/types";
 import { expenseNameCategories } from "../../store/expenses/types";
@@ -13,6 +14,27 @@ import { getCurrentTimestamp } from "../../utils/timestampConvertion";
 
 
 const db = getFirestore(app);
+
+// Create only a missing profile; signing in must never overwrite existing finances.
+export const ensureRealUser = async (user: User, name?: string) => {
+    const ref = doc(db, 'realUsers', user.uid);
+    return runTransaction(db, async transaction => {
+        const snapshot = await transaction.get(ref);
+        if (snapshot.exists()) return snapshot.data() as userDataFromFirebaseType;
+        const data: userDataFromFirebaseType = {
+            userUID: user.uid,
+            name: name?.trim() || user.displayName || user.email?.split('@')[0] || 'Capy',
+            email: user.email || '',
+            totalBalance: 0, totalExpenses: 0, totalIncome: 0, totalSavings: 0,
+            userExpGained: 0,
+            saverLevel: { saverLevelName: saverLevelsNames.level1, goalsCompleted: 0, accumulatedCapypoints: 0 },
+            realExpenses: [], realIncomes: [], plannedExpenses: [], cards: [],
+            exchangeData: [], missionsData: [], savingsData: [],
+        };
+        transaction.set(ref, data);
+        return data;
+    });
+};
 
 export const getUser = async (userUID: string) => {
     const docRef = doc(db, "users", userUID);

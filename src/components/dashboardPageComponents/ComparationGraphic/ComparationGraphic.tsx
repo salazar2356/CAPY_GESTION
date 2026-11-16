@@ -17,15 +17,11 @@ export const ComparationGraphic = () => {
 
         <p>This is how you manage your money</p>
         <div className='select-container'>
-          <select>
-            <option>Daily</option>
-            <option>Weekly</option>
-          </select>
-          <img className="I&E" src={IE} alt="MoveButton" />
+          <span>Last 7 days</span>
+          <img className="income-expense-legend" src={IE} alt="MoveButton" />
         </div>
         <ComparationBarGraph></ComparationBarGraph>
       </div>
     </>
   );
 }
-

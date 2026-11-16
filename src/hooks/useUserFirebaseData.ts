@@ -7,6 +7,8 @@ import { updateAllSavingsSlice } from '../store/savings/slice';
 import { updateAllRewardsSlice } from '../store/rewards/slice';
 import { updateAllIncomesSlice } from '../store/incomes/slice';
 import { updateAllExpensesSlice } from '../store/expenses/slice';
+import { auth } from '../services/Firebase/Firebase';
+import { constantsSaverLevels } from '../utils/saverLevels';
 
 
 export const useUserFirebaseData = (userUID: string | null) => {
@@ -14,13 +16,13 @@ export const useUserFirebaseData = (userUID: string | null) => {
     const dispatch = useDispatch();
 
     const fetchAndSetUserData = useCallback(async () => {
-        if (!userUID) return;
+        if (!userUID) return false;
 
         setIsLoading(true);
         try {
             const userDataFirebase = await getRealUser(userUID);
 
-            if (userDataFirebase) {
+            if (userDataFirebase && auth.currentUser?.uid === userUID) {
                 dispatch(
                     updateAllUserSlice({
                         userEmail: userDataFirebase.email,
@@ -49,7 +51,7 @@ export const useUserFirebaseData = (userUID: string | null) => {
                         goalsCompleted: userDataFirebase.saverLevel.goalsCompleted,
                         accumulatedCapypoints: userDataFirebase.saverLevel.accumulatedCapypoints
                     },
-                    saverLevels: [],
+                    saverLevels: constantsSaverLevels,
                     missions: userDataFirebase.missionsData,
                     exchangeData: userDataFirebase.exchangeData,
                     userExpGained: userDataFirebase.userExpGained
@@ -78,9 +80,12 @@ export const useUserFirebaseData = (userUID: string | null) => {
                     realExpenses: newRealExpensesData,
                     plannedExpenses: newPlannedExpenses
                 }))
+                return true;
             }
+            return false;
         } catch (error) {
             console.error('Error fetching user data:', error);
+            return false;
         } finally {
             setIsLoading(false);
         }

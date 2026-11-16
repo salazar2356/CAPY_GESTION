@@ -1,4 +1,4 @@
-@media only screen and (min-width: 1200px) and (max-width: 1600px) {
+@media only screen and (min-width: 501px) {
     #dashboardPage {
         width: 95vw;
         min-height: 100vh;

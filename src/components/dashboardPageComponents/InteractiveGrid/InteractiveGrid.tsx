@@ -17,8 +17,9 @@ import { Capy } from "../Capy/Capy";
 
 export const InteractiveGrid = () => {
   useEffect(() => {
-    GridStack.init();
-  });
+    const grid = GridStack.init();
+    return () => { grid.destroy(false); };
+  }, []);
 
   return <>
     <div id="gridContainer" className="grid-stack">

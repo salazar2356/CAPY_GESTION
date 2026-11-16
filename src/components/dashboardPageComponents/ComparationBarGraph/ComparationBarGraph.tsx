@@ -1,5 +1,7 @@
 
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store/store';
 
 import {
     Card,
@@ -15,15 +17,6 @@ import {
 } from '../../ui/chart'
 export const description = "A multiple bar chart"
 
-const chartData = [
-    { Day: "Sat", desktop: 186, mobile: 80 },
-    { Day: "Sun", desktop: 305, mobile: 200 },
-    { Day: "Mon", desktop: 237, mobile: 120 },
-    { Day: "Tue", desktop: 73, mobile: 190 },
-    { Day: "Wed", desktop: 209, mobile: 130 },
-    { Day: "Thu", desktop: 214, mobile: 140 },
-    { Day: "Fri", desktop: 214, mobile: 140 }
-]
 const chartConfig = {
     desktop: {
         label: "Expenses",
@@ -36,6 +29,18 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export const ComparationBarGraph = () => {
+    const incomes = useSelector((state: RootState) => state.incomes.realIncomes);
+    const expenses = useSelector((state: RootState) => state.expenses.realExpenses);
+    const chartData = Array.from({ length: 7 }, (_, index) => {
+        const date = new Date();
+        date.setDate(date.getDate() - 6 + index);
+        const sameDay = (value: string) => new Date(value).toDateString() === date.toDateString();
+        return {
+            Day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+            desktop: expenses.filter(item => sameDay(item.expenseDate)).reduce((sum, item) => sum + item.expenseAmount, 0),
+            mobile: incomes.filter(item => sameDay(item.incomeDate)).reduce((sum, item) => sum + item.incomeAmount, 0),
+        };
+    });
     return <>
         <Card style={{ backgroundColor: 'transparent', border: 'none', marginTop: '20px' }} className="w-[60%]">
             <CardContent >
