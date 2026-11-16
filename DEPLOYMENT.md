@@ -15,7 +15,7 @@ Revisión realizada el 16 de noviembre de 2026. Fuente inicial: `ec35a5ff0f815dd
 - Se revisó visualmente el acceso a 390 × 844 px. Las cuentas, perfiles y credenciales temporales de prueba se eliminaron al finalizar.
 - Acceso con Google: requiere autorizar `capy-gestion.vercel.app` en Firebase; se dejó preparada esta acción, pendiente de confirmación.
 
-Las correcciones de código se conservan en este checkout. La integración de GitHub rechazó crear blobs con HTTP 403, pese a que los metadatos del colaborador muestran permiso de push. Por ello, estos cambios no están publicados en GitHub y los pushes no despliegan automáticamente. Esto no afecta a la URL ya publicada.
+Las correcciones se publicaron en GitHub mediante la sesión local de Git, tanto en `codex/vercel-deployment` como en `main`. La integración de Codex había rechazado crear blobs con HTTP 403; ese problema se resolvió utilizando el acceso ya autorizado del cliente Git. La integración de Vercel con este repositorio sigue sin estar conectada, por lo que los pushes no despliegan automáticamente. La URL publicada funciona independientemente de esa integración.
 
 ## Arquitectura
 
