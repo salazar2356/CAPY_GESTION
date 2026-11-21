@@ -2,8 +2,15 @@
 // Cada función lee el documento actual del usuario (colección "realUsers"),
 // calcula los cambios y los guarda en una sola escritura.
 
-import { addDoc, arrayUnion, collection, doc, getDoc, serverTimestamp, Timestamp, updateDoc } from "firebase/firestore";
+import { addDoc as fsAddDoc, arrayUnion, collection, doc, DocumentReference, getDoc as fsGetDoc, serverTimestamp, Timestamp, updateDoc as fsUpdateDoc } from "firebase/firestore";
 import { db } from "./Firebase";
+import { withTimeout } from "./withTimeout";
+
+// Lecturas y escrituras con tiempo límite: si no hay conexión con Firestore se muestra un error
+const getDoc: typeof fsGetDoc = (ref) => withTimeout(fsGetDoc(ref));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateDoc = (ref: DocumentReference, data: any) => withTimeout(fsUpdateDoc(ref, data));
+const addDoc: typeof fsAddDoc = (ref, data) => withTimeout(fsAddDoc(ref, data));
 
 // Campos para updateDoc (admite rutas con punto como "saverLevel.goalsCompleted")
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -840,6 +847,10 @@ export const registerPremiumInterest = async (uid: string) => {
 export const getActionErrorMessage = (err: unknown): string => {
     const e = err as { code?: string, missing?: number, message?: string };
     switch (e?.code) {
+        case "network/timeout":
+        case "unavailable":
+            return "No se pudo conectar con el servidor. Revisa tu conexión a internet e intenta de nuevo.";
+        case "permission-denied": return "No tienes permiso para guardar estos datos. Cierra sesión y vuelve a entrar.";
         case "movement/invalid-amount": return "El monto debe ser mayor que 0.";
         case "movement/missing-category": return "Elige una categoría.";
         case "saving/missing-name": return "Escribe el nombre de la meta.";

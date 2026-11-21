@@ -1,9 +1,18 @@
 // Required for side-effects
 import "firebase/firestore";
 
-import { deleteDoc, doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
+import { deleteDoc as fsDeleteDoc, doc, DocumentReference, getDoc as fsGetDoc, setDoc as fsSetDoc, SetOptions, Timestamp, updateDoc as fsUpdateDoc } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { db, auth } from "./Firebase";
+import { withTimeout } from "./withTimeout";
+
+// Lecturas y escrituras con tiempo límite: si no hay conexión con Firestore se muestra un error
+const getDoc: typeof fsGetDoc = (ref) => withTimeout(fsGetDoc(ref));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const setDoc = (ref: DocumentReference, data: any, options?: SetOptions) => withTimeout(options ? fsSetDoc(ref, data, options) : fsSetDoc(ref, data));
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateDoc = (ref: DocumentReference, data: any) => withTimeout(fsUpdateDoc(ref, data));
+const deleteDoc: typeof fsDeleteDoc = (ref) => withTimeout(fsDeleteDoc(ref));
 import { exchangeNameEnum, exchangeType, missionType, saverLevelsNames, summaryType } from "../../store/rewards/types";
 import { expenseNameCategories } from "../../store/expenses/types";
 import { incomeNameCategories, incomeNameEntries } from "../../store/incomes/types";

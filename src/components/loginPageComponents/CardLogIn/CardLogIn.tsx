@@ -1,9 +1,10 @@
 import './CardLogIn.css';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 
 import {
+  doCompleteGoogleRedirect,
   doGoogleSignIn,
   doSignInWithEmailAndPassword,
   doPasswordReset,
@@ -79,6 +80,7 @@ function CardLogIn() {
     setLoading(true);
     try {
       const result = await doGoogleSignIn();
+      if (!result) return; // la página se fue a Google por redirección (HU62)
       const userData = await ensureUserDoc(result.user);
       finishLogin(userData);
     } catch (err) {
@@ -88,6 +90,27 @@ function CardLogIn() {
       setLoading(false);
     }
   };
+
+  // HU62: al volver de Google por redirección (celular), termina el inicio de sesión
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const result = await doCompleteGoogleRedirect();
+        if (!result || !active) return;
+        setLoading(true);
+        const userData = await ensureUserDoc(result.user);
+        if (active) finishLogin(userData);
+      } catch (err) {
+        console.error(err);
+        if (active) setError(getAuthErrorMessage(err));
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => { active = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Recuperar contraseña (HU06): usa el correo escrito en el campo Email
   const handleForgotPassword = async () => {

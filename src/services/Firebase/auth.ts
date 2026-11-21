@@ -4,6 +4,9 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  type UserCredential,
   updateProfile,
   sendPasswordResetEmail,
   reauthenticateWithCredential,
@@ -46,9 +49,39 @@ export const doSignInWithEmailAndPassword = async (email: string, password: stri
   return credential;
 };
 
-// Iniciar sesión / registrarse con Google
-export const doGoogleSignIn = async () => {
-  const result = await signInWithPopup(auth, createGoogleProvider());
+// HU62: algunos navegadores del celular (Safari, o los navegadores internos de WhatsApp,
+// Instagram, etc.) bloquean la ventana emergente de Google. En esos casos se usa
+// el inicio por redirección: la página va a Google y vuelve a Capy con la sesión.
+const GOOGLE_REDIRECT_KEY = "googleRedirectPending";
+const POPUP_UNSUPPORTED = [
+  "auth/popup-blocked",
+  "auth/operation-not-supported-in-environment",
+  "auth/web-storage-unsupported",
+];
+
+// Iniciar sesión / registrarse con Google.
+// Devuelve null cuando la página se va a Google por redirección (el resultado llega al volver).
+export const doGoogleSignIn = async (): Promise<UserCredential | null> => {
+  try {
+    const result = await signInWithPopup(auth, createGoogleProvider());
+    await syncEmailWithFirestore(result.user);
+    return result;
+  } catch (err) {
+    const code = (err as { code?: string })?.code ?? "";
+    if (!POPUP_UNSUPPORTED.includes(code)) throw err;
+    sessionStorage.setItem(GOOGLE_REDIRECT_KEY, "1");
+    await signInWithRedirect(auth, createGoogleProvider());
+    return null;
+  }
+};
+
+// Al volver de Google por redirección: termina el inicio de sesión.
+// Devuelve null si no había un inicio pendiente o si el usuario canceló en Google.
+export const doCompleteGoogleRedirect = async (): Promise<UserCredential | null> => {
+  if (!sessionStorage.getItem(GOOGLE_REDIRECT_KEY)) return null;
+  sessionStorage.removeItem(GOOGLE_REDIRECT_KEY);
+  const result = await getRedirectResult(auth);
+  if (!result) return null;
   await syncEmailWithFirestore(result.user);
   return result;
 };
@@ -186,10 +219,11 @@ export const getAuthErrorMessage = (err: unknown): string => {
     case "auth/user-disabled": return "Esta cuenta fue deshabilitada.";
     case "auth/too-many-requests": return "Demasiados intentos. Intenta de nuevo más tarde.";
     case "auth/popup-closed-by-user":
-    case "auth/cancelled-popup-request": return "Cerraste la ventana de Google antes de terminar.";
-    case "auth/popup-blocked": return "El navegador bloqueó la ventana emergente de Google. Permítela e intenta de nuevo.";
+    case "auth/cancelled-popup-request":
+    case "auth/user-cancelled": return "Cancelaste el inicio con Google. Puedes intentarlo de nuevo cuando quieras.";
+    case "auth/popup-blocked": return "El navegador bloqueó la ventana de Google. Permite las ventanas emergentes o inicia sesión con tu correo.";
     case "auth/account-exists-with-different-credential": return "Ya existe una cuenta con este correo usando otro método de acceso.";
-    case "auth/unauthorized-domain": return "Dominio no autorizado en Firebase (Authentication > Settings > Authorized domains).";
+    case "auth/unauthorized-domain": return "Este enlace de Capy todavía no está autorizado para entrar con Google. Mientras tanto, inicia sesión con tu correo.";
     case "auth/operation-not-allowed": return "Este método de acceso no está habilitado en Firebase (Authentication > Sign-in method).";
     case "auth/network-request-failed": return "Error de red. Revisa tu conexión.";
     case "auth/missing-password": return "Escribe tu contraseña actual para confirmar.";
@@ -201,7 +235,8 @@ export const getAuthErrorMessage = (err: unknown): string => {
     case "auth/expired-action-code": return "El enlace ya venció. Pide uno nuevo desde \"Forgot your password?\".";
     case "auth/invalid-action-code": return "El enlace no es válido o ya se usó. Pide uno nuevo desde \"Forgot your password?\".";
     case "permission-denied": return "Firestore rechazó la operación (revisa las reglas de seguridad).";
-    case "unavailable": return "No se pudo conectar con la base de datos. Revisa tu conexión.";
+    case "unavailable":
+    case "network/timeout": return "No se pudo conectar con el servidor. Revisa tu conexión a internet e intenta de nuevo.";
     case "not-found": return "No se encontraron los datos del usuario.";
     default: return `Error: ${code || (err as Error)?.message || "desconocido"}`;
   }

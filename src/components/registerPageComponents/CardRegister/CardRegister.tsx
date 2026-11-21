@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import './CardRegister.css';
 import logoGoogle from '../../../assets/desktop/svg/logo/logoGoogle.svg';
 import { NavigationHook } from "../../../hooks/navigationHook";
 
 import {
+  doCompleteGoogleRedirect,
   doCreateUserWithEmailAndPassword,
   doGoogleSignIn,
   getAuthErrorMessage
@@ -89,6 +90,7 @@ function CardRegister() {
 
     try {
       const result = await doGoogleSignIn();
+      if (!result) return; // la página se fue a Google por redirección (HU62)
       const userData = await ensureUserDoc(result.user);
       finishRegister(userData);
     } catch (err) {
@@ -98,6 +100,27 @@ function CardRegister() {
       setLoading(false);
     }
   };
+
+  // HU62: al volver de Google por redirección (celular), termina el registro
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const result = await doCompleteGoogleRedirect();
+        if (!result || !active) return;
+        setLoading(true);
+        const userData = await ensureUserDoc(result.user);
+        if (active) finishRegister(userData);
+      } catch (err) {
+        console.error(err);
+        if (active) setError(getAuthErrorMessage(err));
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => { active = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="Register">
