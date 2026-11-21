@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, browserLocalPersistence, setPersistence } from "firebase/auth"; 
-import { getFirestore } from "firebase/firestore";
+import { initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBNAESpri0mINihGsyTlILve1fAk7kVjAc",
@@ -17,6 +17,8 @@ export const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 setPersistence(auth, browserLocalPersistence);
 
-const db = getFirestore(app);
+// En muchos navegadores y redes de celular se bloquea la conexión continua (WebChannel)
+// que Firestore usa por defecto, y las escrituras nunca llegan. Con long polling funciona en todos.
+const db = initializeFirestore(app, { experimentalForceLongPolling: true });
 
 export { auth, db };
